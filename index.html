@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ironhold FPS Demo</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 100%; height: 100%; background: #000; overflow: hidden; }
+        canvas { display: block; width: 100vw !important; height: 100vh !important; }
+        #loading {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: #0a0a0f;
+            color: #8af;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: monospace;
+            font-size: 1.2rem;
+            letter-spacing: 0.1em;
+            z-index: 100;
+        }
+        #debug-state { display: none; }
+    </style>
+</head>
+<body>
+    <div id="loading">
+        <div>IRONHOLD FPS</div>
+        <div style="margin-top:1rem; font-size:0.8rem; opacity:0.5;">Loading...</div>
+    </div>
+    <div id="debug-state"></div>
+
+    <script type="module">
+        import init, { start } from './pkg/ironhold_web.js';
+
+        // Ensure ?project=scifi_fps is present so the engine loads the right project.
+        const params = new URLSearchParams(window.location.search);
+        if (!params.get('project')) {
+            const url = new URL(window.location.href);
+            url.searchParams.set('project', 'scifi_fps');
+            window.location.replace(url.toString());
+        } else {
+            async function run() {
+                await init();
+                document.getElementById('loading').style.display = 'none';
+                start();
+            }
+            run().catch(err => {
+                document.getElementById('loading').textContent = 'Error: ' + err;
+            });
+        }
+    </script>
+</body>
+</html>
