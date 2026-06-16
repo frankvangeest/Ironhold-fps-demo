@@ -1,0 +1,8 @@
+{
+    "name": "Ironhold",
+    "version": "0.1.0",
+    "workspace": {
+        "root": "C:\\git\\rust\\ironhold-lib",
+        "uuid": "8e9120a9-1048-43b9-aaf8-36bc275edd2d"
+    }
+}
