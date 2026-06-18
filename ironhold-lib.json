@@ -1,5 +1,5 @@
 {
   "repo": "frankvangeest/ironhold-lib",
-  "commit": "e2b096bde7ca175fa2c12d1f876d97359666135d",
+  "commit": "d945ea984d47ab49bc0814819d24c346977344a9",
   "note": "Run 'python scripts/update_lib.py' to download the latest pkg and record the commit SHA. Run 'python scripts/check_lib_version.py' to check if a newer version is available."
 }
