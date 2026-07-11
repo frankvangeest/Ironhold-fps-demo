@@ -14,7 +14,7 @@ Tasks promoted from `claude_suggestions.md` or added directly. Work top-to-botto
 
 ## Backlog
 
-<!-- All other planned tasks -->
+- [ ] Forgejo support in lib scripts: add `forge_type` to `ironhold-lib.json` and branch API calls in `check_lib_version.py` / `update_lib.py` to support Forgejo's different endpoint format and raw URL structure. Do when migration is actually happening so it can be tested against a real instance.
 
 ## Done
 
