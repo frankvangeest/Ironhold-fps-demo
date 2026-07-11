@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
 Download the latest ironhold-lib pkg files from GitHub and update ironhold-lib.json.
+Stores the previous commit SHA so check_lib_version.py can list changes since last update.
 
 Usage:
     python scripts/update_lib.py           # update to latest main
@@ -56,6 +57,7 @@ def main():
 
     version = json.loads(VERSION_FILE.read_text())
     pinned = version.get("commit")
+
     if pinned == sha:
         print("Already up to date.")
         return
@@ -64,7 +66,8 @@ def main():
         print("[dry-run] Would download:")
         for f in PKG_FILES:
             print(f"  {f}")
-        print(f"[dry-run] Would update ironhold-lib.json commit to {sha[:12]}")
+        print(f"[dry-run] Would set previous_commit = {pinned[:12] if pinned else 'none'}")
+        print(f"[dry-run] Would set commit = {sha[:12]}")
         return
 
     PKG_DIR.mkdir(exist_ok=True)
@@ -73,6 +76,7 @@ def main():
         data = download_file(filename)
         (PKG_DIR / filename).write_bytes(data)
 
+    version["previous_commit"] = pinned
     version["commit"] = sha
     VERSION_FILE.write_text(json.dumps(version, indent=2) + "\n")
 
