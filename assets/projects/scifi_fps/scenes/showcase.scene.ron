@@ -1,0 +1,2153 @@
+(
+    schema_version: 2,
+    name: "showcase",
+
+    lighting: (
+        ambient: (0.22, 0.25, 0.32),
+        ambient_brightness: 200.0,
+        directional: (
+            color: (1.0, 0.95, 0.85),
+            intensity: 30000.0,
+            rotation_euler_deg: (-50.0, 25.0, 0.0),
+            shadows_enabled: true,
+            shadow_distance: 189.0,
+            cascade_overlap: 0.5,
+        ),
+    ),
+
+    label_depth_scale: (
+        reference_distance: 12.0,
+        min_scale: 0.2,
+    ),
+
+    entities: [
+
+        // Flycam
+        (
+            id: "cam",
+            prefab: "flycam",
+            transform: (
+                translation: (0.0, 5.0, -8.0),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+        ),
+
+        // Ground — scaled to cover the full showcase layout
+        (
+            id: "showcase_ground",
+            prefab: "ground",
+            transform: (
+                translation: (0.0, -0.5, 84.4),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (3.0, 1.0, 3.8),
+            ),
+        ),
+
+        (
+            id: "alien_cyclop_s",
+            prefab: "alien_cyclop",
+            transform: (
+                translation: (-2.727, 1.0916, 1.613),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Alien_Cyclop"),
+        ),
+
+        (
+            id: "alien_oculichrysalis_s",
+            prefab: "alien_oculichrysalis",
+            transform: (
+                translation: (-1.105, 0.8727, 1.613),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Alien_Oculichrysalis"),
+        ),
+
+        (
+            id: "alien_scolitex_s",
+            prefab: "alien_scolitex",
+            transform: (
+                translation: (1.622, 1.0827, 1.613),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Alien_Scolitex"),
+        ),
+
+        (
+            id: "column_astra_s",
+            prefab: "column_astra",
+            transform: (
+                translation: (-9.346, 0.0075, 14.962),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Column_Astra"),
+        ),
+
+        (
+            id: "column_hollow_s",
+            prefab: "column_hollow",
+            transform: (
+                translation: (-7.537, 0.0010, 14.962),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Column_Hollow"),
+        ),
+
+        (
+            id: "column_large_straight_s",
+            prefab: "column_large_straight",
+            transform: (
+                translation: (-5.351, 0.0042, 14.962),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Column_Large_Straight"),
+        ),
+
+        (
+            id: "column_metalsupport_s",
+            prefab: "column_metalsupport",
+            transform: (
+                translation: (-1.770, 0.0230, 14.962),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Column_MetalSupport"),
+        ),
+
+        (
+            id: "column_metalsupport_curve_s",
+            prefab: "column_metalsupport_curve",
+            transform: (
+                translation: (3.066, 0.0230, 14.962),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Column_MetalSupport_Curve"),
+        ),
+
+        (
+            id: "column_pipes_s",
+            prefab: "column_pipes",
+            transform: (
+                translation: (6.338, 0.0010, 14.962),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Column_Pipes"),
+        ),
+
+        (
+            id: "column_round_s",
+            prefab: "column_round",
+            transform: (
+                translation: (7.876, 0.0010, 14.962),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Column_Round"),
+        ),
+
+        (
+            id: "column_simple_s",
+            prefab: "column_simple",
+            transform: (
+                translation: (9.463, 0.0010, 14.962),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Column_Simple"),
+        ),
+
+        (
+            id: "decal_0_s",
+            prefab: "decal_0",
+            transform: (
+                translation: (-8.426, 0.0010, 27.334),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Decal_0"),
+        ),
+
+        (
+            id: "decal_1_s",
+            prefab: "decal_1",
+            transform: (
+                translation: (-6.554, 0.0010, 27.334),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Decal_1"),
+        ),
+
+        (
+            id: "decal_2_s",
+            prefab: "decal_2",
+            transform: (
+                translation: (-4.681, 0.0010, 27.334),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Decal_2"),
+        ),
+
+        (
+            id: "decal_3_s",
+            prefab: "decal_3",
+            transform: (
+                translation: (-2.809, 0.0010, 27.334),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Decal_3"),
+        ),
+
+        (
+            id: "decal_4_s",
+            prefab: "decal_4",
+            transform: (
+                translation: (-0.936, 0.0010, 27.334),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Decal_4"),
+        ),
+
+        (
+            id: "decal_5_s",
+            prefab: "decal_5",
+            transform: (
+                translation: (0.936, 0.0010, 27.334),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Decal_5"),
+        ),
+
+        (
+            id: "decal_6_s",
+            prefab: "decal_6",
+            transform: (
+                translation: (2.809, 0.0010, 27.334),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Decal_6"),
+        ),
+
+        (
+            id: "decal_7_s",
+            prefab: "decal_7",
+            transform: (
+                translation: (4.681, 0.0010, 27.334),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Decal_7"),
+        ),
+
+        (
+            id: "decal_8_s",
+            prefab: "decal_8",
+            transform: (
+                translation: (6.554, 0.0010, 27.334),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Decal_8"),
+        ),
+
+        (
+            id: "decal_9_s",
+            prefab: "decal_9",
+            transform: (
+                translation: (8.426, 0.0010, 27.334),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Decal_9"),
+        ),
+
+        (
+            id: "decal_a_s",
+            prefab: "decal_a",
+            transform: (
+                translation: (-15.452, 0.0010, 31.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Decal_A"),
+        ),
+
+        (
+            id: "decal_dashes_s",
+            prefab: "decal_dashes",
+            transform: (
+                translation: (-13.708, 0.0010, 31.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Decal_Dashes"),
+        ),
+
+        (
+            id: "decal_k_s",
+            prefab: "decal_k",
+            transform: (
+                translation: (-11.964, 0.0010, 31.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Decal_K"),
+        ),
+
+        (
+            id: "decal_line_90_s",
+            prefab: "decal_line_90",
+            transform: (
+                translation: (-9.722, 0.0010, 31.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Decal_Line_90"),
+        ),
+
+        (
+            id: "decal_line_90_round_s",
+            prefab: "decal_line_90_round",
+            transform: (
+                translation: (-7.050, 0.0010, 31.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Decal_Line_90_Round"),
+        ),
+
+        (
+            id: "decal_line_90_round_large_s",
+            prefab: "decal_line_90_round_large",
+            transform: (
+                translation: (-3.878, 0.0010, 31.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Decal_Line_90_Round_Large"),
+        ),
+
+        (
+            id: "decal_line_bend1_l_s",
+            prefab: "decal_line_bend1_l",
+            transform: (
+                translation: (0.258, 0.0010, 31.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Decal_Line_Bend1_L"),
+        ),
+
+        (
+            id: "decal_line_bend1_r_s",
+            prefab: "decal_line_bend1_r",
+            transform: (
+                translation: (4.858, 0.0010, 31.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Decal_Line_Bend1_R"),
+        ),
+
+        (
+            id: "decal_line_bend2_l_s",
+            prefab: "decal_line_bend2_l",
+            transform: (
+                translation: (9.458, 0.0010, 31.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Decal_Line_Bend2_L"),
+        ),
+
+        (
+            id: "decal_line_bend2_r_s",
+            prefab: "decal_line_bend2_r",
+            transform: (
+                translation: (14.058, 0.0010, 31.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Decal_Line_Bend2_R"),
+        ),
+
+        (
+            id: "decal_line_straight_s",
+            prefab: "decal_line_straight",
+            transform: (
+                translation: (-7.744, 0.0010, 36.970),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Decal_Line_Straight"),
+        ),
+
+        (
+            id: "decal_logo_s",
+            prefab: "decal_logo",
+            transform: (
+                translation: (-3.998, 0.0010, 36.970),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Decal_Logo"),
+        ),
+
+        (
+            id: "decal_logo_letters_s",
+            prefab: "decal_logo_letters",
+            transform: (
+                translation: (-0.801, 0.0010, 36.970),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Decal_Logo_Letters"),
+        ),
+
+        (
+            id: "decal_logo_small_s",
+            prefab: "decal_logo_small",
+            transform: (
+                translation: (1.632, 0.0010, 36.970),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Decal_Logo_Small"),
+        ),
+
+        (
+            id: "decal_sign_s",
+            prefab: "decal_sign",
+            transform: (
+                translation: (2.959, 0.0010, 36.970),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Decal_Sign"),
+        ),
+
+        (
+            id: "decal_v_s",
+            prefab: "decal_v",
+            transform: (
+                translation: (4.510, 0.0010, 36.970),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Decal_V"),
+        ),
+
+        (
+            id: "decal_x_s",
+            prefab: "decal_x",
+            transform: (
+                translation: (6.324, 0.0010, 36.970),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Decal_X"),
+        ),
+
+        (
+            id: "decal_xsign_s",
+            prefab: "decal_xsign",
+            transform: (
+                translation: (7.731, 0.0010, 36.970),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Decal_XSign"),
+        ),
+
+        (
+            id: "decal_z_s",
+            prefab: "decal_z",
+            transform: (
+                translation: (9.137, 0.0010, 36.970),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Decal_Z"),
+        ),
+
+        (
+            id: "door_darkmetal_s",
+            prefab: "door_darkmetal",
+            transform: (
+                translation: (-20.516, 0.0010, 50.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Door_DarkMetal"),
+        ),
+
+        (
+            id: "door_frame_a_s",
+            prefab: "door_frame_a",
+            transform: (
+                translation: (-16.428, 0.1200, 50.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Door_Frame_A"),
+        ),
+
+        (
+            id: "door_frame_square_s",
+            prefab: "door_frame_square",
+            transform: (
+                translation: (-10.966, 0.0144, 50.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Door_Frame_Square"),
+        ),
+
+        (
+            id: "door_frame_squaretall_s",
+            prefab: "door_frame_squaretall",
+            transform: (
+                translation: (-5.518, 0.0144, 50.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Door_Frame_SquareTall"),
+        ),
+
+        (
+            id: "door_frame_square_blocked_s",
+            prefab: "door_frame_square_blocked",
+            transform: (
+                translation: (-0.069, 0.0010, 50.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Door_Frame_Square_Blocked"),
+        ),
+
+        (
+            id: "door_metal_s",
+            prefab: "door_metal",
+            transform: (
+                translation: (4.011, 0.0010, 50.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Door_Metal"),
+        ),
+
+        (
+            id: "door_simple_s",
+            prefab: "door_simple",
+            transform: (
+                translation: (6.716, 0.0010, 50.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Door_Simple"),
+        ),
+
+        (
+            id: "platform_3plates_s",
+            prefab: "platform_3plates",
+            transform: (
+                translation: (10.369, 0.0010, 50.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_3Plates"),
+        ),
+
+        (
+            id: "platform_centerplate_s",
+            prefab: "platform_centerplate",
+            transform: (
+                translation: (14.969, 0.0010, 50.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_CenterPlate"),
+        ),
+
+        (
+            id: "platform_centerplate_curve_s",
+            prefab: "platform_centerplate_curve",
+            transform: (
+                translation: (19.569, 0.0010, 50.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_CenterPlate_Curve"),
+        ),
+
+        (
+            id: "platform_darkplates_s",
+            prefab: "platform_darkplates",
+            transform: (
+                translation: (-20.404, 0.0010, 56.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_DarkPlates"),
+        ),
+
+        (
+            id: "platform_darkplates_curves_s",
+            prefab: "platform_darkplates_curves",
+            transform: (
+                translation: (-15.804, 0.0010, 56.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_DarkPlates_Curves"),
+        ),
+
+        (
+            id: "platform_metal_s",
+            prefab: "platform_metal",
+            transform: (
+                translation: (-11.204, 0.0010, 56.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_Metal"),
+        ),
+
+        (
+            id: "platform_metal2_s",
+            prefab: "platform_metal2",
+            transform: (
+                translation: (-6.604, 0.0010, 56.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_Metal2"),
+        ),
+
+        (
+            id: "platform_metal2_curve_s",
+            prefab: "platform_metal2_curve",
+            transform: (
+                translation: (-2.004, 0.0010, 56.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_Metal2_Curve"),
+        ),
+
+        (
+            id: "platform_metal_curve_s",
+            prefab: "platform_metal_curve",
+            transform: (
+                translation: (2.596, 0.0010, 56.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_Metal_Curve"),
+        ),
+
+        (
+            id: "platform_rails_2_s",
+            prefab: "platform_rails_2",
+            transform: (
+                translation: (6.375, -0.0020, 56.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_Rails_2"),
+        ),
+
+        (
+            id: "platform_rails_4_s",
+            prefab: "platform_rails_4",
+            transform: (
+                translation: (10.056, -0.0020, 56.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_Rails_4"),
+        ),
+
+        (
+            id: "platform_rails_4wide_s",
+            prefab: "platform_rails_4wide",
+            transform: (
+                translation: (14.681, -0.0020, 56.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_Rails_4Wide"),
+        ),
+
+        (
+            id: "platform_rails_4widetall_s",
+            prefab: "platform_rails_4widetall",
+            transform: (
+                translation: (19.904, 0.0010, 56.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_Rails_4WideTall"),
+        ),
+
+        (
+            id: "platform_ramp_2_s",
+            prefab: "platform_ramp_2",
+            transform: (
+                translation: (-20.200, 0.0010, 62.970),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_Ramp_2"),
+        ),
+
+        (
+            id: "platform_ramp_2short_s",
+            prefab: "platform_ramp_2short",
+            transform: (
+                translation: (-17.600, 0.0010, 62.970),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_Ramp_2Short"),
+        ),
+
+        (
+            id: "platform_ramp_4_s",
+            prefab: "platform_ramp_4",
+            transform: (
+                translation: (-14.000, 0.0010, 62.970),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_Ramp_4"),
+        ),
+
+        (
+            id: "platform_ramp_4wide_s",
+            prefab: "platform_ramp_4wide",
+            transform: (
+                translation: (-9.400, 0.0010, 62.970),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_Ramp_4Wide"),
+        ),
+
+        (
+            id: "platform_round1_s",
+            prefab: "platform_round1",
+            transform: (
+                translation: (-4.300, 0.0296, 62.970),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_Round1"),
+        ),
+
+        (
+            id: "platform_simple_s",
+            prefab: "platform_simple",
+            transform: (
+                translation: (0.800, 0.0010, 62.970),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_Simple"),
+        ),
+
+        (
+            id: "platform_simple2_s",
+            prefab: "platform_simple2",
+            transform: (
+                translation: (5.400, 0.0010, 62.970),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_Simple2"),
+        ),
+
+        (
+            id: "platform_simple2_curve_s",
+            prefab: "platform_simple2_curve",
+            transform: (
+                translation: (10.000, 0.0010, 62.970),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_Simple2_Curve"),
+        ),
+
+        (
+            id: "platform_simple_curve_s",
+            prefab: "platform_simple_curve",
+            transform: (
+                translation: (14.600, 0.0010, 62.970),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_Simple_Curve"),
+        ),
+
+        (
+            id: "platform_squares_s",
+            prefab: "platform_squares",
+            transform: (
+                translation: (19.200, 0.0010, 62.970),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_Squares"),
+        ),
+
+        (
+            id: "platform_squares_curve_s",
+            prefab: "platform_squares_curve",
+            transform: (
+                translation: (-15.719, 0.0010, 69.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_Squares_Curve"),
+        ),
+
+        (
+            id: "platform_stairs_2_s",
+            prefab: "platform_stairs_2",
+            transform: (
+                translation: (-12.083, 0.0096, 69.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_Stairs_2"),
+        ),
+
+        (
+            id: "platform_stairs_4_s",
+            prefab: "platform_stairs_4",
+            transform: (
+                translation: (-8.405, 0.0092, 69.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_Stairs_4"),
+        ),
+
+        (
+            id: "platform_stairs_4wide_s",
+            prefab: "platform_stairs_4wide",
+            transform: (
+                translation: (-3.722, 0.0092, 69.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_Stairs_4Wide"),
+        ),
+
+        (
+            id: "platform_stairs_4widetall_s",
+            prefab: "platform_stairs_4widetall",
+            transform: (
+                translation: (1.419, 0.0092, 69.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_Stairs_4WideTall"),
+        ),
+
+        (
+            id: "platform_window_thin_s",
+            prefab: "platform_window_thin",
+            transform: (
+                translation: (6.519, 0.4143, 69.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_Window_Thin"),
+        ),
+
+        (
+            id: "platform_window_wide_s",
+            prefab: "platform_window_wide",
+            transform: (
+                translation: (11.119, 0.4143, 69.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_Window_Wide"),
+        ),
+
+        (
+            id: "platform_x_s",
+            prefab: "platform_x",
+            transform: (
+                translation: (15.719, 0.0010, 69.470),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Platform_X"),
+        ),
+
+        (
+            id: "prop_accesspoint_s",
+            prefab: "prop_accesspoint",
+            transform: (
+                translation: (-9.592, -1.1108, 83.970),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Prop_AccessPoint"),
+        ),
+
+        (
+            id: "prop_barrel_large_s",
+            prefab: "prop_barrel_large",
+            transform: (
+                translation: (-8.078, -0.0072, 83.970),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Prop_Barrel_Large"),
+        ),
+
+        (
+            id: "prop_cable_1_s",
+            prefab: "prop_cable_1",
+            transform: (
+                translation: (-6.388, 0.0193, 83.970),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Prop_Cable_1"),
+        ),
+
+        (
+            id: "prop_cable_3_s",
+            prefab: "prop_cable_3",
+            transform: (
+                translation: (-2.465, 0.0140, 83.970),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Prop_Cable_3"),
+        ),
+
+        (
+            id: "prop_chest_s",
+            prefab: "prop_chest",
+            transform: (
+                translation: (1.387, -0.0022, 83.970),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Prop_Chest"),
+        ),
+
+        (
+            id: "prop_clamp_s",
+            prefab: "prop_clamp",
+            transform: (
+                translation: (3.018, 0.0054, 83.970),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Prop_Clamp"),
+        ),
+
+        (
+            id: "prop_computer_s",
+            prefab: "prop_computer",
+            transform: (
+                translation: (4.270, 0.0022, 83.970),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Prop_Computer"),
+        ),
+
+        (
+            id: "prop_crate3_s",
+            prefab: "prop_crate3",
+            transform: (
+                translation: (5.742, 0.5010, 83.970),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Prop_Crate3"),
+        ),
+
+        (
+            id: "prop_crate4_s",
+            prefab: "prop_crate4",
+            transform: (
+                translation: (7.403, 0.5614, 83.970),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Prop_Crate4"),
+        ),
+
+        (
+            id: "prop_fan_small_s",
+            prefab: "prop_fan_small",
+            transform: (
+                translation: (9.401, 0.0560, 83.970),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Prop_Fan_Small"),
+        ),
+
+        (
+            id: "prop_itemholder_s",
+            prefab: "prop_itemholder",
+            transform: (
+                translation: (-14.940, 0.0051, 90.074),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Prop_ItemHolder"),
+        ),
+
+        (
+            id: "prop_light_corner_s",
+            prefab: "prop_light_corner",
+            transform: (
+                translation: (-11.826, 0.1487, 90.074),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Prop_Light_Corner"),
+        ),
+
+        (
+            id: "prop_light_floor_s",
+            prefab: "prop_light_floor",
+            transform: (
+                translation: (-8.456, 0.0023, 90.074),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Prop_Light_Floor"),
+        ),
+
+        (
+            id: "prop_light_small_s",
+            prefab: "prop_light_small",
+            transform: (
+                translation: (-6.759, 0.1487, 90.074),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Prop_Light_Small"),
+        ),
+
+        (
+            id: "prop_light_wide_s",
+            prefab: "prop_light_wide",
+            transform: (
+                translation: (-5.068, 0.1487, 90.074),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Prop_Light_Wide"),
+        ),
+
+        (
+            id: "prop_pipeholder_s",
+            prefab: "prop_pipeholder",
+            transform: (
+                translation: (-1.750, -0.0068, 90.074),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Prop_PipeHolder"),
+        ),
+
+        (
+            id: "prop_rail_2_s",
+            prefab: "prop_rail_2",
+            transform: (
+                translation: (1.882, 0.0010, 90.074),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Prop_Rail_2"),
+        ),
+
+        (
+            id: "prop_rail_3_s",
+            prefab: "prop_rail_3",
+            transform: (
+                translation: (4.938, 0.0010, 90.074),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Prop_Rail_3"),
+        ),
+
+        (
+            id: "prop_rail_4_s",
+            prefab: "prop_rail_4",
+            transform: (
+                translation: (8.984, 0.0010, 90.074),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Prop_Rail_4"),
+        ),
+
+        (
+            id: "prop_rail_incline_long_l_s",
+            prefab: "prop_rail_incline_long_l",
+            transform: (
+                translation: (13.448, -0.0020, 90.074),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Prop_Rail_Incline_Long_L"),
+        ),
+
+        (
+            id: "prop_rail_incline_long_r_s",
+            prefab: "prop_rail_incline_long_r",
+            transform: (
+                translation: (-11.536, -0.0020, 96.178),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Prop_Rail_Incline_Long_R"),
+        ),
+
+        (
+            id: "prop_rail_incline_short_l_s",
+            prefab: "prop_rail_incline_short_l",
+            transform: (
+                translation: (-8.089, -0.0020, 96.178),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Prop_Rail_Incline_Short_L"),
+        ),
+
+        (
+            id: "prop_rail_incline_short_r_s",
+            prefab: "prop_rail_incline_short_r",
+            transform: (
+                translation: (-4.044, 0.8305, 96.178),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Prop_Rail_Incline_Short_R"),
+        ),
+
+        (
+            id: "prop_rail_round_big_s",
+            prefab: "prop_rail_round_big",
+            transform: (
+                translation: (1.081, 0.0010, 96.178),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Prop_Rail_Round_Big"),
+        ),
+
+        (
+            id: "prop_rail_round_small_s",
+            prefab: "prop_rail_round_small",
+            transform: (
+                translation: (4.702, 0.0010, 96.178),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Prop_Rail_Round_Small"),
+        ),
+
+        (
+            id: "prop_vent_big_s",
+            prefab: "prop_vent_big",
+            transform: (
+                translation: (7.299, 0.0698, 96.178),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Prop_Vent_Big"),
+        ),
+
+        (
+            id: "prop_vent_small_s",
+            prefab: "prop_vent_small",
+            transform: (
+                translation: (9.899, 0.0010, 96.178),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Prop_Vent_Small"),
+        ),
+
+        (
+            id: "prop_vent_wide_s",
+            prefab: "prop_vent_wide",
+            transform: (
+                translation: (12.468, 0.0010, 96.178),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "Prop_Vent_Wide"),
+        ),
+
+        (
+            id: "bottommetal_corner_round_inner_s",
+            prefab: "bottommetal_corner_round_inner",
+            transform: (
+                translation: (-16.200, 0.0010, 110.478),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "BottomMetal_Corner_Round_Inner"),
+        ),
+
+        (
+            id: "bottommetal_corner_round_outer_s",
+            prefab: "bottommetal_corner_round_outer",
+            transform: (
+                translation: (-11.300, 0.0010, 110.478),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "BottomMetal_Corner_Round_Outer"),
+        ),
+
+        (
+            id: "bottommetal_corner_square_inner_s",
+            prefab: "bottommetal_corner_square_inner",
+            transform: (
+                translation: (-6.400, 0.0010, 110.478),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "BottomMetal_Corner_Square_Inner"),
+        ),
+
+        (
+            id: "bottommetal_corner_square_outer_1_s",
+            prefab: "bottommetal_corner_square_outer_1",
+            transform: (
+                translation: (-3.500, 0.0010, 110.478),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "BottomMetal_Corner_Square_Outer_1"),
+        ),
+
+        (
+            id: "bottommetal_corner_square_outer_2_s",
+            prefab: "bottommetal_corner_square_outer_2",
+            transform: (
+                translation: (-2.300, 0.0010, 110.478),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "BottomMetal_Corner_Square_Outer_2"),
+        ),
+
+        (
+            id: "bottommetal_straight_s",
+            prefab: "bottommetal_straight",
+            transform: (
+                translation: (0.600, 0.0010, 110.478),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "BottomMetal_Straight"),
+        ),
+
+        (
+            id: "bottomsimple_corner_round_inner_s",
+            prefab: "bottomsimple_corner_round_inner",
+            transform: (
+                translation: (5.200, 0.0010, 110.478),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "BottomSimple_Corner_Round_Inner"),
+        ),
+
+        (
+            id: "bottomsimple_corner_round_outer_s",
+            prefab: "bottomsimple_corner_round_outer",
+            transform: (
+                translation: (10.100, 0.0010, 110.478),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "BottomSimple_Corner_Round_Outer"),
+        ),
+
+        (
+            id: "bottomsimple_corner_square_inner_s",
+            prefab: "bottomsimple_corner_square_inner",
+            transform: (
+                translation: (15.000, 0.0010, 110.478),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "BottomSimple_Corner_Square_Inner"),
+        ),
+
+        (
+            id: "bottomsimple_corner_square_outer_1_s",
+            prefab: "bottomsimple_corner_square_outer_1",
+            transform: (
+                translation: (17.900, 0.0010, 110.478),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "BottomSimple_Corner_Square_Outer_1"),
+        ),
+
+        (
+            id: "bottomsimple_corner_square_outer_2_s",
+            prefab: "bottomsimple_corner_square_outer_2",
+            transform: (
+                translation: (-20.704, 0.0010, 116.281),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "BottomSimple_Corner_Square_Outer_2"),
+        ),
+
+        (
+            id: "bottomsimple_straight_s",
+            prefab: "bottomsimple_straight",
+            transform: (
+                translation: (-17.804, 0.0010, 116.281),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "BottomSimple_Straight"),
+        ),
+
+        (
+            id: "shortwall_accentstrip_corner_inner_s",
+            prefab: "shortwall_accentstrip_corner_inner",
+            transform: (
+                translation: (-13.204, -0.0009, 116.281),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_AccentStrip_Corner_Inner"),
+        ),
+
+        (
+            id: "shortwall_accentstrip_corner_outer_s",
+            prefab: "shortwall_accentstrip_corner_outer",
+            transform: (
+                translation: (-8.604, -0.0009, 116.281),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_AccentStrip_Corner_Outer"),
+        ),
+
+        (
+            id: "shortwall_accentstrip_straight_s",
+            prefab: "shortwall_accentstrip_straight",
+            transform: (
+                translation: (-4.004, -0.0009, 116.281),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_AccentStrip_Straight"),
+        ),
+
+        (
+            id: "shortwall_band2_corner_inner_s",
+            prefab: "shortwall_band2_corner_inner",
+            transform: (
+                translation: (0.598, -0.0009, 116.281),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_Band2_Corner_Inner"),
+        ),
+
+        (
+            id: "shortwall_band2_corner_outer_s",
+            prefab: "shortwall_band2_corner_outer",
+            transform: (
+                translation: (5.202, -0.0009, 116.281),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_Band2_Corner_Outer"),
+        ),
+
+        (
+            id: "shortwall_band2_straight_s",
+            prefab: "shortwall_band2_straight",
+            transform: (
+                translation: (9.804, -0.0009, 116.281),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_Band2_Straight"),
+        ),
+
+        (
+            id: "shortwall_darkmetal2_corner_inner_s",
+            prefab: "shortwall_darkmetal2_corner_inner",
+            transform: (
+                translation: (14.404, 0.0010, 116.281),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_DarkMetal2_Corner_Inner"),
+        ),
+
+        (
+            id: "shortwall_darkmetal2_corner_outer_s",
+            prefab: "shortwall_darkmetal2_corner_outer",
+            transform: (
+                translation: (19.004, 0.0010, 116.281),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_DarkMetal2_Corner_Outer"),
+        ),
+
+        (
+            id: "shortwall_darkmetal2_straight_s",
+            prefab: "shortwall_darkmetal2_straight",
+            transform: (
+                translation: (-20.700, 0.0010, 121.783),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_DarkMetal2_Straight"),
+        ),
+
+        (
+            id: "shortwall_darkplastic_corner_inner_s",
+            prefab: "shortwall_darkplastic_corner_inner",
+            transform: (
+                translation: (-16.100, -0.0009, 121.783),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_DarkPlastic_Corner_Inner"),
+        ),
+
+        (
+            id: "shortwall_darkplastic_corner_outer_s",
+            prefab: "shortwall_darkplastic_corner_outer",
+            transform: (
+                translation: (-11.500, -0.0009, 121.783),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_DarkPlastic_Corner_Outer"),
+        ),
+
+        (
+            id: "shortwall_darkplastic_straight_s",
+            prefab: "shortwall_darkplastic_straight",
+            transform: (
+                translation: (-6.900, -0.0009, 121.783),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_DarkPlastic_Straight"),
+        ),
+
+        (
+            id: "shortwall_metal2_corner_inner_s",
+            prefab: "shortwall_metal2_corner_inner",
+            transform: (
+                translation: (-2.300, -0.0009, 121.783),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_Metal2_Corner_Inner"),
+        ),
+
+        (
+            id: "shortwall_metal2_corner_outer_s",
+            prefab: "shortwall_metal2_corner_outer",
+            transform: (
+                translation: (2.300, -0.0009, 121.783),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_Metal2_Corner_Outer"),
+        ),
+
+        (
+            id: "shortwall_metal2_straight_s",
+            prefab: "shortwall_metal2_straight",
+            transform: (
+                translation: (6.900, -0.0009, 121.783),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_Metal2_Straight"),
+        ),
+
+        (
+            id: "shortwall_metalplates_corner_inner_s",
+            prefab: "shortwall_metalplates_corner_inner",
+            transform: (
+                translation: (11.500, -0.0009, 121.783),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_MetalPlates_Corner_Inner"),
+        ),
+
+        (
+            id: "shortwall_metalplates_corner_outer_s",
+            prefab: "shortwall_metalplates_corner_outer",
+            transform: (
+                translation: (16.100, -0.0009, 121.783),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_MetalPlates_Corner_Outer"),
+        ),
+
+        (
+            id: "shortwall_metalplates_straight_s",
+            prefab: "shortwall_metalplates_straight",
+            transform: (
+                translation: (20.700, -0.0009, 121.783),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_MetalPlates_Straight"),
+        ),
+
+        (
+            id: "shortwall_simple1_corner_inner_s",
+            prefab: "shortwall_simple1_corner_inner",
+            transform: (
+                translation: (-20.700, -0.0009, 127.283),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_Simple1_Corner_Inner"),
+        ),
+
+        (
+            id: "shortwall_simple1_corner_outer_s",
+            prefab: "shortwall_simple1_corner_outer",
+            transform: (
+                translation: (-16.100, -0.0009, 127.283),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_Simple1_Corner_Outer"),
+        ),
+
+        (
+            id: "shortwall_simple1_straight_s",
+            prefab: "shortwall_simple1_straight",
+            transform: (
+                translation: (-11.500, -0.0009, 127.283),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_Simple1_Straight"),
+        ),
+
+        (
+            id: "shortwall_simple2_corner_inner_s",
+            prefab: "shortwall_simple2_corner_inner",
+            transform: (
+                translation: (-6.900, 0.0010, 127.283),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_Simple2_Corner_Inner"),
+        ),
+
+        (
+            id: "shortwall_simple2_corner_outer_s",
+            prefab: "shortwall_simple2_corner_outer",
+            transform: (
+                translation: (-2.300, 0.0010, 127.283),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_Simple2_Corner_Outer"),
+        ),
+
+        (
+            id: "shortwall_simple2_straight_s",
+            prefab: "shortwall_simple2_straight",
+            transform: (
+                translation: (2.300, 0.0010, 127.283),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_Simple2_Straight"),
+        ),
+
+        (
+            id: "shortwall_triangles_corner_inner_s",
+            prefab: "shortwall_triangles_corner_inner",
+            transform: (
+                translation: (6.900, -0.0009, 127.283),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_Triangles_Corner_Inner"),
+        ),
+
+        (
+            id: "shortwall_triangles_corner_outer_s",
+            prefab: "shortwall_triangles_corner_outer",
+            transform: (
+                translation: (11.500, -0.0009, 127.283),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_Triangles_Corner_Outer"),
+        ),
+
+        (
+            id: "shortwall_triangles_straight_s",
+            prefab: "shortwall_triangles_straight",
+            transform: (
+                translation: (16.100, -0.0009, 127.283),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_Triangles_Straight"),
+        ),
+
+        (
+            id: "shortwall_whiteplate2_corner_inner_s",
+            prefab: "shortwall_whiteplate2_corner_inner",
+            transform: (
+                translation: (20.700, 0.0010, 127.283),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_WhitePlate2_Corner_Inner"),
+        ),
+
+        (
+            id: "shortwall_whiteplate2_corner_outer_s",
+            prefab: "shortwall_whiteplate2_corner_outer",
+            transform: (
+                translation: (-21.080, 0.0010, 132.890),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_WhitePlate2_Corner_Outer"),
+        ),
+
+        (
+            id: "shortwall_whiteplate2_straight_s",
+            prefab: "shortwall_whiteplate2_straight",
+            transform: (
+                translation: (-16.480, 0.0010, 132.890),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "ShortWall_WhitePlate2_Straight"),
+        ),
+
+        (
+            id: "topastra_corner_round_inner_s",
+            prefab: "topastra_corner_round_inner",
+            transform: (
+                translation: (-11.880, -2.9990, 132.890),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "TopAstra_Corner_Round_Inner"),
+        ),
+
+        (
+            id: "topastra_curve_round_outer_s",
+            prefab: "topastra_curve_round_outer",
+            transform: (
+                translation: (-7.280, -2.9990, 132.890),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "TopAstra_Curve_Round_Outer"),
+        ),
+
+        (
+            id: "topastra_straight_s",
+            prefab: "topastra_straight",
+            transform: (
+                translation: (-2.680, -2.9990, 132.890),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "TopAstra_Straight"),
+        ),
+
+        (
+            id: "topcables_corner_round_inner_s",
+            prefab: "topcables_corner_round_inner",
+            transform: (
+                translation: (2.000, -2.9990, 132.890),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "TopCables_Corner_Round_Inner"),
+        ),
+
+        (
+            id: "topcables_corner_round_outer_s",
+            prefab: "topcables_corner_round_outer",
+            transform: (
+                translation: (6.788, -2.9990, 132.890),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "TopCables_Corner_Round_Outer"),
+        ),
+
+        (
+            id: "topcables_corner_square_inner_s",
+            prefab: "topcables_corner_square_inner",
+            transform: (
+                translation: (11.580, -2.9990, 132.890),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "TopCables_Corner_Square_Inner"),
+        ),
+
+        (
+            id: "topcables_corner_square_outer_s",
+            prefab: "topcables_corner_square_outer",
+            transform: (
+                translation: (16.372, -2.9990, 132.890),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "TopCables_Corner_Square_Outer"),
+        ),
+
+        (
+            id: "topcables_straight_s",
+            prefab: "topcables_straight",
+            transform: (
+                translation: (21.080, -2.9990, 132.890),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "TopCables_Straight"),
+        ),
+
+        (
+            id: "topcables_straight_hanging_s",
+            prefab: "topcables_straight_hanging",
+            transform: (
+                translation: (-19.604, -0.0558, 138.783),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "TopCables_Straight_Hanging"),
+        ),
+
+        (
+            id: "topplastic_corner_outer_s",
+            prefab: "topplastic_corner_outer",
+            transform: (
+                translation: (-16.719, -3.4990, 138.783),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "TopPlastic_Corner_Outer"),
+        ),
+
+        (
+            id: "topplastic_corner_round_inner_s",
+            prefab: "topplastic_corner_round_inner",
+            transform: (
+                translation: (-13.833, -2.9990, 138.783),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "TopPlastic_Corner_Round_Inner"),
+        ),
+
+        (
+            id: "topplastic_corner_round_outer_s",
+            prefab: "topplastic_corner_round_outer",
+            transform: (
+                translation: (-8.949, -2.9990, 138.783),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "TopPlastic_Corner_Round_Outer"),
+        ),
+
+        (
+            id: "topplastic_straight_s",
+            prefab: "topplastic_straight",
+            transform: (
+                translation: (-4.065, -2.9990, 138.783),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "TopPlastic_Straight"),
+        ),
+
+        (
+            id: "topsimple_corner_round_inner_s",
+            prefab: "topsimple_corner_round_inner",
+            transform: (
+                translation: (0.535, -2.9990, 138.783),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "TopSimple_Corner_Round_Inner"),
+        ),
+
+        (
+            id: "topsimple_corner_round_outer_s",
+            prefab: "topsimple_corner_round_outer",
+            transform: (
+                translation: (5.135, -2.9990, 138.783),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "TopSimple_Corner_Round_Outer"),
+        ),
+
+        (
+            id: "topsimple_straight_s",
+            prefab: "topsimple_straight",
+            transform: (
+                translation: (9.735, -2.9990, 138.783),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "TopSimple_Straight"),
+        ),
+
+        (
+            id: "topwindow_corner_curve_inner_s",
+            prefab: "topwindow_corner_curve_inner",
+            transform: (
+                translation: (14.384, -2.9964, 138.783),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "TopWindow_Corner_Curve_Inner"),
+        ),
+
+        (
+            id: "topwindow_corner_curve_outer_s",
+            prefab: "topwindow_corner_curve_outer",
+            transform: (
+                translation: (19.319, -2.9964, 138.783),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "TopWindow_Corner_Curve_Outer"),
+        ),
+
+        (
+            id: "topwindow_straight_s",
+            prefab: "topwindow_straight",
+            transform: (
+                translation: (-21.590, -2.9964, 144.956),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "TopWindow_Straight"),
+        ),
+
+        (
+            id: "wallastra_corner_round_inner_s",
+            prefab: "wallastra_corner_round_inner",
+            transform: (
+                translation: (-16.756, 0.0075, 144.956),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "WallAstra_Corner_Round_Inner"),
+        ),
+
+        (
+            id: "wallastra_corner_round_outer_s",
+            prefab: "wallastra_corner_round_outer",
+            transform: (
+                translation: (-11.870, 0.0075, 144.956),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "WallAstra_Corner_Round_Outer"),
+        ),
+
+        (
+            id: "wallastra_corner_square_inner_s",
+            prefab: "wallastra_corner_square_inner",
+            transform: (
+                translation: (-6.833, 0.0075, 144.956),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "WallAstra_Corner_Square_Inner"),
+        ),
+
+        (
+            id: "wallastra_corner_square_outer_s",
+            prefab: "wallastra_corner_square_outer",
+            transform: (
+                translation: (-1.628, 0.0075, 144.956),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "WallAstra_Corner_Square_Outer"),
+        ),
+
+        (
+            id: "wallastra_straight_s",
+            prefab: "wallastra_straight",
+            transform: (
+                translation: (3.190, 0.0075, 144.956),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "WallAstra_Straight"),
+        ),
+
+        (
+            id: "wallastra_straight_broken_s",
+            prefab: "wallastra_straight_broken",
+            transform: (
+                translation: (7.790, 0.0075, 144.956),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "WallAstra_Straight_Broken"),
+        ),
+
+        (
+            id: "wallastra_straight_divided_s",
+            prefab: "wallastra_straight_divided",
+            transform: (
+                translation: (12.390, 0.0075, 144.956),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "WallAstra_Straight_Divided"),
+        ),
+
+        (
+            id: "wallastra_straight_flat_s",
+            prefab: "wallastra_straight_flat",
+            transform: (
+                translation: (16.990, 0.0010, 144.956),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "WallAstra_Straight_Flat"),
+        ),
+
+        (
+            id: "wallastra_straight_flat_window_s",
+            prefab: "wallastra_straight_flat_window",
+            transform: (
+                translation: (21.590, 0.0010, 144.956),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "WallAstra_Straight_Flat_Window"),
+        ),
+
+        (
+            id: "wallastra_straight_window_s",
+            prefab: "wallastra_straight_window",
+            transform: (
+                translation: (-17.819, 0.0010, 151.254),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "WallAstra_Straight_Window"),
+        ),
+
+        (
+            id: "wallband_corner_round_inner_s",
+            prefab: "wallband_corner_round_inner",
+            transform: (
+                translation: (-13.119, 0.0010, 151.254),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "WallBand_Corner_Round_Inner"),
+        ),
+
+        (
+            id: "wallband_corner_round_outer_s",
+            prefab: "wallband_corner_round_outer",
+            transform: (
+                translation: (-8.415, 0.0010, 151.254),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "WallBand_Corner_Round_Outer"),
+        ),
+
+        (
+            id: "wallband_corner_square_inner_s",
+            prefab: "wallband_corner_square_inner",
+            transform: (
+                translation: (-3.712, 0.0010, 151.254),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "WallBand_Corner_Square_Inner"),
+        ),
+
+        (
+            id: "wallband_corner_square_outer_s",
+            prefab: "wallband_corner_square_outer",
+            transform: (
+                translation: (0.992, 0.0010, 151.254),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "WallBand_Corner_Square_Outer"),
+        ),
+
+        (
+            id: "wallband_straight_s",
+            prefab: "wallband_straight",
+            transform: (
+                translation: (5.596, 0.0010, 151.254),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "WallBand_Straight"),
+        ),
+
+        (
+            id: "wallband_straight_broken_s",
+            prefab: "wallband_straight_broken",
+            transform: (
+                translation: (10.607, 0.0127, 151.254),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "WallBand_Straight_Broken"),
+        ),
+
+        (
+            id: "wallwindow_cap_a_s",
+            prefab: "wallwindow_cap_a",
+            transform: (
+                translation: (13.819, -0.8721, 151.254),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "WallWindow_Cap_A"),
+        ),
+
+        (
+            id: "wallwindow_cap_b_s",
+            prefab: "wallwindow_cap_b",
+            transform: (
+                translation: (14.819, -0.8721, 151.254),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "WallWindow_Cap_B"),
+        ),
+
+        (
+            id: "wallwindow_corner_round_inner_s",
+            prefab: "wallwindow_corner_round_inner",
+            transform: (
+                translation: (17.719, 0.0010, 151.254),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "WallWindow_Corner_Round_Inner"),
+        ),
+
+        (
+            id: "wallwindow_corner_round_outer_s",
+            prefab: "wallwindow_corner_round_outer",
+            transform: (
+                translation: (-7.060, 0.0010, 157.266),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "WallWindow_Corner_Round_Outer"),
+        ),
+
+        (
+            id: "wallwindow_corner_square_inner_s",
+            prefab: "wallwindow_corner_square_inner",
+            transform: (
+                translation: (-2.356, 0.0010, 157.266),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "WallWindow_Corner_Square_Inner"),
+        ),
+
+        (
+            id: "wallwindow_corner_square_outer_s",
+            prefab: "wallwindow_corner_square_outer",
+            transform: (
+                translation: (2.404, 0.0010, 157.266),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "WallWindow_Corner_Square_Outer"),
+        ),
+
+        (
+            id: "wallwindow_straight_s",
+            prefab: "wallwindow_straight",
+            transform: (
+                translation: (7.064, 0.0010, 157.266),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+            label: (text: "WallWindow_Straight"),
+        ),
+
+    ],
+
+    ui: [
+        Label((
+            id: "flycam_position",
+            text: "",
+            position: (16.0, 16.0),
+            size: (400.0, 24.0),
+        )),
+        Label((
+            id: "hint",
+            text: "SHOWCASE  |  Hold LMB/RMB + mouse = look  |  WASD = fly  |  Shift = fast",
+            position: (16.0, 48.0),
+            size: (700.0, 24.0),
+        )),
+    ],
+)

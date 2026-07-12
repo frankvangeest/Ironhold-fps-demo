@@ -2,8 +2,7 @@
     schema_version: 2,
     prefabs: {
 
-        // Player capsule — tags: ["player"] wires up CharacterController,
-        // physics, and OrbitCamera automatically.
+        // Player capsule
         "player": (
             kind: Primitive,
             model: "",
@@ -24,8 +23,7 @@
             ),
         ),
 
-        // Ground — static physics surface (physics: true in primitive).
-        // Cuboid(60, 1, 60): top surface at y = 0 when placed at y = -0.5.
+        // Static ground surface
         "ground": (
             kind: Primitive,
             model: "",
@@ -37,6 +35,982 @@
                 roughness: 0.95,
                 physics: true,
             ),
+        ),
+
+        // Free-fly showcase camera — hold LMB/RMB and move mouse to look
+        "flycam": (
+            kind: Prop,
+            model: "",
+            components: (
+                tags: ["flycam"],
+                flycam: (
+                    speed: 15.0,
+                    fast_speed: 50.0,
+                    sensitivity: 0.002,
+                ),
+            ),
+        ),
+
+        // Aliens
+        "alien_cyclop": (
+            kind: Prop,
+            model: "alien_cyclop",
+            components: (),
+        ),
+        "alien_oculichrysalis": (
+            kind: Prop,
+            model: "alien_oculichrysalis",
+            components: (),
+        ),
+        "alien_scolitex": (
+            kind: Prop,
+            model: "alien_scolitex",
+            components: (),
+        ),
+
+        // Columns
+        "column_astra": (
+            kind: Prop,
+            model: "column_astra",
+            components: (),
+        ),
+        "column_hollow": (
+            kind: Prop,
+            model: "column_hollow",
+            components: (),
+        ),
+        "column_large_straight": (
+            kind: Prop,
+            model: "column_large_straight",
+            components: (),
+        ),
+        "column_metalsupport": (
+            kind: Prop,
+            model: "column_metalsupport",
+            components: (),
+        ),
+        "column_metalsupport_curve": (
+            kind: Prop,
+            model: "column_metalsupport_curve",
+            components: (),
+        ),
+        "column_pipes": (
+            kind: Prop,
+            model: "column_pipes",
+            components: (),
+        ),
+        "column_round": (
+            kind: Prop,
+            model: "column_round",
+            components: (),
+        ),
+        "column_simple": (
+            kind: Prop,
+            model: "column_simple",
+            components: (),
+        ),
+
+        // Decals
+        "decal_0": (
+            kind: Prop,
+            model: "decal_0",
+            components: (),
+        ),
+        "decal_1": (
+            kind: Prop,
+            model: "decal_1",
+            components: (),
+        ),
+        "decal_2": (
+            kind: Prop,
+            model: "decal_2",
+            components: (),
+        ),
+        "decal_3": (
+            kind: Prop,
+            model: "decal_3",
+            components: (),
+        ),
+        "decal_4": (
+            kind: Prop,
+            model: "decal_4",
+            components: (),
+        ),
+        "decal_5": (
+            kind: Prop,
+            model: "decal_5",
+            components: (),
+        ),
+        "decal_6": (
+            kind: Prop,
+            model: "decal_6",
+            components: (),
+        ),
+        "decal_7": (
+            kind: Prop,
+            model: "decal_7",
+            components: (),
+        ),
+        "decal_8": (
+            kind: Prop,
+            model: "decal_8",
+            components: (),
+        ),
+        "decal_9": (
+            kind: Prop,
+            model: "decal_9",
+            components: (),
+        ),
+        "decal_a": (
+            kind: Prop,
+            model: "decal_a",
+            components: (),
+        ),
+        "decal_dashes": (
+            kind: Prop,
+            model: "decal_dashes",
+            components: (),
+        ),
+        "decal_k": (
+            kind: Prop,
+            model: "decal_k",
+            components: (),
+        ),
+        "decal_line_90": (
+            kind: Prop,
+            model: "decal_line_90",
+            components: (),
+        ),
+        "decal_line_90_round": (
+            kind: Prop,
+            model: "decal_line_90_round",
+            components: (),
+        ),
+        "decal_line_90_round_large": (
+            kind: Prop,
+            model: "decal_line_90_round_large",
+            components: (),
+        ),
+        "decal_line_bend1_l": (
+            kind: Prop,
+            model: "decal_line_bend1_l",
+            components: (),
+        ),
+        "decal_line_bend1_r": (
+            kind: Prop,
+            model: "decal_line_bend1_r",
+            components: (),
+        ),
+        "decal_line_bend2_l": (
+            kind: Prop,
+            model: "decal_line_bend2_l",
+            components: (),
+        ),
+        "decal_line_bend2_r": (
+            kind: Prop,
+            model: "decal_line_bend2_r",
+            components: (),
+        ),
+        "decal_line_straight": (
+            kind: Prop,
+            model: "decal_line_straight",
+            components: (),
+        ),
+        "decal_logo": (
+            kind: Prop,
+            model: "decal_logo",
+            components: (),
+        ),
+        "decal_logo_letters": (
+            kind: Prop,
+            model: "decal_logo_letters",
+            components: (),
+        ),
+        "decal_logo_small": (
+            kind: Prop,
+            model: "decal_logo_small",
+            components: (),
+        ),
+        "decal_sign": (
+            kind: Prop,
+            model: "decal_sign",
+            components: (),
+        ),
+        "decal_v": (
+            kind: Prop,
+            model: "decal_v",
+            components: (),
+        ),
+        "decal_x": (
+            kind: Prop,
+            model: "decal_x",
+            components: (),
+        ),
+        "decal_xsign": (
+            kind: Prop,
+            model: "decal_xsign",
+            components: (),
+        ),
+        "decal_z": (
+            kind: Prop,
+            model: "decal_z",
+            components: (),
+        ),
+
+        // Platforms
+        "door_darkmetal": (
+            kind: Prop,
+            model: "door_darkmetal",
+            components: (),
+        ),
+        "door_frame_a": (
+            kind: Prop,
+            model: "door_frame_a",
+            components: (),
+        ),
+        "door_frame_square": (
+            kind: Prop,
+            model: "door_frame_square",
+            components: (),
+        ),
+        "door_frame_squaretall": (
+            kind: Prop,
+            model: "door_frame_squaretall",
+            components: (),
+        ),
+        "door_frame_square_blocked": (
+            kind: Prop,
+            model: "door_frame_square_blocked",
+            components: (),
+        ),
+        "door_metal": (
+            kind: Prop,
+            model: "door_metal",
+            components: (),
+        ),
+        "door_simple": (
+            kind: Prop,
+            model: "door_simple",
+            components: (),
+        ),
+        "platform_3plates": (
+            kind: Prop,
+            model: "platform_3plates",
+            components: (),
+        ),
+        "platform_centerplate": (
+            kind: Prop,
+            model: "platform_centerplate",
+            components: (),
+        ),
+        "platform_centerplate_curve": (
+            kind: Prop,
+            model: "platform_centerplate_curve",
+            components: (),
+        ),
+        "platform_darkplates": (
+            kind: Prop,
+            model: "platform_darkplates",
+            components: (),
+        ),
+        "platform_darkplates_curves": (
+            kind: Prop,
+            model: "platform_darkplates_curves",
+            components: (),
+        ),
+        "platform_metal": (
+            kind: Prop,
+            model: "platform_metal",
+            components: (),
+        ),
+        "platform_metal2": (
+            kind: Prop,
+            model: "platform_metal2",
+            components: (),
+        ),
+        "platform_metal2_curve": (
+            kind: Prop,
+            model: "platform_metal2_curve",
+            components: (),
+        ),
+        "platform_metal_curve": (
+            kind: Prop,
+            model: "platform_metal_curve",
+            components: (),
+        ),
+        "platform_rails_2": (
+            kind: Prop,
+            model: "platform_rails_2",
+            components: (),
+        ),
+        "platform_rails_4": (
+            kind: Prop,
+            model: "platform_rails_4",
+            components: (),
+        ),
+        "platform_rails_4wide": (
+            kind: Prop,
+            model: "platform_rails_4wide",
+            components: (),
+        ),
+        "platform_rails_4widetall": (
+            kind: Prop,
+            model: "platform_rails_4widetall",
+            components: (),
+        ),
+        "platform_ramp_2": (
+            kind: Prop,
+            model: "platform_ramp_2",
+            components: (),
+        ),
+        "platform_ramp_2short": (
+            kind: Prop,
+            model: "platform_ramp_2short",
+            components: (),
+        ),
+        "platform_ramp_4": (
+            kind: Prop,
+            model: "platform_ramp_4",
+            components: (),
+        ),
+        "platform_ramp_4wide": (
+            kind: Prop,
+            model: "platform_ramp_4wide",
+            components: (),
+        ),
+        "platform_round1": (
+            kind: Prop,
+            model: "platform_round1",
+            components: (),
+        ),
+        "platform_simple": (
+            kind: Prop,
+            model: "platform_simple",
+            components: (),
+        ),
+        "platform_simple2": (
+            kind: Prop,
+            model: "platform_simple2",
+            components: (),
+        ),
+        "platform_simple2_curve": (
+            kind: Prop,
+            model: "platform_simple2_curve",
+            components: (),
+        ),
+        "platform_simple_curve": (
+            kind: Prop,
+            model: "platform_simple_curve",
+            components: (),
+        ),
+        "platform_squares": (
+            kind: Prop,
+            model: "platform_squares",
+            components: (),
+        ),
+        "platform_squares_curve": (
+            kind: Prop,
+            model: "platform_squares_curve",
+            components: (),
+        ),
+        "platform_stairs_2": (
+            kind: Prop,
+            model: "platform_stairs_2",
+            components: (),
+        ),
+        "platform_stairs_4": (
+            kind: Prop,
+            model: "platform_stairs_4",
+            components: (),
+        ),
+        "platform_stairs_4wide": (
+            kind: Prop,
+            model: "platform_stairs_4wide",
+            components: (),
+        ),
+        "platform_stairs_4widetall": (
+            kind: Prop,
+            model: "platform_stairs_4widetall",
+            components: (),
+        ),
+        "platform_window_thin": (
+            kind: Prop,
+            model: "platform_window_thin",
+            components: (),
+        ),
+        "platform_window_wide": (
+            kind: Prop,
+            model: "platform_window_wide",
+            components: (),
+        ),
+        "platform_x": (
+            kind: Prop,
+            model: "platform_x",
+            components: (),
+        ),
+
+        // Props
+        "prop_accesspoint": (
+            kind: Prop,
+            model: "prop_accesspoint",
+            components: (),
+        ),
+        "prop_barrel_large": (
+            kind: Prop,
+            model: "prop_barrel_large",
+            components: (),
+        ),
+        "prop_cable_1": (
+            kind: Prop,
+            model: "prop_cable_1",
+            components: (),
+        ),
+        "prop_cable_3": (
+            kind: Prop,
+            model: "prop_cable_3",
+            components: (),
+        ),
+        "prop_chest": (
+            kind: Prop,
+            model: "prop_chest",
+            components: (),
+        ),
+        "prop_clamp": (
+            kind: Prop,
+            model: "prop_clamp",
+            components: (),
+        ),
+        "prop_computer": (
+            kind: Prop,
+            model: "prop_computer",
+            components: (),
+        ),
+        "prop_crate3": (
+            kind: Prop,
+            model: "prop_crate3",
+            components: (),
+        ),
+        "prop_crate4": (
+            kind: Prop,
+            model: "prop_crate4",
+            components: (),
+        ),
+        "prop_fan_small": (
+            kind: Prop,
+            model: "prop_fan_small",
+            components: (),
+        ),
+        "prop_itemholder": (
+            kind: Prop,
+            model: "prop_itemholder",
+            components: (),
+        ),
+        "prop_light_corner": (
+            kind: Prop,
+            model: "prop_light_corner",
+            components: (),
+        ),
+        "prop_light_floor": (
+            kind: Prop,
+            model: "prop_light_floor",
+            components: (),
+        ),
+        "prop_light_small": (
+            kind: Prop,
+            model: "prop_light_small",
+            components: (),
+        ),
+        "prop_light_wide": (
+            kind: Prop,
+            model: "prop_light_wide",
+            components: (),
+        ),
+        "prop_pipeholder": (
+            kind: Prop,
+            model: "prop_pipeholder",
+            components: (),
+        ),
+        "prop_rail_2": (
+            kind: Prop,
+            model: "prop_rail_2",
+            components: (),
+        ),
+        "prop_rail_3": (
+            kind: Prop,
+            model: "prop_rail_3",
+            components: (),
+        ),
+        "prop_rail_4": (
+            kind: Prop,
+            model: "prop_rail_4",
+            components: (),
+        ),
+        "prop_rail_incline_long_l": (
+            kind: Prop,
+            model: "prop_rail_incline_long_l",
+            components: (),
+        ),
+        "prop_rail_incline_long_r": (
+            kind: Prop,
+            model: "prop_rail_incline_long_r",
+            components: (),
+        ),
+        "prop_rail_incline_short_l": (
+            kind: Prop,
+            model: "prop_rail_incline_short_l",
+            components: (),
+        ),
+        "prop_rail_incline_short_r": (
+            kind: Prop,
+            model: "prop_rail_incline_short_r",
+            components: (),
+        ),
+        "prop_rail_round_big": (
+            kind: Prop,
+            model: "prop_rail_round_big",
+            components: (),
+        ),
+        "prop_rail_round_small": (
+            kind: Prop,
+            model: "prop_rail_round_small",
+            components: (),
+        ),
+        "prop_vent_big": (
+            kind: Prop,
+            model: "prop_vent_big",
+            components: (),
+        ),
+        "prop_vent_small": (
+            kind: Prop,
+            model: "prop_vent_small",
+            components: (),
+        ),
+        "prop_vent_wide": (
+            kind: Prop,
+            model: "prop_vent_wide",
+            components: (),
+        ),
+
+        // Walls
+        "bottommetal_corner_round_inner": (
+            kind: Prop,
+            model: "bottommetal_corner_round_inner",
+            components: (),
+        ),
+        "bottommetal_corner_round_outer": (
+            kind: Prop,
+            model: "bottommetal_corner_round_outer",
+            components: (),
+        ),
+        "bottommetal_corner_square_inner": (
+            kind: Prop,
+            model: "bottommetal_corner_square_inner",
+            components: (),
+        ),
+        "bottommetal_corner_square_outer_1": (
+            kind: Prop,
+            model: "bottommetal_corner_square_outer_1",
+            components: (),
+        ),
+        "bottommetal_corner_square_outer_2": (
+            kind: Prop,
+            model: "bottommetal_corner_square_outer_2",
+            components: (),
+        ),
+        "bottommetal_straight": (
+            kind: Prop,
+            model: "bottommetal_straight",
+            components: (),
+        ),
+        "bottomsimple_corner_round_inner": (
+            kind: Prop,
+            model: "bottomsimple_corner_round_inner",
+            components: (),
+        ),
+        "bottomsimple_corner_round_outer": (
+            kind: Prop,
+            model: "bottomsimple_corner_round_outer",
+            components: (),
+        ),
+        "bottomsimple_corner_square_inner": (
+            kind: Prop,
+            model: "bottomsimple_corner_square_inner",
+            components: (),
+        ),
+        "bottomsimple_corner_square_outer_1": (
+            kind: Prop,
+            model: "bottomsimple_corner_square_outer_1",
+            components: (),
+        ),
+        "bottomsimple_corner_square_outer_2": (
+            kind: Prop,
+            model: "bottomsimple_corner_square_outer_2",
+            components: (),
+        ),
+        "bottomsimple_straight": (
+            kind: Prop,
+            model: "bottomsimple_straight",
+            components: (),
+        ),
+        "shortwall_accentstrip_corner_inner": (
+            kind: Prop,
+            model: "shortwall_accentstrip_corner_inner",
+            components: (),
+        ),
+        "shortwall_accentstrip_corner_outer": (
+            kind: Prop,
+            model: "shortwall_accentstrip_corner_outer",
+            components: (),
+        ),
+        "shortwall_accentstrip_straight": (
+            kind: Prop,
+            model: "shortwall_accentstrip_straight",
+            components: (),
+        ),
+        "shortwall_band2_corner_inner": (
+            kind: Prop,
+            model: "shortwall_band2_corner_inner",
+            components: (),
+        ),
+        "shortwall_band2_corner_outer": (
+            kind: Prop,
+            model: "shortwall_band2_corner_outer",
+            components: (),
+        ),
+        "shortwall_band2_straight": (
+            kind: Prop,
+            model: "shortwall_band2_straight",
+            components: (),
+        ),
+        "shortwall_darkmetal2_corner_inner": (
+            kind: Prop,
+            model: "shortwall_darkmetal2_corner_inner",
+            components: (),
+        ),
+        "shortwall_darkmetal2_corner_outer": (
+            kind: Prop,
+            model: "shortwall_darkmetal2_corner_outer",
+            components: (),
+        ),
+        "shortwall_darkmetal2_straight": (
+            kind: Prop,
+            model: "shortwall_darkmetal2_straight",
+            components: (),
+        ),
+        "shortwall_darkplastic_corner_inner": (
+            kind: Prop,
+            model: "shortwall_darkplastic_corner_inner",
+            components: (),
+        ),
+        "shortwall_darkplastic_corner_outer": (
+            kind: Prop,
+            model: "shortwall_darkplastic_corner_outer",
+            components: (),
+        ),
+        "shortwall_darkplastic_straight": (
+            kind: Prop,
+            model: "shortwall_darkplastic_straight",
+            components: (),
+        ),
+        "shortwall_metal2_corner_inner": (
+            kind: Prop,
+            model: "shortwall_metal2_corner_inner",
+            components: (),
+        ),
+        "shortwall_metal2_corner_outer": (
+            kind: Prop,
+            model: "shortwall_metal2_corner_outer",
+            components: (),
+        ),
+        "shortwall_metal2_straight": (
+            kind: Prop,
+            model: "shortwall_metal2_straight",
+            components: (),
+        ),
+        "shortwall_metalplates_corner_inner": (
+            kind: Prop,
+            model: "shortwall_metalplates_corner_inner",
+            components: (),
+        ),
+        "shortwall_metalplates_corner_outer": (
+            kind: Prop,
+            model: "shortwall_metalplates_corner_outer",
+            components: (),
+        ),
+        "shortwall_metalplates_straight": (
+            kind: Prop,
+            model: "shortwall_metalplates_straight",
+            components: (),
+        ),
+        "shortwall_simple1_corner_inner": (
+            kind: Prop,
+            model: "shortwall_simple1_corner_inner",
+            components: (),
+        ),
+        "shortwall_simple1_corner_outer": (
+            kind: Prop,
+            model: "shortwall_simple1_corner_outer",
+            components: (),
+        ),
+        "shortwall_simple1_straight": (
+            kind: Prop,
+            model: "shortwall_simple1_straight",
+            components: (),
+        ),
+        "shortwall_simple2_corner_inner": (
+            kind: Prop,
+            model: "shortwall_simple2_corner_inner",
+            components: (),
+        ),
+        "shortwall_simple2_corner_outer": (
+            kind: Prop,
+            model: "shortwall_simple2_corner_outer",
+            components: (),
+        ),
+        "shortwall_simple2_straight": (
+            kind: Prop,
+            model: "shortwall_simple2_straight",
+            components: (),
+        ),
+        "shortwall_triangles_corner_inner": (
+            kind: Prop,
+            model: "shortwall_triangles_corner_inner",
+            components: (),
+        ),
+        "shortwall_triangles_corner_outer": (
+            kind: Prop,
+            model: "shortwall_triangles_corner_outer",
+            components: (),
+        ),
+        "shortwall_triangles_straight": (
+            kind: Prop,
+            model: "shortwall_triangles_straight",
+            components: (),
+        ),
+        "shortwall_whiteplate2_corner_inner": (
+            kind: Prop,
+            model: "shortwall_whiteplate2_corner_inner",
+            components: (),
+        ),
+        "shortwall_whiteplate2_corner_outer": (
+            kind: Prop,
+            model: "shortwall_whiteplate2_corner_outer",
+            components: (),
+        ),
+        "shortwall_whiteplate2_straight": (
+            kind: Prop,
+            model: "shortwall_whiteplate2_straight",
+            components: (),
+        ),
+        "topastra_corner_round_inner": (
+            kind: Prop,
+            model: "topastra_corner_round_inner",
+            components: (),
+        ),
+        "topastra_curve_round_outer": (
+            kind: Prop,
+            model: "topastra_curve_round_outer",
+            components: (),
+        ),
+        "topastra_straight": (
+            kind: Prop,
+            model: "topastra_straight",
+            components: (),
+        ),
+        "topcables_corner_round_inner": (
+            kind: Prop,
+            model: "topcables_corner_round_inner",
+            components: (),
+        ),
+        "topcables_corner_round_outer": (
+            kind: Prop,
+            model: "topcables_corner_round_outer",
+            components: (),
+        ),
+        "topcables_corner_square_inner": (
+            kind: Prop,
+            model: "topcables_corner_square_inner",
+            components: (),
+        ),
+        "topcables_corner_square_outer": (
+            kind: Prop,
+            model: "topcables_corner_square_outer",
+            components: (),
+        ),
+        "topcables_straight": (
+            kind: Prop,
+            model: "topcables_straight",
+            components: (),
+        ),
+        "topcables_straight_hanging": (
+            kind: Prop,
+            model: "topcables_straight_hanging",
+            components: (),
+        ),
+        "topplastic_corner_outer": (
+            kind: Prop,
+            model: "topplastic_corner_outer",
+            components: (),
+        ),
+        "topplastic_corner_round_inner": (
+            kind: Prop,
+            model: "topplastic_corner_round_inner",
+            components: (),
+        ),
+        "topplastic_corner_round_outer": (
+            kind: Prop,
+            model: "topplastic_corner_round_outer",
+            components: (),
+        ),
+        "topplastic_straight": (
+            kind: Prop,
+            model: "topplastic_straight",
+            components: (),
+        ),
+        "topsimple_corner_round_inner": (
+            kind: Prop,
+            model: "topsimple_corner_round_inner",
+            components: (),
+        ),
+        "topsimple_corner_round_outer": (
+            kind: Prop,
+            model: "topsimple_corner_round_outer",
+            components: (),
+        ),
+        "topsimple_straight": (
+            kind: Prop,
+            model: "topsimple_straight",
+            components: (),
+        ),
+        "topwindow_corner_curve_inner": (
+            kind: Prop,
+            model: "topwindow_corner_curve_inner",
+            components: (),
+        ),
+        "topwindow_corner_curve_outer": (
+            kind: Prop,
+            model: "topwindow_corner_curve_outer",
+            components: (),
+        ),
+        "topwindow_straight": (
+            kind: Prop,
+            model: "topwindow_straight",
+            components: (),
+        ),
+        "wallastra_corner_round_inner": (
+            kind: Prop,
+            model: "wallastra_corner_round_inner",
+            components: (),
+        ),
+        "wallastra_corner_round_outer": (
+            kind: Prop,
+            model: "wallastra_corner_round_outer",
+            components: (),
+        ),
+        "wallastra_corner_square_inner": (
+            kind: Prop,
+            model: "wallastra_corner_square_inner",
+            components: (),
+        ),
+        "wallastra_corner_square_outer": (
+            kind: Prop,
+            model: "wallastra_corner_square_outer",
+            components: (),
+        ),
+        "wallastra_straight": (
+            kind: Prop,
+            model: "wallastra_straight",
+            components: (),
+        ),
+        "wallastra_straight_broken": (
+            kind: Prop,
+            model: "wallastra_straight_broken",
+            components: (),
+        ),
+        "wallastra_straight_divided": (
+            kind: Prop,
+            model: "wallastra_straight_divided",
+            components: (),
+        ),
+        "wallastra_straight_flat": (
+            kind: Prop,
+            model: "wallastra_straight_flat",
+            components: (),
+        ),
+        "wallastra_straight_flat_window": (
+            kind: Prop,
+            model: "wallastra_straight_flat_window",
+            components: (),
+        ),
+        "wallastra_straight_window": (
+            kind: Prop,
+            model: "wallastra_straight_window",
+            components: (),
+        ),
+        "wallband_corner_round_inner": (
+            kind: Prop,
+            model: "wallband_corner_round_inner",
+            components: (),
+        ),
+        "wallband_corner_round_outer": (
+            kind: Prop,
+            model: "wallband_corner_round_outer",
+            components: (),
+        ),
+        "wallband_corner_square_inner": (
+            kind: Prop,
+            model: "wallband_corner_square_inner",
+            components: (),
+        ),
+        "wallband_corner_square_outer": (
+            kind: Prop,
+            model: "wallband_corner_square_outer",
+            components: (),
+        ),
+        "wallband_straight": (
+            kind: Prop,
+            model: "wallband_straight",
+            components: (),
+        ),
+        "wallband_straight_broken": (
+            kind: Prop,
+            model: "wallband_straight_broken",
+            components: (),
+        ),
+        "wallwindow_cap_a": (
+            kind: Prop,
+            model: "wallwindow_cap_a",
+            components: (),
+        ),
+        "wallwindow_cap_b": (
+            kind: Prop,
+            model: "wallwindow_cap_b",
+            components: (),
+        ),
+        "wallwindow_corner_round_inner": (
+            kind: Prop,
+            model: "wallwindow_corner_round_inner",
+            components: (),
+        ),
+        "wallwindow_corner_round_outer": (
+            kind: Prop,
+            model: "wallwindow_corner_round_outer",
+            components: (),
+        ),
+        "wallwindow_corner_square_inner": (
+            kind: Prop,
+            model: "wallwindow_corner_square_inner",
+            components: (),
+        ),
+        "wallwindow_corner_square_outer": (
+            kind: Prop,
+            model: "wallwindow_corner_square_outer",
+            components: (),
+        ),
+        "wallwindow_straight": (
+            kind: Prop,
+            model: "wallwindow_straight",
+            components: (),
         ),
 
     }

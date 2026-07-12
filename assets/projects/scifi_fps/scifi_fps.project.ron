@@ -1,9 +1,9 @@
 (
     schema_version: 3,
-    project_id: "blank_project",
-    display_name: "Blank Starter",
+    project_id: "scifi_fps",
+    display_name: "Sci-Fi FPS Demo",
 
-    initial_scene: "scenes/main.scene.ron",
+    initial_scene: "scenes/showcase.scene.ron",
 
     asset_catalog: "assets.ron",
     prefab_catalog: "prefabs/prefabs.ron",
