@@ -93,5 +93,8 @@ A fringe settlement, three thousand people, agricultural, barely viable. Exactly
 ### Site Ocher
 A decommissioned survey installation repurposed as an extraction staging point, two systems from Vantis. Something at Site Ocher does not match the blueprints. The sealed section has recent power draw. Mira found biological trace residue she does not recognize. She took a sample. She has not filed it yet.
 
-### [To be named in Act 2+]
-Yun's home settlement. An active Compact facility in the outer Reach. The location of the failed program that Mira came from.
+### Corrin's Landing
+Yun's home settlement. A small agricultural community her family has lived in for generations. The Compact has recently taken an interest in stationing a permanent "security assessment" presence here — officially about elevated fauna activity, actually about territorial footing. Introduced in Act 2.
+
+### Thessaly Point
+A supposedly inactive relay station in the outer Reach, still drawing power on the same signature found at Site Ocher. In truth, an old enhancement program facility, not fully stripped — and the origin, or a close relative, of the failed program Mira came from. Introduced in Act 2.
