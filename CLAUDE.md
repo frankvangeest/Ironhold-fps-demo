@@ -21,11 +21,26 @@ The engine WASM comes from [frankvangeest/ironhold-lib](https://github.com/frank
 
 ```
 python scripts/check_lib_version.py   # compare pinned vs. latest on main
-python scripts/update_lib.py          # download latest pkg/ and update the JSON
+python scripts/update_lib.py          # download latest pkg/ + docs/ and update the JSON
 python scripts/update_lib.py --dry-run
+python scripts/update_lib.py --no-docs  # skip docs/ download (slow connection)
 ```
 
-After updating, commit both `pkg/` and `ironhold-lib.json` together.
+`update_lib.py` also downloads `docs/` (offline reference) and `docs/engine_assets_claude.md` / `docs/engine_projects_claude.md` from the engine repo at the same pinned SHA. These are gitignored — regenerate with `update_lib.py` at any time.
+
+After updating the engine, commit `pkg/` and `ironhold-lib.json` together (not `docs/`).
+
+## Branching
+
+- **`main`** — live (GitHub Pages). Never commit work-in-progress directly here.
+- **`dev`** — the working branch. All development (including by agents) happens on `dev`. Merge `dev → main` after testing in browser.
+
+```
+git checkout dev                      # always work here
+git merge dev && git push origin main # promote after a successful browser test
+```
+
+Agents commit to `dev` by default. Push to `main` only after you have confirmed the scene/feature works at `http://localhost:8080/?project=scifi_fps`.
 
 ## Deployment (GitHub Pages)
 
@@ -107,13 +122,68 @@ No HDR, no bloom, no LUT-based tonemappers. Available: `AcesFitted`, `Reinhard`,
 
 **Stylized hand-painted** — chunky silhouettes, partially baked lighting in albedo, controlled saturation, readable at half scale. Textures: 512×512 preferred, 1024×1024 for hero assets. Photorealistic scanned textures do not belong in shared assets. This project targets a sci-fi theme, which may warrant a cooler, more metallic palette while staying within these constraints.
 
+### Action RON syntax — the most common parse error
+
+Actions are either **tuple variants** (positional args, no field names) or **struct variants** (named fields). Mixing them causes a parse error with no obvious diagnostic.
+
+**Tuple variants — positional, no field names:**
+```ron
+LoadScene("scenes/game.scene.ron")
+LoadSceneOverlay("scenes/pause.scene.ron")
+UnloadOverlay
+Despawn("enemy_01")
+EnterState("playing")
+EmitEvent("player.died")
+SetVariable("score", "0")        // two positional strings
+IncrementVariable("score", 1)    // string key, then i32 delta
+SetVolume(80)
+ToggleMute
+PreloadScene("scenes/arena.scene.ron")
+PreloadPrefab("enemy_orc")
+PlayAnimation("run")
+Log("debug message")
+Quit
+StopMusic
+OpenInventory  CloseInventory  ToggleInventory
+OpenShop("merchant_01")  CloseShop
+```
+
+**Struct variants — named fields:**
+```ron
+Spawn(prefab: "enemy_orc", id: "orc_01", position: (5.0, 0.5, 0.0))
+PlaySound(key: "pickup_coin", volume: 0.8)
+PlayMusicLoop(key: "bg_forest")
+PlayAnimationOn(target: "{self}", clip: "attack")
+EmitEventAfterDelay(event: "enemy.respawn:{self}", delay_secs: 5.0)
+SpawnEffect(key: "hit_spark", entity: "{self}")
+SpawnEffect(key: "explosion", position: Some((0.0, 0.5, 0.0)))
+ModifyStat(key: "health", delta: -25.0)
+SetStat(key: "{self}.health", value: 100.0)
+ShowDamagePopup(entity: "{self}", amount: -25.0)
+ShowFloatingText(entity: "{self}", text: "Critical hit!")
+SetEntityVisible(entity: "{self}", visible: false)
+CameraShake(duration_secs: 0.4, intensity: 0.15)
+```
+
 ### WASM-specific patterns
 
-- Fire warmup `SpawnEffect` at `position: (0, -100, 0)` on `scene.ready` for each distinct particle variant (sphere, flame shader) to pre-compile WebGPU pipelines before player interaction.
+- Fire warmup `SpawnEffect` at `position: Some((0.0, -100.0, 0.0))` on `scene.ready` for each distinct particle variant (sphere, flame shader) to pre-compile WebGPU pipelines before player interaction.
 - Use `PreloadPrefab(key)` on `scene.ready` to eliminate GLB-decode stalls on first spawn.
 - Use `PreloadScene(path)` on `scene.ready` to warm next-scene assets before the player reaches a transition.
 - Spawns are frame-paced (max 2/frame) by the engine to avoid pipeline-compile stalls.
 - Dynamic point lights cap at 16 simultaneous fading lights; plan scene lighting accordingly.
+
+## Agents
+
+Specialized agents live in `.claude/agents/`. Invoke them with the Agent tool (`subagent_type`) or let Claude Code route tasks to them automatically.
+
+| Agent | `subagent_type` | Use for |
+|---|---|---|
+| `ironhold-ron` | `ironhold-ron` | Validating or authoring any RON file; all schema versions and field lists |
+| `prefab-architect` | `prefab-architect` | Designing `PrefabDef` entries — components, stat templates, behavior references |
+| `level-designer` | `level-designer` | Laying out scenes — entity placement, lighting, cover, spawn points, UI |
+| `fsm-author` | `fsm-author` | Writing `state_machine.ron`, `rules.ron`, `.behavior.ron` — event → action logic |
+| `asset-pipeline` | `asset-pipeline` | Running Python scripts, adding model batches, fixing texture paths, updating engine |
 
 ## Planning
 
@@ -127,4 +197,4 @@ When you have a suggestion that is not directly part of the current task, add it
 
 ## Docs reference
 
-The `docs/` folder is a local copy from ironhold-lib for offline reference — it is gitignored and not committed. Always prefer the live docs in the engine repo if they diverge.
+The `docs/` folder is a local copy from ironhold-lib for offline reference — gitignored, never committed. Regenerate with `python scripts/update_lib.py`. Also contains `engine_assets_claude.md` and `engine_projects_claude.md` (fetched from the engine repo at the same pinned SHA). Always prefer the live docs in the engine repo if they diverge.
