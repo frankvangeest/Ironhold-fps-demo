@@ -184,6 +184,7 @@ Specialized agents live in `.claude/agents/`. Invoke them with the Agent tool (`
 | `level-designer` | `level-designer` | Laying out scenes — entity placement, lighting, cover, spawn points, UI |
 | `fsm-author` | `fsm-author` | Writing `state_machine.ron`, `rules.ron`, `.behavior.ron` — event → action logic |
 | `asset-pipeline` | `asset-pipeline` | Running Python scripts, adding model batches, fixing texture paths, updating engine |
+| `cinematics-director` | `cinematics-director` | Dramatic camera framing, lighting, and beat pacing for story moments (within current engine limits — no cutscene sequencer yet) |
 
 ## Planning
 
