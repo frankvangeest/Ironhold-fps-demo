@@ -971,6 +971,9 @@
             kind: Prop,
             model: "wallastra_straight_window",
             components: (),
+            colliders: [
+                (shape: Cuboid, size: (0.4975, 3.0, 4.0), offset: (-2.24875, 1.5, 0.0)),
+            ],
         ),
         "wallband_corner_round_inner": (
             kind: Prop,
@@ -1118,6 +1121,219 @@
                 ( prefab: "bottommetal_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
                 ( prefab: "wallastra_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
                 ( prefab: "topastra_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+            ],
+        ),
+
+        // ------------------------------------------------------------------------------
+        // Integration Program Wing -- placeholder furniture + multi-tile room shells.
+        // Rooms reuse the same 4x4 tile / wall-triplet convention as the corridor kit
+        // above, just tiled 2x2 (8x8 footprint) with walls only on the OUTER perimeter
+        // edges (interior tile-to-tile edges get no wall) and one full edge left open
+        // for the room's entrance. Tile origins for all three rooms below: local
+        // (0,0), (4,0), (0,4), (4,4) -- so the composite's own local footprint spans
+        // x:[-2,6], z:[-2,6] (confirmed against platform_simple's actual mesh bounds,
+        // which span exactly [-2,2] around its own origin). West/south/east walls are
+        // closed (rotation 0 / 90 / 180 respectively, same convention as the corridor
+        // kit); north (rotation 270, tiles at local z=4) is left fully open as the
+        // entrance -- the spine's corridor_doorway provides the door frame on its own
+        // side, so these room prefabs must NOT double up a wall/door on that edge.
+        // ------------------------------------------------------------------------------
+
+        // Placeholder furniture primitives (real models not modeled yet) -- physics: true
+        // so the player collides with them like real props. Distinct muted colors so they
+        // read as separate furniture types even as flat-shaded boxes.
+        "placeholder_suit_rack": (
+            kind: Primitive,
+            model: "",
+            shape: Cuboid,
+            components: (),
+            primitive: (
+                size: (0.6, 2.2, 0.4),
+                color: (0.35, 0.4, 0.5),
+                roughness: 0.6,
+                physics: true,
+            ),
+        ),
+        "placeholder_locker": (
+            kind: Primitive,
+            model: "",
+            shape: Cuboid,
+            components: (),
+            primitive: (
+                size: (0.6, 2.0, 0.5),
+                color: (0.3, 0.3, 0.32),
+                roughness: 0.6,
+                physics: true,
+            ),
+        ),
+        "placeholder_briefing_table": (
+            kind: Primitive,
+            model: "",
+            shape: Cuboid,
+            components: (),
+            primitive: (
+                size: (3.0, 0.9, 1.5),
+                color: (0.15, 0.15, 0.18),
+                roughness: 0.5,
+                physics: true,
+            ),
+        ),
+
+        // 8x8 (2x2 tile) room shell -- entrance is a SINGLE tile-width (4m, matching
+        // corridor_doorway's opening) on the WEST edge at tile (0,0) only. North,
+        // south, and east are fully closed, as is the OTHER west-facing tile (0,4) --
+        // an 8m-wide opening against a 4m-wide doorway was the original bug (the room's
+        // mouth ran past the doorway into the spine's solid wall). Entrance placed on
+        // west specifically so the room can be attached at IDENTITY rotation (0,0,0),
+        // reusing only rotation values already proven correct by the corridor kit --
+        // no new rotation guess needed for the room-to-spine attachment.
+        "room_suit_bay": (
+            kind: Primitive,
+            model: "",
+            components: (),
+            children: [
+                // Floor -- 2x2 tile grid
+                ( prefab: "platform_simple", offset: (0.0, 0.0, 0.0) ),
+                ( prefab: "platform_simple", offset: (4.0, 0.0, 0.0) ),
+                ( prefab: "platform_simple", offset: (0.0, 0.0, 4.0) ),
+                ( prefab: "platform_simple", offset: (4.0, 0.0, 4.0) ),
+
+                // West wall -- CLOSED only at tile (0,4); tile (0,0)'s west edge is the
+                // single 4m entrance, left fully open (no wall triplet placed there).
+                ( prefab: "bottommetal_straight", offset: (0.0, 0.0, 4.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (0.0, 0.0, 4.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (0.0, 0.0, 4.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+
+                // South wall (closed) -- tiles (0,0) and (4,0), rotation 90
+                ( prefab: "bottommetal_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+                ( prefab: "bottommetal_straight", offset: (4.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (4.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (4.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+
+                // East wall (closed) -- tiles (4,0) and (4,4), rotation 180
+                ( prefab: "bottommetal_straight", offset: (4.0, 0.0, 0.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (4.0, 0.0, 0.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (4.0, 0.0, 0.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+                ( prefab: "bottommetal_straight", offset: (4.0, 0.0, 4.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (4.0, 0.0, 4.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (4.0, 0.0, 4.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+
+                // North wall (closed) -- tiles (0,4) and (4,4), rotation 270 (the
+                // remaining 4th quarter-turn not used by west/south/east above)
+                ( prefab: "bottommetal_straight", offset: (0.0, 0.0, 4.0), rotation_euler_deg: (0.0, 270.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (0.0, 0.0, 4.0), rotation_euler_deg: (0.0, 270.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (0.0, 0.0, 4.0), rotation_euler_deg: (0.0, 270.0, 0.0) ),
+                ( prefab: "bottommetal_straight", offset: (4.0, 0.0, 4.0), rotation_euler_deg: (0.0, 270.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (4.0, 0.0, 4.0), rotation_euler_deg: (0.0, 270.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (4.0, 0.0, 4.0), rotation_euler_deg: (0.0, 270.0, 0.0) ),
+
+                // Furniture
+                // Cuboid primitives are centered on their own origin (unlike the GLB
+                // props above, which have a base-anchored pivot) -- y must be half the
+                // rack/locker height + 0.001, or half of it renders sunk into the floor.
+                ( prefab: "placeholder_suit_rack", offset: (-1.5, 1.101, -1.0) ),
+                ( prefab: "placeholder_suit_rack", offset: (-1.5, 1.101, 2.0) ),
+                ( prefab: "placeholder_suit_rack", offset: (-1.5, 1.101, 5.0) ),
+                ( prefab: "placeholder_locker", offset: (5.4, 1.001, -1.5) ),
+                ( prefab: "prop_computer", offset: (0.0, 0.002, 5.3) ),
+            ],
+        ),
+
+        // 8x8 (2x2 tile) room shell -- same wall/entrance logic as room_suit_bay. A
+        // briefing table flanked by two terminals, lit from directly overhead.
+        "room_briefing": (
+            kind: Primitive,
+            model: "",
+            components: (),
+            children: [
+                // Floor -- 2x2 tile grid
+                ( prefab: "platform_simple", offset: (0.0, 0.0, 0.0) ),
+                ( prefab: "platform_simple", offset: (4.0, 0.0, 0.0) ),
+                ( prefab: "platform_simple", offset: (0.0, 0.0, 4.0) ),
+                ( prefab: "platform_simple", offset: (4.0, 0.0, 4.0) ),
+
+                // West wall (closed) -- tiles (0,0) and (0,4), rotation 0
+                ( prefab: "bottommetal_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+                ( prefab: "bottommetal_straight", offset: (0.0, 0.0, 4.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (0.0, 0.0, 4.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (0.0, 0.0, 4.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+
+                // South wall (closed) -- tiles (0,0) and (4,0), rotation 90
+                ( prefab: "bottommetal_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+                ( prefab: "bottommetal_straight", offset: (4.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (4.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (4.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+
+                // East wall (closed) -- tiles (4,0) and (4,4), rotation 180
+                ( prefab: "bottommetal_straight", offset: (4.0, 0.0, 0.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (4.0, 0.0, 0.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (4.0, 0.0, 0.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+                ( prefab: "bottommetal_straight", offset: (4.0, 0.0, 4.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (4.0, 0.0, 4.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (4.0, 0.0, 4.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+
+                // North (entrance) -- fully open, no wall triplets at tiles (0,4)/(4,4).
+
+                // Furniture
+                // Same center-origin fix as the suit bay racks: half-height + 0.001
+                ( prefab: "placeholder_briefing_table", offset: (2.0, 0.451, 1.0) ),
+                ( prefab: "prop_computer", offset: (0.3, 0.002, 1.0) ),
+                ( prefab: "prop_computer", offset: (3.7, 0.002, 1.0) ),
+                ( prefab: "prop_light_wide", offset: (2.0, 4.5, 2.0) ),
+            ],
+        ),
+
+        // 8x8 (2x2 tile) room shell -- same wall/entrance logic, but the south wall (the
+        // far wall, opposite the entrance -- i.e. the outward-facing wall away from the
+        // spine) swaps wallastra_straight for wallastra_straight_window for a view out.
+        // Quiet room: no racks/tables, just structural columns and mood lighting.
+        "room_observation_deck": (
+            kind: Primitive,
+            model: "",
+            components: (),
+            children: [
+                // Floor -- 2x2 tile grid
+                ( prefab: "platform_simple", offset: (0.0, 0.0, 0.0) ),
+                ( prefab: "platform_simple", offset: (4.0, 0.0, 0.0) ),
+                ( prefab: "platform_simple", offset: (0.0, 0.0, 4.0) ),
+                ( prefab: "platform_simple", offset: (4.0, 0.0, 4.0) ),
+
+                // West wall (closed) -- tiles (0,0) and (0,4), rotation 0
+                ( prefab: "bottommetal_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+                ( prefab: "bottommetal_straight", offset: (0.0, 0.0, 4.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (0.0, 0.0, 4.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (0.0, 0.0, 4.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+
+                // South wall (closed, window variant) -- tiles (0,0) and (4,0), rotation 90
+                ( prefab: "bottommetal_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+                ( prefab: "wallastra_straight_window", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+                ( prefab: "bottommetal_straight", offset: (4.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+                ( prefab: "wallastra_straight_window", offset: (4.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (4.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+
+                // East wall (closed) -- tiles (4,0) and (4,4), rotation 180
+                ( prefab: "bottommetal_straight", offset: (4.0, 0.0, 0.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (4.0, 0.0, 0.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (4.0, 0.0, 0.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+                ( prefab: "bottommetal_straight", offset: (4.0, 0.0, 4.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (4.0, 0.0, 4.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (4.0, 0.0, 4.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+
+                // North (entrance) -- fully open, no wall triplets at tiles (0,4)/(4,4).
+
+                // Furniture -- structural dressing + mood lighting only
+                ( prefab: "column_round", offset: (0.0, 0.001, 2.0) ),
+                ( prefab: "column_round", offset: (4.0, 0.001, 2.0) ),
+                ( prefab: "prop_light_wide", offset: (2.0, 4.5, 2.0) ),
             ],
         ),
 

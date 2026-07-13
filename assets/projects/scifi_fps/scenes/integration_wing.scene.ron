@@ -1,0 +1,94 @@
+(
+    schema_version: 2,
+    name: "integration_wing",
+
+    lighting: (
+        ambient: (0.14, 0.16, 0.22),
+        ambient_brightness: 180.0,
+        directional: (
+            color: (0.85, 0.90, 1.0),
+            intensity: 22000.0,
+            rotation_euler_deg: (-50.0, 25.0, 0.0),
+            shadows_enabled: true,
+            shadow_distance: 60.0,
+            cascade_overlap: 0.5,
+        ),
+    ),
+
+    spawn_points: {
+        "player_start": (0.0, 0.5, 1.0),
+    },
+
+    entities: [
+
+        // Safety-net ground plane below the whole layout.
+        (
+            id: "safety_ground",
+            prefab: "ground",
+            transform: (
+                translation: (10.0, -1.0, 8.0),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+        ),
+
+        // --- Spine: entrance -> doorway (room attaches east) -> end_cap.
+        // Only ONE room (room_suit_bay) is actually wired into the spine this pass --
+        // room_briefing and room_observation_deck are placed isolated off to the side
+        // for shape/furniture inspection only, same as corridor_corner was in
+        // corridor_blockout.scene.ron, until the attachment technique is confirmed.
+        (
+            id: "spine_entrance",
+            prefab: "corridor_straight",
+            transform: ( translation: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
+        ),
+        (
+            id: "spine_doorway_1",
+            prefab: "corridor_doorway",
+            transform: ( translation: (0.0, 0.0, 4.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
+        ),
+        (
+            id: "spine_end_cap",
+            prefab: "corridor_end_cap",
+            transform: ( translation: (0.0, 0.0, 8.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
+        ),
+
+        // room_suit_bay's entrance is now its own tile (0,0)'s west edge (redesigned
+        // to fix the "half blocked" bug -- see prefabs.ron comment). Placed at IDENTITY
+        // rotation: spine_doorway_1's door opens at world x=2, z:[2,6]; the room's
+        // tile (0,0) spans local x:[-2,2] z:[-2,2], so translating by (4,0,4) puts that
+        // tile's west edge exactly at world x=2 with matching z-span. No rotation
+        // guess needed this time -- only rotation values already proven by the
+        // corridor kit are reused (0/90/180/270 for west/south/east/north).
+        (
+            id: "room_suit_bay_1",
+            prefab: "room_suit_bay",
+            transform: ( translation: (4.0, 0.0, 4.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
+            label: (text: "room_suit_bay (check entrance alignment)"),
+        ),
+
+        // --- Isolated rooms for shape/furniture inspection only (not attached yet).
+        (
+            id: "room_briefing_test",
+            prefab: "room_briefing",
+            transform: ( translation: (20.0, 0.0, 0.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
+            label: (text: "room_briefing (isolated)"),
+        ),
+        (
+            id: "room_observation_deck_test",
+            prefab: "room_observation_deck",
+            transform: ( translation: (32.0, 0.0, 0.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
+            label: (text: "room_observation_deck (isolated)"),
+        ),
+
+        // Player capsule -- orbit camera, spawns in the spine entrance segment.
+        (
+            id: "player_01",
+            prefab: "player",
+            transform: ( translation: (0.0, 0.5, 1.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
+        ),
+
+    ],
+
+    ui: [],
+)

@@ -39,11 +39,24 @@ Your output must be valid RON for `PrefabCatalog schema_version: 2`. When editin
         metallic: 0.0,
         physics: true,                   // add Rapier collider
     ),
+    colliders: [                         // Prop/Actor only -- static physics for a GLB mesh
+        ( shape: Cuboid, size: (1.2, 3.0, 4.0), offset: (0.0, 1.5, 0.0) ),
+    ],
     children: [                          // child primitive entities (decorative)
         ( offset: (0.0, 2.0, 0.0), primitive: Cuboid(0.3, 0.3, 0.3), color: (0.5, 0.3, 1.0), alpha: 0.35, alpha_mode: Blend ),
     ],
 )
 ```
+
+## GLB prop colliders (`colliders`)
+
+A `kind: Prop`/`Actor` GLB mesh has **no collision by default** — a wall, floor, or door model is purely visual until you add `colliders`. Each entry is `(shape: Cuboid | Sphere | Cylinder, size/radius, offset)`; all entries combine into one static `RigidBody::Fixed` compound body. Compute `size`/`offset` from the mesh's own bounds in `assets/models/model_metadata.json` (`bounds_min`/`bounds_max`) — `size` = full extent per axis, `offset` = center of the bounds box relative to the mesh's own origin.
+
+**Colliders are per-prefab-key, never inherited by a sibling model.** A reskinned or variant mesh (e.g. `wallastra_straight_window` next to `wallastra_straight`) needs its own `colliders` entry even though it's visually near-identical — check every variant you reference, don't assume one "already has" a collider because a similar-looking one does.
+
+**A doorway/archway collider must never be a single box spanning the whole opening** — that silently blocks the exact gap the model is meant to leave passable. Use jamb-post + lintel boxes instead (two vertical Cuboids for the sides, one horizontal Cuboid above the walkable gap), sized so the middle stays open. This bit us once: `door_frame_square` originally had one solid-box collider across its whole ~4.85m width, making a "doorway" prefab exactly as impassable as a solid wall.
+
+**Cuboid `Primitive` prefabs are center-origin**, unlike GLB props (which usually already have a base-anchored pivot per `model_metadata.json`'s `pivot_y_offset`). Placing a `Primitive` at `y≈0` (or `y=pivot_y_offset+0.001`, the GLB convention) sinks roughly half of it into the floor — use `y = size.y/2 + 0.001` instead. The existing `"ground"` prefab already demonstrates this: it's placed at `translation.y = -0.5` (half its own 1.0-unit height) specifically so its top surface lands at `y=0`.
 
 ## Kind selection guide
 

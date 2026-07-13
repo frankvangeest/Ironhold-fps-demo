@@ -175,7 +175,7 @@ CameraShake(duration_secs: 0.4, intensity: 0.15)
 
 ## Agents
 
-Specialized agents live in `.claude/agents/`. Invoke them with the Agent tool (`subagent_type`) or let Claude Code route tasks to them automatically.
+Specialized agents live in `.claude/agents/`. In some Claude Code environments these are directly selectable via the Agent tool's `subagent_type`; in others (confirmed in at least one session on this repo) the Agent tool only lists built-ins (`claude`, `general-purpose`, `Explore`, `Plan`, etc.) and a custom `subagent_type` like `prefab-architect` errors with "Agent type not found." If that happens, don't fall back to an undirected `general-purpose` call — open the relevant `.claude/agents/<name>.md` file yourself (or tell the delegated agent to read it first) and follow its conventions explicitly in the prompt.
 
 | Agent | `subagent_type` | Use for |
 |---|---|---|
@@ -185,6 +185,17 @@ Specialized agents live in `.claude/agents/`. Invoke them with the Agent tool (`
 | `fsm-author` | `fsm-author` | Writing `state_machine.ron`, `rules.ron`, `.behavior.ron` — event → action logic |
 | `asset-pipeline` | `asset-pipeline` | Running Python scripts, adding model batches, fixing texture paths, updating engine |
 | `cinematics-director` | `cinematics-director` | Dramatic camera framing, lighting, and beat pacing for story moments (within current engine limits — no cutscene sequencer yet) |
+
+## Debugging & verification tips
+
+Learned the hard way while building the corridor kit and Integration Program Wing — save future sessions the rediscovery:
+
+- **Cuboid `Primitive` prefabs are center-origin.** Unlike GLB `Prop` models (whose pivot is usually already base-anchored, per `pivot_y_offset` in `model_metadata.json`), a raw `Primitive` Cuboid's origin is its geometric center — same as the `"ground"` prefab, which needs `translation.y = -size.y/2` to put its top surface at `y=0`. Placing furniture/placeholder primitives at `y≈0` sinks half of them into the floor; use `y = height/2 + 0.001`.
+- **Colliders are per-prefab-key, never inherited by a sibling model.** A reskinned/variant mesh (e.g. `wallastra_straight_window` next to `wallastra_straight`) does not automatically get the same `colliders` list — each prefab key needs its own, even when the meshes are near-identical.
+- **A door frame's collider must not be one solid box.** `door_frame_square` originally had a single Cuboid spanning the whole opening, silently blocking the doorway it was meant to leave passable. Use jamb-post + lintel colliders (see the `archway` pattern in `docs/20_data_formats.md`) so the actual gap stays walkable.
+- **Camera/flycam pitch sign**: `rotation_euler_deg`'s X-axis is **negative = look down, positive = look up** — confirmed empirically (not the first guess). Useful for `cinematics-director` framing and for building a debug top-down view: spawn a temporary `flycam` entity high up with `rotation_euler_deg: (-90, 0, 0)`. Temporarily setting the scene's `shadows_enabled: false` makes a top-down shot far easier to read — long raking shadows from the directional light otherwise look like extra geometry.
+- **Testing in a real browser via Playwright on Windows**: headless Chromium's software renderer can't run this engine's WebGPU build, and Playwright's bundled Chromium is missing `dxil.dll` (needed for WebGPU-over-D3D12). Launch via an installed browser channel instead — `p.chromium.launch(channel="msedge", headless=False)` — which pops a real, visible window using the system GPU.
+- **Modular kit wall convention** (WallAstra corridor kit, `prefabs.ron`): everything is a 4m×4m tile. A wall triplet (`bottommetal_straight` + `wallastra_straight` + `topastra_straight`) placed at a tile's own origin closes that tile's **west** edge at `rotation_euler_deg: (0,0,0)`, **south** at `(0,90,0)`, **east** at `(0,180,0)`, **north** at `(0,270,0)` — reuse these exact values for any new room/corridor shell rather than re-deriving rotation math. When attaching a multi-tile room to a corridor, design the room's entrance to exactly match the width of what it connects to (a `corridor_doorway` opening is one tile/4m wide — an 8m-wide room mouth overhangs into the corridor's solid wall) and put the entrance on whichever edge lets the whole room be placed at **identity rotation** — translation-only attachment avoids a fresh rotation-direction guess entirely.
 
 ## Planning
 

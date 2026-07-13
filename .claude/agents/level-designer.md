@@ -75,6 +75,15 @@ Your output must be valid `GameSceneV2 schema_version: 2` RON. Always read exist
 
 The flycam prefab must exist in `prefabs.ron` with `tags: ["flycam"]`.
 
+**Pitch convention**: on `rotation_euler_deg`, the X-axis is **negative = look down, positive = look up** (confirmed empirically — it's easy to guess backwards). For a top-down debug view of a scene, spawn a temporary flycam high up with `rotation_euler_deg: (-90, 0, 0)`. Also temporarily set the scene's `directional.shadows_enabled: false` for that shot — from directly above, long raking shadows are easily mistaken for walls/geometry that isn't actually there. Revert both before committing.
+
+## Attaching a room to a corridor without guessing rotation
+
+When a multi-tile room shell (see the WallAstra corridor kit in `prefabs.ron`: `corridor_straight`/`corridor_corner`/`corridor_doorway`/`corridor_end_cap`, and the `room_*` shells built the same way) needs to attach to a corridor:
+
+1. **Match the opening width.** A `corridor_doorway` opening is exactly one tile wide (4m). A room whose entrance spans two tiles (8m) will overhang past the doorway into the corridor's solid wall on one side — this reads as "the hallway is blocking half the entrance." Design the entrance to be exactly one tile's edge, closing the others.
+2. **Put the entrance on whichever edge lets the whole room be placed at identity rotation** (`rotation_euler_deg: (0,0,0)`), positioned by translation only. The wall-triplet convention already defines west/south/east/north as rotations `0`/`90`/`180`/`270` (see `prefabs.ron` comments) — pick the entrance edge so the room's un-rotated orientation already faces the corridor, then just translate. Rotating the *whole room entity* to face a direction re-introduces the same rotation-direction ambiguity that took a live visual check to resolve for `corridor_corner` — avoid it when a translation-only placement is available.
+
 ## Lighting design guidance
 
 - `ambient_brightness` between 150–250 for interior/night sci-fi; 50–100 for dark/moody.
