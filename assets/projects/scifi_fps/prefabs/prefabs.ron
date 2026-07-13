@@ -1178,6 +1178,18 @@
                 physics: true,
             ),
         ),
+        "placeholder_weapon_rack": (
+            kind: Primitive,
+            model: "",
+            shape: Cuboid,
+            components: (),
+            primitive: (
+                size: (1.2, 1.8, 0.3),
+                color: (0.22, 0.22, 0.25),
+                roughness: 0.55,
+                physics: true,
+            ),
+        ),
 
         // 8x8 (2x2 tile) room shell -- entrance is a SINGLE tile-width (4m, matching
         // corridor_doorway's opening) on the WEST edge at tile (0,0) only. North,
@@ -1347,6 +1359,63 @@
                 ( prefab: "column_round", offset: (0.0, 0.001, 2.0) ),
                 ( prefab: "column_round", offset: (4.0, 0.001, 2.0) ),
                 ( prefab: "prop_light_wide", offset: (2.0, 4.5, 2.0) ),
+            ],
+        ),
+
+        // 8x8 (2x2 tile) room shell -- same single-tile west entrance convention as
+        // room_suit_bay. Weapon racks along the east wall, a crate for loose gear,
+        // an access point terminal for checkout logging.
+        "room_armory": (
+            kind: Primitive,
+            model: "",
+            components: (),
+            children: [
+                // Floor -- 2x2 tile grid
+                ( prefab: "platform_simple", offset: (0.0, 0.0, 0.0) ),
+                ( prefab: "platform_simple", offset: (4.0, 0.0, 0.0) ),
+                ( prefab: "platform_simple", offset: (0.0, 0.0, 4.0) ),
+                ( prefab: "platform_simple", offset: (4.0, 0.0, 4.0) ),
+
+                // West wall -- CLOSED only at tile (0,4); tile (0,0)'s west edge is the
+                // single 4m entrance, left fully open (no wall triplet placed there).
+                ( prefab: "bottommetal_straight", offset: (0.0, 0.0, 4.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (0.0, 0.0, 4.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (0.0, 0.0, 4.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+
+                // South wall (closed) -- tiles (0,0) and (4,0), rotation 90
+                ( prefab: "bottommetal_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+                ( prefab: "bottommetal_straight", offset: (4.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (4.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (4.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+
+                // East wall (closed) -- tiles (4,0) and (4,4), rotation 180
+                ( prefab: "bottommetal_straight", offset: (4.0, 0.0, 0.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (4.0, 0.0, 0.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (4.0, 0.0, 0.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+                ( prefab: "bottommetal_straight", offset: (4.0, 0.0, 4.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (4.0, 0.0, 4.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (4.0, 0.0, 4.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+
+                // North wall (closed) -- tiles (0,4) and (4,4), rotation 270
+                ( prefab: "bottommetal_straight", offset: (0.0, 0.0, 4.0), rotation_euler_deg: (0.0, 270.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (0.0, 0.0, 4.0), rotation_euler_deg: (0.0, 270.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (0.0, 0.0, 4.0), rotation_euler_deg: (0.0, 270.0, 0.0) ),
+                ( prefab: "bottommetal_straight", offset: (4.0, 0.0, 4.0), rotation_euler_deg: (0.0, 270.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (4.0, 0.0, 4.0), rotation_euler_deg: (0.0, 270.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (4.0, 0.0, 4.0), rotation_euler_deg: (0.0, 270.0, 0.0) ),
+
+                // Furniture -- weapon racks along the east wall, gear crate, checkout point
+                ( prefab: "placeholder_weapon_rack", offset: (5.4, 0.901, -1.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+                ( prefab: "placeholder_weapon_rack", offset: (5.4, 0.901, 2.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+                ( prefab: "placeholder_weapon_rack", offset: (5.4, 0.901, 5.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+                // prop_crate4's pivot is at its geometric center (pivot_y_offset 0.5604);
+                // prop_accesspoint's bounds sit entirely above its origin (pivot_y_offset
+                // -1.1118) -- both need y = pivot_y_offset + 0.001, not the bare 0.001
+                // that works for base-anchored models like the wall/floor kit pieces.
+                ( prefab: "prop_crate4", offset: (2.0, 0.5614, 5.3) ),
+                ( prefab: "prop_accesspoint", offset: (0.0, -1.1108, 5.3) ),
             ],
         ),
 

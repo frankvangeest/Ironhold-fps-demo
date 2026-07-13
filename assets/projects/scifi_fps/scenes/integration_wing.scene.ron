@@ -83,15 +83,31 @@
             transform: ( translation: (0.0, 0.0, 20.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
         ),
         (
+            id: "room_armory_1",
+            prefab: "room_armory",
+            transform: ( translation: (4.0, 0.0, 20.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
+            label: (text: "Armory"),
+        ),
+        (
+            id: "spine_straight_4",
+            prefab: "corridor_straight",
+            transform: ( translation: (0.0, 0.0, 24.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
+        ),
+        (
+            id: "spine_doorway_4",
+            prefab: "corridor_doorway",
+            transform: ( translation: (0.0, 0.0, 28.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
+        ),
+        (
             id: "room_observation_deck_1",
             prefab: "room_observation_deck",
-            transform: ( translation: (4.0, 0.0, 20.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
+            transform: ( translation: (4.0, 0.0, 28.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
             label: (text: "Observation Deck"),
         ),
         (
             id: "spine_end_cap",
             prefab: "corridor_end_cap",
-            transform: ( translation: (0.0, 0.0, 24.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
+            transform: ( translation: (0.0, 0.0, 32.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
         ),
 
         // Player capsule -- orbit camera, spawns in the spine entrance segment.
