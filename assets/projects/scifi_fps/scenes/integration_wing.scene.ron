@@ -32,11 +32,14 @@
             ),
         ),
 
-        // --- Spine: entrance -> doorway (room attaches east) -> end_cap.
-        // Only ONE room (room_suit_bay) is actually wired into the spine this pass --
-        // room_briefing and room_observation_deck are placed isolated off to the side
-        // for shape/furniture inspection only, same as corridor_corner was in
-        // corridor_blockout.scene.ron, until the attachment technique is confirmed.
+        // --- Spine: entrance -> [doorway -> room] x3 -> end_cap, all along +Z at x=0.
+        // Each room's entrance (tile (0,0)'s west edge) is placed at translation
+        // (4, 0, doorway_z), identity rotation -- the doorway at spine z=doorway_z
+        // opens at world x=2, z:[doorway_z-2, doorway_z+2], which is exactly where the
+        // room's tile (0,0) west edge (local x:[-2,2] z:[-2,2]) lands after that
+        // translation. No rotation guess: only values already proven by the corridor
+        // kit are reused (0/90/180/270 for west/south/east/north). See prefabs.ron for
+        // why the entrance is one tile wide, not two (the original "half blocked" bug).
         (
             id: "spine_entrance",
             prefab: "corridor_straight",
@@ -48,37 +51,47 @@
             transform: ( translation: (0.0, 0.0, 4.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
         ),
         (
-            id: "spine_end_cap",
-            prefab: "corridor_end_cap",
-            transform: ( translation: (0.0, 0.0, 8.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
-        ),
-
-        // room_suit_bay's entrance is now its own tile (0,0)'s west edge (redesigned
-        // to fix the "half blocked" bug -- see prefabs.ron comment). Placed at IDENTITY
-        // rotation: spine_doorway_1's door opens at world x=2, z:[2,6]; the room's
-        // tile (0,0) spans local x:[-2,2] z:[-2,2], so translating by (4,0,4) puts that
-        // tile's west edge exactly at world x=2 with matching z-span. No rotation
-        // guess needed this time -- only rotation values already proven by the
-        // corridor kit are reused (0/90/180/270 for west/south/east/north).
-        (
             id: "room_suit_bay_1",
             prefab: "room_suit_bay",
             transform: ( translation: (4.0, 0.0, 4.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
-            label: (text: "room_suit_bay (check entrance alignment)"),
+            label: (text: "Suit Bay"),
         ),
-
-        // --- Isolated rooms for shape/furniture inspection only (not attached yet).
         (
-            id: "room_briefing_test",
+            id: "spine_straight_2",
+            prefab: "corridor_straight",
+            transform: ( translation: (0.0, 0.0, 8.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
+        ),
+        (
+            id: "spine_doorway_2",
+            prefab: "corridor_doorway",
+            transform: ( translation: (0.0, 0.0, 12.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
+        ),
+        (
+            id: "room_briefing_1",
             prefab: "room_briefing",
-            transform: ( translation: (20.0, 0.0, 0.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
-            label: (text: "room_briefing (isolated)"),
+            transform: ( translation: (4.0, 0.0, 12.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
+            label: (text: "Briefing Room"),
         ),
         (
-            id: "room_observation_deck_test",
+            id: "spine_straight_3",
+            prefab: "corridor_straight",
+            transform: ( translation: (0.0, 0.0, 16.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
+        ),
+        (
+            id: "spine_doorway_3",
+            prefab: "corridor_doorway",
+            transform: ( translation: (0.0, 0.0, 20.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
+        ),
+        (
+            id: "room_observation_deck_1",
             prefab: "room_observation_deck",
-            transform: ( translation: (32.0, 0.0, 0.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
-            label: (text: "room_observation_deck (isolated)"),
+            transform: ( translation: (4.0, 0.0, 20.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
+            label: (text: "Observation Deck"),
+        ),
+        (
+            id: "spine_end_cap",
+            prefab: "corridor_end_cap",
+            transform: ( translation: (0.0, 0.0, 24.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
         ),
 
         // Player capsule -- orbit camera, spawns in the spine entrance segment.
