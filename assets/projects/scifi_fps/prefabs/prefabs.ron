@@ -103,11 +103,17 @@
             kind: Prop,
             model: "column_round",
             components: (),
+            colliders: [
+                (shape: Cuboid, size: (1.0, 5.0, 1.0), offset: (0.0, 2.5, 0.0)),
+            ],
         ),
         "column_simple": (
             kind: Prop,
             model: "column_simple",
             components: (),
+            colliders: [
+                (shape: Cuboid, size: (0.507, 5.0, 0.975), offset: (0.0, 2.5, -0.019)),
+            ],
         ),
 
         // Decals
@@ -272,6 +278,13 @@
             kind: Prop,
             model: "door_frame_square",
             components: (),
+            // Side posts + lintel, not a solid block — leaves a ~2.4m walkable gap
+            // (door_metal leaf is 2.1m wide) so the doorway is actually passable.
+            colliders: [
+                (shape: Cuboid, size: (1.2267, 5.013, 0.507), offset: (-1.8134, 2.493, 0.0)),
+                (shape: Cuboid, size: (1.2267, 5.013, 0.507), offset: (1.8134, 2.493, 0.0)),
+                (shape: Cuboid, size: (4.853, 0.963, 0.507), offset: (0.0, 4.5315, 0.0)),
+            ],
         ),
         "door_frame_squaretall": (
             kind: Prop,
@@ -387,6 +400,9 @@
             kind: Prop,
             model: "platform_simple",
             components: (),
+            colliders: [
+                (shape: Cuboid, size: (4.0, 0.1, 4.0), offset: (0.0, -0.05, 0.0)),
+            ],
         ),
         "platform_simple2": (
             kind: Prop,
@@ -911,16 +927,25 @@
             kind: Prop,
             model: "wallastra_corner_square_inner",
             components: (),
+            colliders: [
+                (shape: Cuboid, size: (4.774, 3.03, 4.774), offset: (-2.387, 1.508, -2.387)),
+            ],
         ),
         "wallastra_corner_square_outer": (
             kind: Prop,
             model: "wallastra_corner_square_outer",
             components: (),
+            colliders: [
+                (shape: Cuboid, size: (4.435, 3.03, 4.435), offset: (-2.218, 1.508, -2.218)),
+            ],
         ),
         "wallastra_straight": (
             kind: Prop,
             model: "wallastra_straight",
             components: (),
+            colliders: [
+                (shape: Cuboid, size: (1.21, 3.03, 4.0), offset: (-2.169, 1.508, 0.0)),
+            ],
         ),
         "wallastra_straight_broken": (
             kind: Prop,
@@ -1011,6 +1036,89 @@
             kind: Prop,
             model: "wallwindow_straight",
             components: (),
+        ),
+
+        // Corridor kit (composite, WallAstra skin)
+        // 4x4 modular grid. Chain corridor_straight by translating the placed entity (0,0,4) per
+        // segment. Wall triplet (bottommetal_straight + wallastra_straight + topastra_straight)
+        // shares one origin/rotation: rotation 0 = west edge, rotation 180 = east edge (mirrored),
+        // per the WallAstra off-center-mesh convention.
+        "corridor_straight": (
+            kind: Primitive,
+            model: "",
+            components: (),
+            children: [
+                ( prefab: "platform_simple", offset: (0.0, 0.0, 0.0) ),
+                // West wall triplet
+                ( prefab: "bottommetal_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+                // East wall triplet (mirrored 180 deg around Y)
+                ( prefab: "bottommetal_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+            ],
+        ),
+
+        // Single 4x4 turn tile using the "outer" (convex) corner wall set alone -- SW quadrant,
+        // closes the west+south edges, leaves north+east open as the through-path. One corner
+        // mesh set is sufficient for a valid 90-degree turn (2 open, perpendicular edges); the
+        // "inner" corner meshes (wallastra_corner_square_inner + bottommetal_corner_square_inner +
+        // topastra_corner_round_inner) are a same-footprint alternate corner style, not a
+        // complement to stack alongside this one -- stacking both at the same origin would double
+        // up overlapping wall geometry and z-fight. Try the inner set as a separate
+        // `corridor_corner_inner` variant if the outer style doesn't read right in-browser.
+        "corridor_corner": (
+            kind: Primitive,
+            model: "",
+            components: (),
+            children: [
+                ( prefab: "platform_simple", offset: (0.0, 0.0, 0.0) ),
+                ( prefab: "bottommetal_corner_square_outer_1", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+                ( prefab: "wallastra_corner_square_outer", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+                ( prefab: "topastra_curve_round_outer", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+            ],
+        ),
+
+        // Same as corridor_straight, but the east wall triplet is replaced by a door frame insert
+        // (west side stays a solid wall; east side has a door-sized opening). Door leaf open/close
+        // FSM is out of scope for this pass -- frame only, treated as open/decorative.
+        "corridor_doorway": (
+            kind: Primitive,
+            model: "",
+            components: (),
+            children: [
+                ( prefab: "platform_simple", offset: (0.0, 0.0, 0.0) ),
+                // West wall triplet (solid)
+                ( prefab: "bottommetal_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+                // East side: door frame insert instead of a solid wall triplet
+                ( prefab: "door_frame_square", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+            ],
+        ),
+
+        // Dead end: walls on west+east+south, north left open as the incoming direction (matches
+        // corridor_straight's open axis so it can cap a chain of straight segments).
+        "corridor_end_cap": (
+            kind: Primitive,
+            model: "",
+            components: (),
+            children: [
+                ( prefab: "platform_simple", offset: (0.0, 0.0, 0.0) ),
+                // West wall triplet
+                ( prefab: "bottommetal_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 0.0, 0.0) ),
+                // East wall triplet
+                ( prefab: "bottommetal_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 180.0, 0.0) ),
+                // South wall triplet (caps the segment; north stays open as the incoming direction)
+                ( prefab: "bottommetal_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+                ( prefab: "wallastra_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+                ( prefab: "topastra_straight", offset: (0.0, 0.0, 0.0), rotation_euler_deg: (0.0, 90.0, 0.0) ),
+            ],
         ),
 
     }
