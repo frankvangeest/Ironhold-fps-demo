@@ -30,6 +30,8 @@ python scripts/update_lib.py --no-docs  # skip docs/ download (slow connection)
 
 `update_lib.py` also downloads `docs/` (offline reference) and `docs/engine_assets_claude.md` / `docs/engine_projects_claude.md` from the engine repo at the same pinned SHA. These are gitignored — regenerate with `update_lib.py` at any time.
 
+`update_lib.py` prints which `docs/*.md` files changed content since the last local download (diffed against the previous local copy, not a network fetch of the old SHA). **After any update where docs changed, review `CLAUDE.md` and the relevant `.claude/agents/*.md` files for drift** — RON schema/capability changes in this engine have previously made agent examples silently stale (wrong field nesting, fields that no longer exist, capability notes that were true before the update but aren't anymore). This review is manual/semantic, not automated — the printed file list only says *something* changed in that reference file, not what's now wrong in our own docs.
+
 After updating the engine, commit `pkg/` and `ironhold-lib.json` together (not `docs/`).
 
 ## Branching

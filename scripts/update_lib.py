@@ -62,6 +62,41 @@ ENGINE_CLAUDE_FILES = {
 }
 
 
+def snapshot_docs():
+    """Read all current docs/*.md file contents, keyed by path relative to ROOT."""
+    if not DOCS_DIR.exists():
+        return {}
+    return {
+        str(p.relative_to(ROOT)): p.read_bytes()
+        for p in DOCS_DIR.rglob("*")
+        if p.is_file()
+    }
+
+
+def report_docs_drift(before, after):
+    """Print which docs files changed since the last local download, so schema-
+    relevant changes don't slip past CLAUDE.md / .claude/agents/*.md silently."""
+    if not before:
+        print("  (no previous local docs/ snapshot to diff against — first download)")
+        return
+
+    added = sorted(set(after) - set(before))
+    removed = sorted(set(before) - set(after))
+    changed = sorted(p for p in (set(after) & set(before)) if after[p] != before[p])
+
+    if not (added or removed or changed):
+        print("  No docs/ content changed since the last local download.")
+        return
+
+    print("  Docs changed since last local download (review CLAUDE.md / .claude/agents/*.md for drift):")
+    for p in changed:
+        print(f"    modified: {p}")
+    for p in added:
+        print(f"    added:    {p}")
+    for p in removed:
+        print(f"    removed:  {p}")
+
+
 def download_docs(sha):
     tree = fetch_tree(sha)
     doc_files = [item["path"] for item in tree if item["path"].startswith("docs/")]
@@ -69,6 +104,8 @@ def download_docs(sha):
     if not doc_files:
         print("  No docs/ files found in repo at this SHA.")
         return 0
+
+    before = snapshot_docs()
 
     if DOCS_DIR.exists():
         shutil.rmtree(DOCS_DIR)
@@ -91,6 +128,9 @@ def download_docs(sha):
             dest.write_bytes(data)
         except Exception as e:
             print(f"  Warning: could not fetch {src_path}: {e}")
+
+    after = snapshot_docs()
+    report_docs_drift(before, after)
 
     return len(doc_files) + len(ENGINE_CLAUDE_FILES)
 
