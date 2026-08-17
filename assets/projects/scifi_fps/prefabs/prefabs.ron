@@ -13,6 +13,14 @@
                     walk_speed: 5.0,
                     run_speed: 8.0,
                 ),
+                // Locked first-person view (camera_modes v1+, 545cfa8+). Pitch fields are radians.
+                camera_mode: FirstPerson((
+                    eye_offset:  (0.0, 1.7, 0.0),
+                    sensitivity: 0.002,
+                    min_pitch:   -1.5,
+                    max_pitch:   1.5,
+                    fov:         75.0,
+                )),
             ),
             primitive: (
                 radius: 0.4,
