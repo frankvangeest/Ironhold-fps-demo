@@ -23,13 +23,13 @@ Your output must be valid RON for `PrefabCatalog schema_version: 2`. When editin
     indicator_category: "enemy",         // key into scene target_indicator.named_colors
     indicator_color: (1.0, 0.0, 0.0, 1.0), // direct RGBA override for target ring
     stat_templates: { ... },             // per-entity stats (see below)
+    trigger_zone: ( radius: 1.5 ),       // top-level, NOT under components -- emits entity.entered/exited:{id}
+    interactable: ( radius: 2.5 ),       // top-level, NOT under components -- emits entity.interacted:{id} on KeyF
     components: (
         tags: ["flycam"],               // capability tags
         movement: ( walk_speed: 5.0, run_speed: 8.0 ),
         flycam: ( speed: 15.0, fast_speed: 50.0, sensitivity: 0.002 ),
         npc: ( ... ),
-        trigger_zone: ( radius: 1.5 ),
-        interactable: ( radius: 2.5 ),
     ),
     primitive: (                         // Primitive only
         size: (60.0, 1.0, 60.0),        // for Cuboid
@@ -42,8 +42,8 @@ Your output must be valid RON for `PrefabCatalog schema_version: 2`. When editin
     colliders: [                         // Prop/Actor only -- static physics for a GLB mesh
         ( shape: Cuboid, size: (1.2, 3.0, 4.0), offset: (0.0, 1.5, 0.0) ),
     ],
-    children: [                          // child primitive entities (decorative)
-        ( offset: (0.0, 2.0, 0.0), primitive: Cuboid(0.3, 0.3, 0.3), color: (0.5, 0.3, 1.0), alpha: 0.35, alpha_mode: Blend ),
+    children: [                          // child primitive entities (decorative); no alpha/alpha_mode field exists
+        ( offset: (0.0, 2.0, 0.0), shape: Cuboid, primitive: ( size: (0.3, 0.3, 0.3), color: (0.5, 0.3, 1.0) ) ),
     ],
 )
 ```
@@ -68,8 +68,10 @@ A `kind: Prop`/`Actor` GLB mesh has **no collision by default** — a wall, floo
 | `Character` | NPC with built-in AI agent | catalog key |
 
 Flycam: `kind: Prop, model: ""`, tag `"flycam"`.
-Player third-person: `kind: Prop, model: ""`, tag `"player"` — gives orbit camera + controller.
-Player FPS: flycam is the closest available option (true locked-first-person not yet built-in).
+Player third-person (default): `kind: Prop, model: ""`, tag `"player"` — orbit camera + controller.
+Player FPS: add `camera_mode: FirstPerson((eye_offset: (0,1.7,0), sensitivity: 0.002, min_pitch: -1.5, max_pitch: 1.5, fov: 75.0))` to the `"player"` prefab's `components` (camera_modes v2+, engine `545cfa8`+; pitch fields are radians). Double parens required for named-field enum variants.
+
+**`model: ""` only works for `"flycam"`/`"player"`-tagged prefabs** — their spawn path bypasses the normal asset-catalog model lookup. A normal scene-placed `kind: Prop` entity with `model: ""` is silently skipped at load (`model key '' not found in asset catalog`) — for an invisible trigger/marker use `kind: Primitive` with a tiny `shape` instead (see Portal trigger pattern below); there is no fully-invisible option since `PrimitiveParams` has no alpha/transparency field.
 
 ## Stat templates (per-entity stats)
 
@@ -126,7 +128,8 @@ Both can coexist on the same prefab.
     targetable: true,
     click_selectable: true,
     behavior: "behaviors/door.behavior.ron",
-    components: ( interactable: ( radius: 2.0 ) ),
+    interactable: ( radius: 2.0 ),
+    components: (),
 ),
 ```
 
@@ -135,7 +138,8 @@ Both can coexist on the same prefab.
 "ammo_pack": (
     kind: Prop,
     model: "prop_ammo_crate",
-    components: ( trigger_zone: ( radius: 1.0 ) ),
+    trigger_zone: ( radius: 1.0 ),
+    components: (),
 ),
 ```
 
@@ -173,21 +177,34 @@ Both can coexist on the same prefab.
     model: "",
     trigger_zone: ( radius: 1.5 ),
     children: [
-        ( offset: (-0.8, 1.5, 0.0), primitive: Cuboid(0.3, 3.0, 0.3), color: (0.3, 0.3, 0.4) ),
-        ( offset: ( 0.8, 1.5, 0.0), primitive: Cuboid(0.3, 3.0, 0.3), color: (0.3, 0.3, 0.4) ),
-        ( offset: ( 0.0, 3.1, 0.0), primitive: Cuboid(2.0, 0.3, 0.3), color: (0.3, 0.3, 0.4) ),
-        ( offset: ( 0.0, 1.5, 0.0), primitive: Cylinder(height: 2.8, radius: 0.75),
-          color: (0.5, 0.3, 1.0), alpha: 0.35, alpha_mode: Blend ),
+        ( offset: (-0.8, 1.5, 0.0), shape: Cuboid, primitive: ( size: (0.3, 3.0, 0.3), color: (0.3, 0.3, 0.4) ) ),
+        ( offset: ( 0.8, 1.5, 0.0), shape: Cuboid, primitive: ( size: (0.3, 3.0, 0.3), color: (0.3, 0.3, 0.4) ) ),
+        ( offset: ( 0.0, 3.1, 0.0), shape: Cuboid, primitive: ( size: (2.0, 0.3, 0.3), color: (0.3, 0.3, 0.4) ) ),
+        ( offset: ( 0.0, 1.5, 0.0), shape: Cylinder, primitive: ( height: 2.8, radius: 0.75, color: (0.5, 0.3, 1.0) ) ),
     ],
     components: (),
+),
+```
+No alpha/transparency field exists on `PrimitiveParams`/`ChildPrimitiveDef` — a glowing/translucent portal disc isn't achievable with a plain primitive; use an opaque color or a real material via `assets.ron` instead.
+
+### Invisible-only proximity trigger
+There is no fully-invisible prefab option for a normal scene-placed entity. `model: ""` only skips the asset-catalog lookup for the tag-driven `"flycam"`/`"player"` spawn paths — on any other prefab (including plain `kind: Prop`) it gets silently skipped at load (`model key '' not found in asset catalog`). For a trigger with no meaningful visual, use a tiny `kind: Primitive` shape colored to blend into its surroundings instead:
+```ron
+"trigger_invisible": (
+    kind: Primitive,
+    model: "",
+    shape: Sphere,
+    trigger_zone: ( radius: 3.0 ),
+    components: (),
+    primitive: ( radius: 0.02, color: (0.3, 0.3, 0.3) ), // match nearby floor/wall color
 ),
 ```
 
 ## Critical rules
 
-- `model` must be a key that exists in `assets.ron models{}`, or `""` for no mesh.
+- `model` must be a key that exists in `assets.ron models{}`, except `""` which is required for `Primitive`/`Foliage` and otherwise only valid on `"flycam"`/`"player"`-tagged prefabs (see `model: ""` note above) — any other `""` model is silently skipped at scene load.
 - Colors: sRGB `(r, g, b)` — never pre-linearized.
-- `kind: Primitive` requires `shape` and `primitive` block; omit `model` (set `""`).
+- `kind: Primitive` requires either a top-level `shape` (single-mesh) or a non-empty `children` list (composite) — omitting both is a FATAL error (crashes scene load, not just a warning). Omit `model` (set `""`).
 - `stat_templates` only applies to scene-placed entities — dynamically spawned entities via `Spawn` always start at `base`.
 - `behavior` path is relative to the project root (`assets/projects/scifi_fps/`).
 - Do not create a prefab key that duplicates an existing one — read the catalog before writing.

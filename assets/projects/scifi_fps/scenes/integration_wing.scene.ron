@@ -72,6 +72,19 @@
             transform: ( translation: (4.0, 0.0, 12.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
             label: (text: "Briefing Room"),
         ),
+
+        // Proximity trigger for the Mission 1 ("Survey") briefing pop-up. room_briefing_1
+        // is placed at (4,0,12); its own local children span x:[-2,6] z:[-2,6], so the
+        // room's world footprint is x:[2,10] z:[10,18] with the entrance (open west edge)
+        // at x:[2,6]. This trigger sits near the briefing table (local table offset
+        // (2.0, 0.451, 1.0) -> world (6.0, 0.451, 13.0)), radius 3.2 keeps it clear of the
+        // x=2 boundary so it does not bleed back into the corridor/doorway.
+        (
+            id: "briefing_trigger",
+            prefab: "trigger_briefing_intel",
+            transform: ( translation: (6.0, 1.0, 13.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
+        ),
+
         (
             id: "spine_straight_3",
             prefab: "corridor_straight",

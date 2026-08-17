@@ -2,5 +2,31 @@
     schema_version: 2,
     rules: [
         ( on: "scene.ready:main", do_actions: [ Log("Scene ready") ] ),
+
+        // --- Integration Program Wing (home-base hub, between missions) ---
+
+        // Baseline hub setup. No ambient/music track is wired here: assets.ron's
+        // `audio` map is currently empty for this project (no key to reference without
+        // inventing one) -- see planning/claude_suggestions.md for a follow-up note.
+        ( on: "scene.ready:integration_wing", do_actions: [
+            EnterState("hub"),
+            Log("Integration Wing hub ready"),
+        ]),
+
+        // Mission 1 ("Survey") briefing pop-up. Fires when the player enters the
+        // proximity trigger placed near the briefing table in
+        // scenes/integration_wing.scene.ron (entity.entered:<id> is an implemented
+        // TriggerZone event -- see docs/20_data_formats.md's `trigger_zone` field and
+        // docs/30_runtime_events_and_logic.md's Entity FSM section). Text is
+        // deliberately short and "briefing-optimistic" per storyline/03_act1.md
+        // Mission 1 -- routine-sounding, omits the predator/swarm complications the
+        // in-fiction briefing itself omits.
+        ( on: "entity.entered:briefing_trigger", do_actions: [
+            ShowFloatingText(
+                entity: "briefing_trigger",
+                text: "MISSION BRIEFING -- SURVEY\nMaren's Moon. Escort a survey crew, assess resource viability.\nCore suits. Should be routine.",
+                offset: (0.0, 1.2, 0.0),
+            ),
+        ]),
     ],
 )

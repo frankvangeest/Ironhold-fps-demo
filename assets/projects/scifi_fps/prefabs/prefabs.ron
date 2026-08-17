@@ -1427,5 +1427,25 @@
             ],
         ),
 
+        // Proximity trigger for the Briefing Room's Mission 1 pop-up (see rules.ron).
+        // Primitive requires shape or children; no alpha field exists, so a 4cm
+        // floor-colored sphere is the closest this schema gets to "invisible."
+        // (kind: Prop + model: "" was tried and does NOT work here -- unlike the
+        // tag-driven "flycam"/"player" spawn path, a normal scene-placed Prop entity
+        // requires a real assets.ron model key and is silently skipped without one.)
+        "trigger_briefing_intel": (
+            kind: Primitive,
+            model: "",
+            shape: Sphere,
+            trigger_zone: ( radius: 3.2 ),
+            components: (),
+            primitive: (
+                radius: 0.02,
+                color: (0.30, 0.32, 0.28),
+                roughness: 0.95,
+                metallic: 0.0,
+            ),
+        ),
+
     }
 )
