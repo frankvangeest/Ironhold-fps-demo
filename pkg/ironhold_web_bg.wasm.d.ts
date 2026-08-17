@@ -2,15 +2,15 @@
 /* eslint-disable */
 export const memory: WebAssembly.Memory;
 export const start: () => void;
-export const wasm_bindgen__closure__destroy__h3aa634acd7532ef7: (a: number, b: number) => void;
-export const wasm_bindgen__closure__destroy__h2b499a0c1593c7cf: (a: number, b: number) => void;
-export const wasm_bindgen__closure__destroy__h82c63276985f4f1f: (a: number, b: number) => void;
-export const wasm_bindgen__convert__closures_____invoke__hcb423d0bba76ef53: (a: number, b: number, c: any, d: any) => void;
-export const wasm_bindgen__convert__closures_____invoke__h2088fd7cf3c1c1c5: (a: number, b: number, c: any) => void;
-export const wasm_bindgen__convert__closures_____invoke__h28e1d5de3a8e0a26: (a: number, b: number, c: any) => void;
-export const wasm_bindgen__convert__closures_____invoke__h55f4eb0b2118bae2: (a: number, b: number, c: number) => void;
-export const wasm_bindgen__convert__closures_____invoke__h18b0c9142ae67750: (a: number, b: number) => void;
-export const wasm_bindgen__convert__closures_____invoke__hb803a948b7eba3b8: (a: number, b: number) => void;
+export const wasm_bindgen_c38e044b2bd95f76___closure__destroy___dyn_core_9b3796e30d99ddb7___ops__function__FnMut__core_9b3796e30d99ddb7___option__Option_web_sys_4ab3069b31b5f7a3___features__gen_Blob__Blob_____Output_______: (a: number, b: number) => void;
+export const wasm_bindgen_c38e044b2bd95f76___closure__destroy___dyn_core_9b3796e30d99ddb7___ops__function__FnMut_____Output_______: (a: number, b: number) => void;
+export const wasm_bindgen_c38e044b2bd95f76___closure__destroy___dyn_core_9b3796e30d99ddb7___ops__function__FnMut__wasm_bindgen_c38e044b2bd95f76___JsValue____Output_______: (a: number, b: number) => void;
+export const wasm_bindgen_c38e044b2bd95f76___convert__closures_____invoke___js_sys_9033922e3b4734d9___Array__web_sys_4ab3069b31b5f7a3___features__gen_ResizeObserver__ResizeObserver_____: (a: number, b: number, c: any, d: any) => void;
+export const wasm_bindgen_c38e044b2bd95f76___convert__closures_____invoke___js_sys_9033922e3b4734d9___Array_____: (a: number, b: number, c: any) => void;
+export const wasm_bindgen_c38e044b2bd95f76___convert__closures_____invoke___core_9b3796e30d99ddb7___option__Option_web_sys_4ab3069b31b5f7a3___features__gen_Blob__Blob______: (a: number, b: number, c: number) => void;
+export const wasm_bindgen_c38e044b2bd95f76___convert__closures_____invoke___wasm_bindgen_c38e044b2bd95f76___JsValue_____: (a: number, b: number, c: any) => void;
+export const wasm_bindgen_c38e044b2bd95f76___convert__closures_____invoke______: (a: number, b: number) => void;
+export const wasm_bindgen_c38e044b2bd95f76___convert__closures_____invoke_______1_: (a: number, b: number) => void;
 export const __wbindgen_malloc: (a: number, b: number) => number;
 export const __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
 export const __externref_table_alloc: () => number;
