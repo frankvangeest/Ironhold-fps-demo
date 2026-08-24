@@ -1,0 +1,143 @@
+(
+    schema_version: 2,
+    name: "start_menu",
+
+    lighting: (
+        ambient: (0.14, 0.16, 0.22),
+        ambient_brightness: 180.0,
+        directional: (
+            color: (0.85, 0.90, 1.0),
+            intensity: 20000.0,
+            rotation_euler_deg: (-50.0, 25.0, 0.0),
+            shadows_enabled: true,
+            shadow_distance: 30.0,
+            cascade_overlap: 0.5,
+        ),
+    ),
+
+    label_depth_scale: (
+        reference_distance: 12.0,
+        min_scale: 0.2,
+    ),
+
+    entities: [
+
+        // Static angled-topdown camera, framed on a small "hangar bay" backdrop.
+        // Uses "menu_camera" (player-tag + camera_mode: Fixed), not "flycam" --
+        // flycam-driven cameras do not render GLB Prop meshes in this engine build
+        // (confirmed bug, see planning/claude_suggestions.md). Position/look_at are
+        // baked into the prefab's camera_mode, so this entity's own transform is
+        // cosmetic only.
+        (
+            id: "cam",
+            prefab: "menu_camera",
+            transform: (
+                translation: (0.0, 2.2, -7.0),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+        ),
+
+        // Floor
+        (
+            id: "menu_ground",
+            prefab: "ground",
+            transform: (
+                translation: (0.0, -0.5, 0.0),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+        ),
+
+        // Floor emblem, centered in view.
+        (
+            id: "menu_logo",
+            prefab: "decal_logo",
+            transform: (
+                translation: (0.0, 0.0010, 4.0),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.6, 1.0, 1.6),
+            ),
+        ),
+
+        // Flanking columns for depth/scale -- reuses the exact pivot offset
+        // (0.0075) already verified in showcase.scene.ron for this prefab.
+        (
+            id: "menu_column_l",
+            prefab: "column_astra",
+            transform: (
+                translation: (-6.5, 0.0075, 6.0),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+        ),
+        (
+            id: "menu_column_r",
+            prefab: "column_astra",
+            transform: (
+                translation: (6.5, 0.0075, 6.0),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+        ),
+
+        // Small wall-light fixtures for atmosphere (decorative props only, no
+        // point light data -- keeps this scene's light budget at zero dynamic
+        // point lights).
+        (
+            id: "menu_light_l",
+            prefab: "prop_light_wide",
+            transform: (
+                translation: (-6.5, 0.1487, 3.2),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+        ),
+        (
+            id: "menu_light_r",
+            prefab: "prop_light_wide",
+            transform: (
+                translation: (6.5, 0.1487, 3.2),
+                rotation_euler_deg: (0.0, 0.0, 0.0),
+                scale: (1.0, 1.0, 1.0),
+            ),
+        ),
+
+    ],
+
+    ui_panel: (
+        background_color: (0.07, 0.08, 0.11, 0.88),
+        padding: 28.0,
+        gap: 16.0,
+        width: 420.0,
+    ),
+
+    ui: [
+        Label((
+            id: "title_label",
+            text: "IRONHOLD",
+            size: (360.0, 48.0),
+            align: Center,
+        )),
+        Label((
+            id: "subtitle_label",
+            text: "Sci-Fi FPS Demo",
+            size: (360.0, 22.0),
+            align: Center,
+        )),
+        Button((
+            id: "play_game_btn",
+            text: "Play Game",
+            action: "ui.play_game",
+            size: (360.0, 48.0),
+            color: (0.16, 0.34, 0.52, 1.0),
+        )),
+        Button((
+            id: "view_showcase_btn",
+            text: "View Asset Showcase",
+            action: "ui.view_showcase",
+            size: (360.0, 48.0),
+            color: (0.18, 0.18, 0.20, 1.0),
+        )),
+    ],
+)

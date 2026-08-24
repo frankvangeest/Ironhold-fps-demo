@@ -3,7 +3,7 @@
     project_id: "scifi_fps",
     display_name: "Sci-Fi FPS Demo",
 
-    initial_scene: "scenes/showcase.scene.ron",
+    initial_scene: "scenes/start_menu.scene.ron",
 
     asset_catalog: "assets.ron",
     prefab_catalog: "prefabs/prefabs.ron",

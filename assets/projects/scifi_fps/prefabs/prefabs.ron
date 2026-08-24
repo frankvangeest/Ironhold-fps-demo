@@ -31,6 +31,43 @@
             ),
         ),
 
+        // Static angled-topdown showcase camera. Uses the "player" spawn path (movement
+        // zeroed) rather than "flycam" -- flycam-driven cameras do not render GLB Prop
+        // meshes in this engine build (confirmed bug, see planning/claude_suggestions.md).
+        "showcase_camera": (
+            kind: Primitive,
+            model: "",
+            shape: Capsule3d,
+            components: (
+                tags: ["player"],
+                movement: ( walk_speed: 0.0, run_speed: 0.0 ),
+                camera_mode: Fixed((
+                    position: (0.0, 12.0, -10.0),
+                    look_at: (0.0, 1.0, 30.0),
+                    fov: 55.0,
+                )),
+            ),
+            primitive: ( radius: 0.01, height: 0.01, color: (0.0, 0.0, 0.0) ),
+        ),
+
+        // Static angled-topdown menu camera. Same flycam-avoidance rationale as
+        // "showcase_camera" above.
+        "menu_camera": (
+            kind: Primitive,
+            model: "",
+            shape: Capsule3d,
+            components: (
+                tags: ["player"],
+                movement: ( walk_speed: 0.0, run_speed: 0.0 ),
+                camera_mode: Fixed((
+                    position: (0.0, 3.2, -13.0),
+                    look_at: (0.0, 0.6, 5.0),
+                    fov: 62.0,
+                )),
+            ),
+            primitive: ( radius: 0.01, height: 0.01, color: (0.0, 0.0, 0.0) ),
+        ),
+
         // Static ground surface
         "ground": (
             kind: Primitive,

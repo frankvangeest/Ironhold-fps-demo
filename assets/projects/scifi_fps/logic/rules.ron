@@ -3,6 +3,12 @@
     rules: [
         ( on: "scene.ready:main", do_actions: [ Log("Scene ready") ] ),
 
+        // --- Start menu ---
+
+        ( on: "ui.button_pressed:play_game", do_actions: [ LoadScene("scenes/integration_wing.scene.ron") ] ),
+        ( on: "ui.button_pressed:view_showcase", do_actions: [ LoadScene("scenes/showcase.scene.ron") ] ),
+        ( on: "ui.button_pressed:back_to_menu", do_actions: [ LoadScene("scenes/start_menu.scene.ron") ] ),
+
         // --- Integration Program Wing (home-base hub, between missions) ---
 
         // Baseline hub setup. No ambient/music track is wired here: assets.ron's
