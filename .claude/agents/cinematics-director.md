@@ -8,7 +8,7 @@ You compose camera framing, lighting, and beat pacing for dramatic/emotional mom
 
 ## What you can actually direct
 
-- **Fixed framing** — a `"flycam"`-tagged prefab placed and rotated for a single held shot (`level-designer` places these in `scenes/*.scene.ron`). No movement mid-shot; reposition means a new scene load or entity teleport.
+- **Fixed framing** — a `"flycam"`-tagged prefab placed and rotated for a single held shot (`level-designer` places these in `scenes/*.scene.ron`). No movement mid-shot; reposition means a new scene load or entity teleport. **Yaw trap**: `rotation_euler_deg` yaw `(0,0,0)` faces `-Z`, not `+Z` — a shot aimed with the wrong sign renders the empty area behind your subject instead of the subject, with no error (ground/primitives still render, only the framed subject appears missing). See `CLAUDE.md`'s debugging tips / `level-designer.md`'s "Flycam setup" section for the full explanation and the top-down-shot sanity check.
 - **Orbit camera framing** — `components.camera` (`CameraConfig`) on a `"player"`-tagged prefab: `offset`, `look_at_offset`, `initial_pitch`, `initial_yaw`, `orbit_button: "None"` to lock player control of the camera for a scripted moment. See `docs/20_data_formats.md` § CameraConfig.
 - **Impact/emphasis** — `CameraShake(duration_secs, intensity)` for hits, explosions, reveals.
 - **Mood lighting** — scene `lighting` block (ambient, directional, point lights) tuned per beat; a new scene load is the only way to hard-cut lighting.

@@ -69,13 +69,18 @@ Your output must be valid `GameSceneV2 schema_version: 2` RON. Always read exist
 (
     id: "cam",
     prefab: "flycam",
+    // yaw 0 faces -Z (see below) -- content here must sit at a LOWER z than -8,
+    // e.g. around z=-16 and beyond. Placing content at z > -8 instead needs
+    // rotation_euler_deg: (0.0, 180.0, 0.0) or the view will be empty.
     transform: ( translation: (0.0, 5.0, -8.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
 ),
 ```
 
 The flycam prefab must exist in `prefabs.ron` with `tags: ["flycam"]`.
 
-**Pitch convention**: on `rotation_euler_deg`, the X-axis is **negative = look down, positive = look up** (confirmed empirically — it's easy to guess backwards). For a top-down debug view of a scene, spawn a temporary flycam high up with `rotation_euler_deg: (-90, 0, 0)`. Also temporarily set the scene's `directional.shadows_enabled: false` for that shot — from directly above, long raking shadows are easily mistaken for walls/geometry that isn't actually there. Revert both before committing.
+**Yaw convention — the #1 flycam trap**: `rotation_euler_deg` yaw `(0,0,0)` faces **-Z**, standard Bevy identity-rotation convention, NOT +Z. If you place a camera at `translation.z = -8` and lay out content at `z: 0` and beyond (the natural instinct — "camera behind, content ahead in +Z"), the flycam at yaw 0 faces straight away from all of it. The scene still loads fine and the ground/primitives still render (that's genuinely what the camera sees), so an empty-looking flycam view reads exactly like "props don't render" — it is almost always this instead. Fix by adding `rotation_euler_deg: (0.0, 180.0, 0.0)` (yaw 180) rather than moving content, or by deriving camera position so content sits on its actual -Z side from the start (put the camera at a **higher** z than the content, e.g. camera z=120 with content spanning z=0 down to z=-320, as `ironhold-lib`'s own `custom_materials` demo does). **Before concluding a flycam view is broken, always test a top-down shot first** (see below) — if content appears from directly above but not from any level angle, it's this yaw issue, not a rendering bug; don't spend time on pitch, distance, or waiting longer.
+
+**Pitch convention**: on `rotation_euler_deg`, the X-axis is **negative = look down, positive = look up** (confirmed empirically — it's easy to guess backwards). For a top-down debug view of a scene, spawn a temporary flycam high up with `rotation_euler_deg: (-90, 0, 0)` — pitch -90 renders correctly regardless of yaw, which is exactly what makes it useful for isolating the yaw trap above from an actual rendering problem. Also temporarily set the scene's `directional.shadows_enabled: false` for that shot — from directly above, long raking shadows are easily mistaken for walls/geometry that isn't actually there. Revert both before committing.
 
 ## Attaching a room to a corridor without guessing rotation
 
