@@ -25,10 +25,10 @@
         // Flycam
         (
             id: "cam",
-            prefab: "showcase_camera",
+            prefab: "flycam",
             transform: (
                 translation: (0.0, 5.0, -8.0),
-                rotation_euler_deg: (0.0, 0.0, 0.0),
+                rotation_euler_deg: (0.0, 180.0, 0.0),
                 scale: (1.0, 1.0, 1.0),
             ),
         ),
@@ -2138,16 +2138,22 @@
 
     ui: [
         Label((
-            id: "hint",
-            text: "SHOWCASE  |  Sci-Fi FPS Demo asset tour",
+            id: "flycam_position",
+            text: "",
             position: (16.0, 16.0),
+            size: (400.0, 24.0),
+        )),
+        Label((
+            id: "hint",
+            text: "SHOWCASE  |  Hold LMB/RMB + mouse = look  |  WASD = fly  |  Shift = fast",
+            position: (16.0, 48.0),
             size: (700.0, 24.0),
         )),
         Button((
             id: "back_to_menu_button",
             text: "Back to Menu",
             action: "ui.back_to_menu",
-            position: (16.0, 48.0),
+            position: (16.0, 80.0),
             size: (220.0, 40.0),
         )),
     ],

@@ -23,11 +23,10 @@
     entities: [
 
         // Static angled-topdown camera, framed on a small "hangar bay" backdrop.
-        // Uses "menu_camera" (player-tag + camera_mode: Fixed), not "flycam" --
-        // flycam-driven cameras do not render GLB Prop meshes in this engine build
-        // (confirmed bug, see planning/claude_suggestions.md). Position/look_at are
-        // baked into the prefab's camera_mode, so this entity's own transform is
-        // cosmetic only.
+        // Uses "menu_camera" (player-tag + camera_mode: Fixed) rather than "flycam"
+        // deliberately -- a menu backdrop should be a locked, composed shot, not
+        // something WASD/mouse-look can fly away from. Position/look_at are baked
+        // into the prefab's camera_mode, so this entity's own transform is cosmetic.
         (
             id: "cam",
             prefab: "menu_camera",
