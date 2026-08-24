@@ -29,6 +29,7 @@ assets/projects/scifi_fps/
 - No HDR, no bloom — all rendering targets WebGPU WASM baseline.
 - Entity `id` values must be unique within a scene.
 - Never place a model at exactly y=0.0 — use y=0.001 minimum to prevent z-fighting with the ground surface.
+- A `"flycam"`-tagged entity's `rotation_euler_deg` yaw `(0,0,0)` faces **-Z**, not +Z (standard Bevy identity-rotation convention). Content placed at a *higher* z than the camera (the intuitive "camera behind, content ahead" layout) is invisible at yaw 0 — the camera is facing away from it, not failing to render it. Either place content on the camera's actual -Z side, or add `rotation_euler_deg: (0.0, 180.0, 0.0)`. A top-down test shot (`rotation_euler_deg: (-90,0,0)`) renders correctly regardless of yaw, so it's the fastest way to confirm this vs. an actual rendering issue.
 
 ---
 
@@ -183,7 +184,9 @@ v3 uses `state_machine_path`; v2 uses `rules_path`. Do not mix them.
         (
             id: "cam",
             prefab: "flycam",
-            transform: ( translation: (0.0, 5.0, -8.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
+            // yaw 180 because content below sits at z=0, HIGHER than the camera's
+            // z=-8 -- yaw 0 would face -Z, away from it (see Universal rules above).
+            transform: ( translation: (0.0, 5.0, -8.0), rotation_euler_deg: (0.0, 180.0, 0.0), scale: (1.0, 1.0, 1.0) ),
         ),
         (
             id: "alien_01",
