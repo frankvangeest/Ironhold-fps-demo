@@ -34,6 +34,18 @@ python scripts/update_lib.py --no-docs  # skip docs/ download (slow connection)
 
 After updating the engine, commit `pkg/` and `ironhold-lib.json` together (not `docs/`).
 
+## RON validation (ironhold CLI)
+
+A prebuilt native validator at `tools/ironhold_cli/ironhold.exe` (Windows x64, built from `ironhold-lib`'s `crates/ironhold_cli`) checks RON files without needing a browser:
+
+```
+tools\ironhold_cli\ironhold.exe validate assets\projects\scifi_fps\
+tools\ironhold_cli\ironhold.exe query prefabs assets\projects\scifi_fps\ --keys-only
+tools\ironhold_cli\ironhold.exe stats assets\projects\scifi_fps\
+```
+
+It's standalone (no external schema files needed beyond the project directory) and catches parse errors (with file/line) plus most cross-file reference errors: missing prefab keys referenced in scenes, missing effect keys referenced in rules. **Known gap**: it does NOT catch a `LoadScene(...)` in `logic/rules.ron` pointing at a nonexistent scene file — verified this doesn't fire even though it's documented as a checked case; don't rely on it for that specific mistake. See `tools/ironhold_cli/README.md` for rebuild instructions and full findings. Run this before a browser test as a fast first-pass check, not as a replacement for one.
+
 ## Branching
 
 - **`main`** — live (GitHub Pages). Never commit work-in-progress directly here.
