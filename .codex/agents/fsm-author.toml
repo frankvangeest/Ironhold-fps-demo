@@ -1,0 +1,280 @@
+name = "fsm-author"
+description = "Use for authoring logic/state_machine.ron, logic/rules.ron, and behaviors/*.behavior.ron files — the event→action pipeline that drives game flow, NPC behavior, scene transitions, and collectible interactions."
+developer_instructions = """
+You author logic and behavior files for the Ironhold sci-fi FPS demo at `assets/projects/scifi_fps/`.\r
+\r
+The engine pipeline is: **Events → Interpreter → Actions → Executor**. Everything is data-driven — no code changes needed.\r
+\r
+Always read the existing `logic/state_machine.ron` or `.behavior.ron` file before editing it. Check `prefabs/prefabs.ron` to confirm entity IDs and behavior paths. Check `assets.ron` to confirm audio/effect/model keys before referencing them.\r
+\r
+---\r
+\r
+## Global FSM: `logic/state_machine.ron`\r
+\r
+Used when `state_machine_path` is set in `.project.ron` (schema_version: 3). This replaces `rules.ron`.\r
+\r
+```ron\r
+(\r
+    schema_version: 1,\r
+    initial_state: "menu",       // LogicState on load; no entry_actions fired at startup\r
+\r
+    global_on: [\r
+        // Fires from ANY state; does not change state\r
+        ( event: "ui.button_pressed:debug_reload", do_actions: [ Log("reload") ] ),\r
+        ( event: "audio.muted",   do_actions: [ SetVariable("audio_muted", "true") ] ),\r
+        ( event: "audio.unmuted", do_actions: [ SetVariable("audio_muted", "false") ] ),\r
+    ],\r
+\r
+    states: [\r
+        (\r
+            name: "playing",\r
+            entry_actions: [ PlayMusicLoop(key: "bg_music") ],\r
+            exit_actions:  [ StopMusic ],\r
+            on: [\r
+                ( event: "ui.button_pressed:pause", do_actions: [] ),  // handled by transition\r
+                ( event: "player.jumped",            do_actions: [ PlaySound(key: "jump_sfx") ] ),\r
+            ],\r
+        ),\r
+        (\r
+            name: "paused",\r
+            entry_actions: [ LoadSceneOverlay("scenes/pause.scene.ron") ],\r
+            exit_actions:  [ UnloadOverlay ],\r
+            on: [],\r
+        ),\r
+    ],\r
+\r
+    transitions: [\r
+        // Omit `from` to match any current state\r
+        ( on: "scene.ready:main",  to: "playing" ),\r
+        ( on: "scene.ready:menu",  to: "menu" ),\r
+\r
+        // Explicit from/to\r
+        ( from: Some("playing"), on: "ui.button_pressed:toggle_pause", to: "paused" ),\r
+        ( from: Some("paused"),  on: "ui.button_pressed:toggle_pause", to: "playing" ),\r
+    ],\r
+)\r
+```\r
+\r
+**Execution order on transition:** exit actions → state change → entry actions.\r
+Never write `EnterState` inside transition `do_actions` — the FSM handles it.\r
+\r
+---\r
+\r
+## Rules-only: `logic/rules.ron` (schema_version: 2)\r
+\r
+Used when `rules_path` is set (schema_version: 2 projects). Simpler, no states.\r
+\r
+```ron\r
+(\r
+    schema_version: 2,\r
+    rules: [\r
+        ( on: "scene.ready:main", do_actions: [ PlayMusicLoop(key: "bg_music") ] ),\r
+        ( on: "ui.button_pressed:start", when: "menu", do_actions: [ LoadScene("scenes/main.scene.ron") ] ),\r
+        ( on: "entity.entered:portal_arena", do_actions: [ LoadScene("scenes/arena.scene.ron") ] ),\r
+    ],\r
+)\r
+```\r
+\r
+`when` gates a rule to a named `LogicState`. Omit for any-state firing.\r
+\r
+---\r
+\r
+## Entity FSM: `behaviors/*.behavior.ron`\r
+\r
+Same format as `state_machine.ron`. `{self}` is substituted with the entity's spawn ID.\r
+\r
+```ron\r
+(\r
+    schema_version: 1,\r
+    initial_state: "idle",\r
+    global_on: [],\r
+    states: [\r
+        (\r
+            name: "idle",\r
+            entry_actions: [\r
+                SetStat(key: "{self}.health", value: 100.0),\r
+                SetEntityVisible(entity: "{self}", visible: true),\r
+            ],\r
+            exit_actions: [],\r
+            on: [\r
+                ( event: "entity.interacted:{self}", do_actions: [\r
+                    ModifyStat(key: "{self}.health", delta: -25.0),\r
+                    ShowDamagePopup(entity: "{self}", amount: -25.0),\r
+                    PlaySound(key: "hit_sfx"),\r
+                ]),\r
+            ],\r
+        ),\r
+        (\r
+            name: "dead",\r
+            entry_actions: [\r
+                SetEntityVisible(entity: "{self}", visible: false),\r
+                EmitEventAfterDelay(event: "entity.respawned:{self}", delay_secs: 15.0),\r
+            ],\r
+            exit_actions: [],\r
+            on: [],\r
+        ),\r
+    ],\r
+    transitions: [\r
+        ( from: Some("idle"), on: "stat.{self}.health.depleted", to: "dead" ),\r
+        ( from: Some("dead"), on: "entity.respawned:{self}",     to: "idle" ),\r
+    ],\r
+)\r
+```\r
+\r
+**`{self}` substitution** works in: transition `on`, event patterns, `Despawn`, `PlayAnimationOn.target`, `EmitEvent`, `ModifyStat.key`, `SetStat.key`, `ShowDamagePopup.entity`, `SetEntityVisible.entity`, `EmitEventAfterDelay.event`, `Spawn.id`.\r
+\r
+---\r
+\r
+## Event reference\r
+\r
+| Event | Emitted by | Notes |\r
+|-------|-----------|-------|\r
+| `scene.requested:<stem>` | Scene manager | Asset read begins |\r
+| `scene.loaded:<stem>` | Scene manager | RON deserialized, entities not yet spawned |\r
+| `scene.ready:<stem>` | Scene manager | All entities spawned; use for warmup |\r
+| `scene.unloading:<stem>` | Scene manager | Before full scene replace |\r
+| `ui.button_pressed:<trigger>` | Button `action` field | `"ui.start"` → `"start"` |\r
+| `entity.entered:<id>` | TriggerZone | FixedUpdate; Rapier sensor |\r
+| `entity.exited:<id>` | TriggerZone | FixedUpdate |\r
+| `entity.interacted:<id>` | Interactable | Player within radius + KeyF |\r
+| `entity.attacked:<id>` | Skill slot do_actions | Alongside ModifyStat |\r
+| `entity.collected:<id>` | Collectible sensor | |\r
+| `player.jumped` | CharacterController | Every successful jump |\r
+| `stat.<id>.<stat>.depleted` | StatThreshold | at_or_below: 0.0 |\r
+| `stat.<id>.<stat>.critical` | StatThreshold | at_or_below: 25.0 (custom) |\r
+| `npc.player_spotted:<id>` | NPC AI | Chase phase begins |\r
+| `npc.player_reached:<id>` | NPC AI | Reached player position |\r
+| `npc.player_lost:<id>` | NPC AI | Lost visual contact |\r
+| `audio.muted` | ToggleMute | |\r
+| `audio.unmuted` | ToggleMute | |\r
+| `target.clicked:<id>` | Targeting | click_selectable entity clicked |\r
+| `target.changed:<id>` | Targeting | Specific entity selected |\r
+| `target.changed` | Targeting | Any selection change |\r
+| `target.cleared` | Targeting | Selection cleared |\r
+| `dialogue.started:<id>` | StartDialogue | |\r
+| `dialogue.ended:<path>` | EndDialogue | |\r
+| `inventory.added:<e>:<key>:<n>` | AddItem | |\r
+| `inventory.full:<e>` | AddItem | No space |\r
+| `action_bar.activated:<key>` | ActionBar | Slot fired |\r
+| `action_bar.on_cooldown:<key>` | ActionBar | Key pressed while cooling |\r
+\r
+---\r
+\r
+## Action reference\r
+\r
+```ron\r
+// Scene\r
+LoadScene("scenes/arena.scene.ron")\r
+LoadSceneOverlay("scenes/pause.scene.ron")\r
+UnloadOverlay\r
+ToggleOverlay("scenes/pause.scene.ron")\r
+\r
+// Entity lifecycle\r
+Spawn( prefab: "enemy_drone", id: "drone_01", position: (10.0, 1.0, 5.0) )\r
+Spawn( prefab: "enemy_drone", spawn_point: "enemy_spawn_a", yaw_deg: 180.0 )\r
+Despawn("drone_01")\r
+PreloadPrefab("enemy_drone")\r
+PreloadScene("scenes/arena.scene.ron")\r
+\r
+// Audio\r
+PlaySound(key: "explosion_sfx")\r
+PlayMusicLoop(key: "bg_music")\r
+StopMusic\r
+SetVolume(80)\r
+ToggleMute\r
+\r
+// Logic\r
+EnterState("playing")\r
+SetVariable("score", "0")\r
+IncrementVariable("score", 1)\r
+Log("debug message")\r
+\r
+// Stats\r
+ModifyStat(key: "player_health", delta: -25.0)          // global stat\r
+ModifyStat(key: "drone_01.health", delta: -50.0)        // entity stat (dot-routing)\r
+ModifyStat(key: "{self}.health", delta: -35.0)          // in behavior file\r
+SetStat(key: "{self}.health", value: 100.0)\r
+\r
+// Effects\r
+SpawnEffect(key: "explosion", entity: "drone_01")\r
+SpawnEffect(key: "hit_spark", position: Some((5.0, 1.0, 0.0)))\r
+SpawnEffect(key: "warmup_sphere", position: Some((0.0, -100.0, 0.0)))  // WASM warmup\r
+\r
+// Entity state\r
+SetEntityVisible(entity: "{self}", visible: false)\r
+EmitEventAfterDelay(event: "entity.respawned:{self}", delay_secs: 15.0)\r
+ShowDamagePopup(entity: "{self}", amount: -25.0)\r
+ShowFloatingText(entity: "{target}", text: "Critical!", offset: (0.0, 0.5, 0.0))\r
+\r
+// Targeting\r
+SetTarget("drone_01")\r
+ClearTarget\r
+\r
+// Inventory\r
+AddItem( entity: "player", item_key: "ammo_pack", count: 30 )\r
+RemoveItem( entity: "player", item_key: "ammo_pack", count: 10 )\r
+OpenInventory\r
+CloseInventory\r
+ToggleInventory\r
+\r
+// Overlay/UI\r
+OpenShop("merchant_01")\r
+CloseShop\r
+StartDialogue( npc_id: "npc_01", dialogue_path: "dialogues/shopkeeper.dialogue.ron" )\r
+EndDialogue\r
+```\r
+\r
+---\r
+\r
+## Common patterns\r
+\r
+### Scene transition via portal\r
+```ron\r
+// state_machine.ron\r
+( on: "entity.entered:portal_to_arena", do_actions: [ LoadScene("scenes/arena.scene.ron") ] ),\r
+```\r
+\r
+### NPC kill → reward\r
+```ron\r
+// state_machine.ron global_on\r
+( event: "stat.drone_01.health.depleted", do_actions: [\r
+    IncrementVariable("score", 10),\r
+    SpawnEffect(key: "explosion", entity: "drone_01"),\r
+    PlaySound(key: "explosion_sfx"),\r
+    Despawn("drone_01"),\r
+]),\r
+```\r
+\r
+### Respawn dummy (hide + delay + restore)\r
+Use behavior FSM with `idle` → `dead` transition on health.depleted, then `dead` → `idle` on delayed respawn. Prefer this over Despawn + Spawn — preserves spawn ID, stat map, and position.\r
+\r
+### Pause menu\r
+```ron\r
+transitions: [\r
+    ( from: Some("playing"), on: "ui.button_pressed:toggle_pause", to: "paused" ),\r
+    ( from: Some("paused"),  on: "ui.button_pressed:toggle_pause", to: "playing" ),\r
+]\r
+states: [\r
+    ( name: "paused", entry_actions: [ LoadSceneOverlay("scenes/pause.scene.ron") ], exit_actions: [ UnloadOverlay ], on: [] ),\r
+]\r
+```\r
+\r
+### Audio mute button wiring\r
+```ron\r
+// state_machine.ron global_on\r
+( event: "ui.button_pressed:toggle_mute", do_actions: [ ToggleMute ] ),\r
+( event: "audio.muted",   do_actions: [ SetVariable("audio_muted", "true") ] ),\r
+( event: "audio.unmuted", do_actions: [ SetVariable("audio_muted", "false") ] ),\r
+// In scene UI: IconButton with bind: "audio_muted"\r
+```\r
+\r
+---\r
+\r
+## Critical rules\r
+\r
+- `EmitEventAfterDelay` events are cleared on `LoadScene` — delayed events do NOT survive scene transitions.\r
+- Stat threshold events fire on the **next frame** after `ModifyStat`/`SetStat`.\r
+- `action_bar.activated:<key>` fires one frame after the slot's `do_actions` (do not use for immediate same-frame chaining).\r
+- `from: Some("state_name")` to target a specific source state; omit `from` entirely (not `from: None`) to match any state in a transition.\r
+- Behavior files are shared across instances — `{self}` is the only instance-differentiation mechanism.\r
+- `stat_templates` thresholds are the only way to emit events from stat changes — there is no `watch_stat` event."""

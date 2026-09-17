@@ -1,0 +1,44 @@
+(
+    schema_version: 1,
+    initial_state: "menu",
+
+    global_on: [
+        ( event: "scene.ready:main", do_actions: [ Log("Scene ready") ] ),
+
+        // --- Start menu ---
+
+        ( event: "ui.button_pressed:play_game", do_actions: [ LoadScene("scenes/integration_wing.scene.ron") ] ),
+        ( event: "ui.button_pressed:view_showcase", do_actions: [ LoadScene("scenes/showcase.scene.ron") ] ),
+        ( event: "ui.button_pressed:back_to_menu", do_actions: [ LoadScene("scenes/start_menu.scene.ron") ] ),
+
+        // Mission 1 ("Survey") briefing pop-up. Fires when the player enters the
+        // proximity trigger near the briefing table in integration_wing.
+        ( event: "entity.entered:briefing_trigger", do_actions: [
+            ShowFloatingText(
+                entity: "briefing_trigger",
+                text: "MISSION BRIEFING -- SURVEY\nMaren's Moon. Escort a survey crew, assess resource viability.\nCore suits. Should be routine.",
+                offset: (0.0, 1.2, 0.0),
+            ),
+        ]),
+    ],
+
+    states: [
+        (
+            name: "menu",
+            entry_actions: [],
+            exit_actions: [],
+            on: [],
+        ),
+        (
+            name: "hub",
+            entry_actions: [ Log("Integration Wing hub ready") ],
+            exit_actions: [],
+            on: [],
+        ),
+    ],
+
+    transitions: [
+        // Entering the Integration Program Wing establishes the hub state.
+        ( on: "scene.ready:integration_wing", to: "hub" ),
+    ],
+)
