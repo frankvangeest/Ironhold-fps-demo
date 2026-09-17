@@ -11,6 +11,22 @@ Format per entry:
 
 <!-- Suggestions go here -->
 
+- **What**: The `222e446b1a96` engine update adds three action capabilities worth adopting later: `Spawn(..., at_entity: "{id}")` (spawn using a live entity's full position/rotation/scale, resolved via `SpawnRegistry`), the `{new_id}` substitution (a fresh counter resolved at spawn time, so repeated `{self}`-derived spawn ids no longer collide — e.g. `id: "{self}_corpse_{new_id}"`), and `SetDespawnTimer(entity: "id", delay_secs: f32)` (a self-contained per-entity despawn timer, no event round-trip). The docs even package a ready-made "lootable corpse (loot-on-death)" design around them.
+- **Why**: This project has no corpse/loot-drop system yet, and `integration_wing`'s kill/briefing flow is exactly the shape that pattern targets — a monster whose corpse persists and decays independently of its own respawn timer was previously painful (needed two separate entities + careful id bookkeeping to author by hand).
+- **While**: Drift-reviewing the `docs/20_data_formats.md` / `docs/30_runtime_events_and_logic.md` updates from the `222e446b1a96` lib refresh.
+
+- **What**: `Button` and `Label` UI elements now have a `font_size` field (defaults `26.0`/`22.0`) and a `clip` field (default `false` → text overflows the box visibly, not silently). Previously text was fixed at 26px with no way to fit long labels, which forced shortening (the docs cite `3rd_person_game_demo`'s `toggle_nameplate_button`).
+- **Why**: Any overlong button/label text in future scenes (briefing banners, long hints) can now be fitted instead of shortened, and `clip: true` protects bind-driven variable-width labels from spilling into whatever sits below them.
+- **While**: Drift-reviewing `docs/20_data_formats.md`'s UI section after the `222e446b1a96` lib refresh.
+
+- **What**: `Action::BuyItem` is now fully implemented (checks stock, deducts `buy_price` from the merchant's `currency_stat`, adds the item to the player's inventory, emits `item.bought:{item_key}`). Selling is still not implemented — `sell_price` is stored but nothing reads it. The docs also added a `.project.ron` `GlobalKeyBindings` note: binding values are used **as-is** (fires `ui.button_pressed:<trigger>`), and `ironhold_cli validate` now cross-checks `currency_stat`/`item_key`/binding triggers against their catalogs.
+- **Why**: If the hub ever gets a merchant, buying now actually works; and the CLI-side cross-checks mean shop/binding typos surface at design time instead of as a silent runtime no-op.
+- **While**: Drift-reviewing the `docs/20_data_formats.md` inventory/shop and key-binding sections after the `222e446b1a96` lib refresh.
+
+- **What**: The engine's embedded UI font is ASCII-only (`U+0020..U+007E`) — any non-ASCII character (em-dash, curly quotes, `→`, `×`, accents) in an in-game `text:` field renders as a tofu box. `ironhold_cli validate --strict` now catches this at design time (`non_ascii_char_in_text`) in Label/Button/EntityLabel/WorldLabel text and dialogue speaker/body/choice labels (not in `ShowFloatingText`/`ShowDamagePopup`, which are Action-authored). Separately, the `reference_distance` default changed `50.0` → `20.0`.
+- **Why**: New scenes/dialogues should stay ASCII-only to avoid tofu in shipped text; the CLI's `--strict` flag now enforces it. The `reference_distance` note matters because a scene-author who relies on the old `50.0` default (via `depth_scale: true` without a block) would now get scaling engaging at a different range.
+- **While**: Drift-reviewing `docs/20_data_formats.md`'s world-label and `label_depth_scale` sections after the `222e446b1a96` lib refresh.
+
 - **What**: `models/Decals/Decal_Line_90.gltf` 404s on load — it references `Decal_Line_90_001.bin`, which doesn't exist on disk (pre-existing, not caused by any recent change).
 - **Why**: Currently a silent-ish console error in `showcase.scene.ron`; worth a pass with `asset-pipeline` to check for other decals with the same mismatched `.bin` reference.
 - **While**: Verifying `showcase.scene.ron` still loads cleanly after adding colliders to the corridor kit prefabs.
