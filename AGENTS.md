@@ -193,7 +193,7 @@ CameraShake(duration_secs: 0.4, intensity: 0.15)
 
 ## Agents
 
-Specialized Codex agents live in `.codex/agents/` as TOML definitions. Use the matching role for its specialty. If a Codex environment does not expose a project agent as a selectable type, read the relevant `.codex/agents/<name>.toml` definition and follow its developer instructions in the delegated prompt.
+Specialized project agents are defined three ways: `.claude/agents/*.md` (Claude Code), `.codex/agents/*.toml` (Codex), and `.opencode/agents/*.md` (opencode — auto-discovered as selectable subagents). All carry the same role instructions; keep the underlying guides in sync when you update one. Use the matching role for its specialty. If an environment does not expose a project agent as a selectable type, read the relevant definition file and follow its developer instructions in the delegated prompt.
 
 | Agent | `subagent_type` | Use for |
 |---|---|---|
