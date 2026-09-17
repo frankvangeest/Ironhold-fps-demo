@@ -44,7 +44,7 @@ tools\ironhold_cli\ironhold.exe query prefabs assets\projects\scifi_fps\ --keys-
 tools\ironhold_cli\ironhold.exe stats assets\projects\scifi_fps\
 ```
 
-It's standalone (no external schema files needed beyond the project directory) and catches parse errors (with file/line) plus most cross-file reference errors: missing prefab keys referenced in scenes, missing effect keys referenced in rules. **Known gap**: it does NOT catch a `LoadScene(...)` in `logic/rules.ron` pointing at a nonexistent scene file — root-caused to a missing match arm in `ironhold_cli`'s validator (never implemented, not a regression), with a ready-to-apply fix; don't rely on it for that specific mistake until the fix lands upstream in `ironhold-lib`. See `tools/ironhold_cli/README.md` for the diagnosis, patch, and rebuild instructions. Run this before a browser test as a fast first-pass check, not as a replacement for one.
+It's standalone (no external schema files needed beyond the project directory) and catches parse errors (with file/line) plus most cross-file reference errors: missing prefab keys referenced in scenes, missing effect keys referenced in rules, and missing scene-path targets for `LoadScene`/`LoadSceneOverlay`/`PreloadScene`/`ToggleOverlay` (including `initial_scene`). The scene-path check was a long-standing gap — the validator's cross-file `match` originally had no arm for scene-load actions (never implemented, not a regression) — fixed upstream in ironhold-lib `7acd354`; the `ironhold.exe` committed here is rebuilt from pin `222e446b1a96` and verified to catch a bad `LoadScene` path (see `tools/ironhold_cli/README.md`). Run this before a browser test as a fast first-pass check, not as a replacement for one.
 
 ## Branching
 
