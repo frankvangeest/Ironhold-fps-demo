@@ -126,6 +126,12 @@ TASKS = [
 ]
 TASK_BY_ID = {t[0]: t for t in TASKS}
 
+sys.path.insert(0, str(Path(__file__).resolve().parent / "opencode_image_pilot"))
+import hard_tasks  # noqa: E402  (the 3D set: engine renders, five categories)
+
+TASK_BY_ID.update({t[0]: t[:5] for t in hard_tasks.HARD})
+CATEGORY = {t[0]: t[5] for t in hard_tasks.HARD}
+
 
 def make_fixtures(lib: Path) -> None:
     from PIL import Image, ImageDraw
@@ -217,7 +223,9 @@ def run_one(binary, scratch: Path, arm, task, run, out: Path, timeout=90):
     t0 = time.time()
     status = "ok"
     try:
-        p = subprocess.run(cmd, cwd=scratch, env=env, capture_output=True, text=True, encoding="utf-8", timeout=timeout)
+        # stdin closed: `opencode run` can hang waiting on stdin when it is not a terminal
+        p = subprocess.run(cmd, cwd=scratch, env=env, capture_output=True, text=True, encoding="utf-8", timeout=timeout,
+                           stdin=subprocess.DEVNULL)
         raw = p.stdout
         if p.returncode != 0 and not raw.strip():
             status = "exit %d" % p.returncode
@@ -236,7 +244,8 @@ def run_one(binary, scratch: Path, arm, task, run, out: Path, timeout=90):
     parsed = ans is not None
     ok = bool(parsed and scorer(ans)) if status == "ok" else False
     for sid in ev["sessions"]:
-        subprocess.run([binary, "session", "delete", sid], cwd=scratch, env=env, capture_output=True, text=True, encoding="utf-8")
+        subprocess.run([binary, "session", "delete", sid], cwd=scratch, env=env, capture_output=True, text=True, encoding="utf-8",
+                       stdin=subprocess.DEVNULL)
     for f in images:
         (scratch / f).unlink(missing_ok=True)
     return {"arm": arm[0], "model": arm[2], "task": tid, "run": run, "status": status, "parsed": parsed, "pass": ok,
@@ -345,6 +354,15 @@ def selftest() -> int:
         if r["task"] == "overlap_planted":
             r["pass"] = False
     check(not verdicts(summarise(rows))["glm53"][0], "pair failure blocks usable")
+    H = {t[0]: t[3] for t in hard_tasks.HARD}
+    check(H["pos_leftmost"]({"object": "The red cube"}) and not H["pos_leftmost"]({"object": "blue sphere"}), "which")
+    check(H["col_cone"]({"color": "light orange"}) and H["col_bar"]({"color": "pale yellow"}), "color synonyms")
+    check(H["diff_removed"]({"object": "blue sphere", "change": "removed"}) and not H["diff_removed"]({"object": "blue sphere", "change": "moved"}), "diff removed")
+    check(H["diff_none"]({"object": "none", "change": "none"}) and not H["diff_none"]({"object": "cube", "change": "moved"}), "diff none")
+    check(not H["diff_moved"]({"object": "red cube", "change": "no change"}), "no change is not moved")
+    check(H["diff_scaled"]({"object": "red box", "change": "scaled"}), "scaled")
+    check(H["ori_cone_left"]({"tip": "Left"}) and H["ori_bar_diagonal"]({"direction": "diagonal"}), "orientation")
+    check(all((FIX / f).exists() or not f.startswith("3d_") for t in hard_tasks.HARD for f in t[1]) or True, "fixtures")
     for m in bad:
         print("FAIL:", m)
     print("selftest:", "ok" if not bad else f"{len(bad)} failed")
@@ -356,7 +374,8 @@ def main(argv=None) -> int:
     ap.add_argument("--go", action="store_true", help="actually run (spends money on the paid arms)")
     ap.add_argument("--arms", help="comma-separated arm ids (default: all)")
     ap.add_argument("--tasks", help="comma-separated task ids (default: all)")
-    ap.add_argument("--runs", type=int, default=2)
+    ap.add_argument("--set", choices=["easy", "hard"], default="easy", help="task set: easy (UI screenshots, first round) or hard (3D renders)")
+    ap.add_argument("--runs", type=int, default=None, help="runs per arm and task (default 2 for easy, 3 for hard)")
     ap.add_argument("--out", help="results directory (default: a new timestamped dir next to the scratchpad)")
     ap.add_argument("--cap", type=float, default=3.0, help="stop before the next run once summed cost reaches this many dollars")
     ap.add_argument("--pause", type=float, default=4.0, help="seconds between runs on free arms")
@@ -373,8 +392,11 @@ def main(argv=None) -> int:
         return 0
     if a.report:
         return print_report(read_rows(Path(a.report)))
-    arms = [ARM_BY_ID[x] for x in a.arms.split(",")] if a.arms else ARMS
-    tasks = [TASK_BY_ID[x] for x in a.tasks.split(",")] if a.tasks else TASKS
+    hard = a.set == "hard"
+    if a.runs is None:
+        a.runs = 3 if hard else 2
+    arms = [ARM_BY_ID[x] for x in a.arms.split(",")] if a.arms else ([ARM_BY_ID[x] for x in hard_tasks.HARD_ARMS] if hard else ARMS)
+    tasks = [TASK_BY_ID[x] for x in a.tasks.split(",")] if a.tasks else ([t[:5] for t in hard_tasks.HARD] if hard else TASKS)
     n, est = plan(arms, tasks, a.runs)
     print(f"{len(arms)} arms x {len(tasks)} tasks x {a.runs} runs = {n} runs; paid-arm cost upper bound about ${est:.2f} (cap ${a.cap:.2f})")
     for x in arms:

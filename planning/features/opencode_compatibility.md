@@ -159,7 +159,64 @@ Untested and needed for Part A: whether an image reaches a subagent. The driver 
 so the image agent would have to open the file itself with the `read` tool (which attaches images for vision models); the
 pilot attached images directly with `-f` and did not cover that path.
 
+## Part B, round 2: 3D scene interpretation (registered 2026-10-12, before the run)
+
+### Why
+Image interpretation here will be used to build and debug 3D scenes, so round 2 tests that: position, object recognition,
+colors, orientation, and differences between two scene edits.
+
+### Delegation test (done first, 2026-10-12)
+Driver `glm53` (agent `driver`, only the `task` tool) delegated to a subagent `imgreader` on `qwen3-vl-30b-a3b-instruct` (only the
+`read` tool) with a file path and a question. **It works end to end:** the subagent opened the PNG with `read` and the driver
+relayed the correct labels. Caveats seen in the one run: the subagent first wrote its `read` call as plain text instead of making a
+tool call, so the driver had to resume the session (3 driver steps, about $0.001 in total); and `opencode run` hung twice until
+stdin was closed (`< /dev/null`; `tools/opencode_image_pilot.py` now passes `stdin=DEVNULL`). Image delegation therefore costs
+more steps and one retry versus the driver reading the image itself.
+
+### Fixtures
+Real engine renders (`tools/opencode_image_pilot/render_scenes.py`: a throwaway project, a Fixed camera, visible WebGPU
+Chromium via ironhold-lib's `test_web` helpers). One base scene with five objects at known places (red cube left, blue sphere
+far, green cylinder right, orange cone far right, yellow bar on the ground pointing at the camera) and single-edit variants:
+bar rotated 90 and 45 degrees, cone lying left and right, cube moved, cube nudged 0.6 units, cylinder recolored, sphere removed,
+white cube added, cube scaled 1.8x, plus a re-render of the unchanged scene as the "no change" control.
+
+### Tasks (28, `tools/opencode_image_pilot/hard_tasks.py`)
+position (5), recognition (6: three shapes, three object counts), color (3), orientation (6: bar toward/across/diagonal, cone tip
+up/left/right), diff (8: moved, nudged, recolored, removed, added, rotated, scaled, none). Scoring is by synonym lists on a
+one-line JSON answer. Every task of a group (counts, bar direction, cone tip, diff) must pass in at least one run, so a model that
+always gives the same answer cannot pass.
+
+### Models and runs
+`glm53`, `qwen_vl`, `qwen_omni`, `gemini38_or`, `inkling` (the five that were usable in round 1), 3 runs each = 420 runs, cap $3.
+
+### Decision rule
+A model is **eligible** as image model for scene work if it passes at least 85% of all runs and at least 75% in every category.
+Among eligible models: lowest cost per run, then lowest latency. If none is eligible, the best overall rate per category decides
+which categories get a human check.
+
 ### Follow-ups
 - Part A (alignment) is not started; it needs Frank's answers to the open decisions above.
 - Check whether the Zen free tier works headless in `ironhold-lib` (finding above).
 - Optional harder image round (above).
+
+
+### Part B, round 2 results (2026-10-12)
+
+420 runs, 5 models x 28 tasks x 3 runs, total cost $0.34. Two defects in my own test were found after the run, so the
+numbers below exclude `diff_recolored` (the "purple" fixture still renders a green cylinder: the colour is defined on the shared
+prefab, so the per-variant override never reached the render; models answering "none" were right) and rescore `pos_closest`
+(answers "yellow box/cuboid/prism" were correct; the synonym list for "bar" lacked them, now fixed). This is a post-hoc change to the
+registered scoring; it only touches those two tasks.
+
+| model | position | recognition | color | orientation | diff | overall | verdict |
+|---|---|---|---|---|---|---|---|
+| glm53 | 15/15 | 18/18 | 9/9 | 18/18 | 21/21 | 100% | eligible |
+| gemini38_or | 15/15 | 18/18 | 9/9 | 18/18 | 21/21 | 100% | eligible (costliest) |
+| qwen_omni | 15/15 | 18/18 | 9/9 | 18/18 | 20/21 | 99% | eligible |
+| inkling:free | 12/15 | 18/18 | 9/9 | 15/18 | 19/21 | 90% | eligible, weakest margin |
+| qwen_vl | 15/15 | 15/18 | 9/9 | 15/18 | 14/21 | 84% | NOT eligible (<85%, 67% in two categories) |
+
+Conclusions: Qwen3 VL 30B A3B fails the registered rule (cone pointing left, 5-object count, rotation and no-change diffs), so it
+is no longer the provisional image model. GLM 5.3 flash reads the 3D renders itself with no misses, so the driver needs no image
+subagent; delegation also costs extra steps (see delegation test). Follow-up: fix the `cylinder_purple` fixture (per-variant prefab)
+and re-run `diff_recolored` before treating colour-change detection as measured.
