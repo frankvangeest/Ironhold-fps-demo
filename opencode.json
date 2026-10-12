@@ -15,7 +15,6 @@
       "python scripts/*": "allow",
       "python tools/*": "allow",
       "tools/ironhold_cli/ironhold.exe *": "allow",
-      "tools\\ironhold_cli\\ironhold.exe *": "allow",
       "git status*": "allow",
       "git diff*": "allow",
       "git log*": "allow",
@@ -25,7 +24,18 @@
       "grep *": "allow",
       "cat *": "allow",
       "git push*": "ask",
-      "git reset --hard*": "ask"
+      "git reset --hard*": "ask",
+      "*ironhold.exe validate*": "allow",
+      "*ironhold.exe query*": "allow",
+      "*ironhold.exe stats*": "allow",
+      "*ironhold.exe inspect*": "allow",
+      "sed -n*": "allow",
+      "head *": "allow",
+      "tail *": "allow",
+      "wc *": "allow",
+      "find *": "allow",
+      "find * -delete*": "deny",
+      "find * -exec*": "ask"
     }
   },
   "agent": {

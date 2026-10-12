@@ -11,7 +11,9 @@ Claude Code and OpenCode are the two supported tools. `CLAUDE.md` and `.claude/a
   Subagents are reached through the driver's `task` tool; `opencode run --agent <subagent>` is not possible.
 - **Bash allow-list:** global, in `opencode.json`; anything else asks.
 - **Hook:** `.opencode/plugins/hooks.ts` runs `scripts/check_asset_size.py` when a session goes idle (Claude runs it on prompt submit).
-  It prints nothing under 700 MB of assets.
+  It prints nothing under 700 MB of assets. Verified (2026-10-12) in a long-lived `opencode serve`/attach session; a one-shot
+  `opencode run` exits before the async check finishes, so it never warns there. The bash tool runs Git Bash: use forward slashes
+  (`tools/ironhold_cli/ironhold.exe`), backslash paths from `CLAUDE.md` get eaten.
 
 Run on this machine: `nvs use 24.21`, then `opencode` (or `opencode run "<message>" --dir <repo> < /dev/null` headless: stdin must
 be closed or it hangs).
