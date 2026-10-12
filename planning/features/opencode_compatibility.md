@@ -21,7 +21,7 @@ Reference setup: `../ironhold-lib/.opencode/README.md` and `../ironhold-lib/plan
 Problems: two copies of every instruction file that drift apart (the repo's own `CLAUDE.md` already warns agent examples go
 stale after engine updates), no model routing, no permissions, Codex leftovers.
 
-## Part A: alignment (not started)
+## Part A: alignment (done 2026-10-12; decisions: delete AGENTS.md, hybrid permissions from `tools:`, no image agent)
 1. **Delete `.codex/`.** Reword `AGENTS.md` and `CLAUDE.md`'s "defined three ways" sentence to two ways.
 2. **One instruction source.** `CLAUDE.md` stays the source; `opencode.json` loads it with `"instructions": ["CLAUDE.md"]`.
    `AGENTS.md` becomes a short pointer or goes away. Do **not** use an `@CLAUDE.md` stub: OpenCode does not expand it and the
@@ -195,7 +195,7 @@ Among eligible models: lowest cost per run, then lowest latency. If none is elig
 which categories get a human check.
 
 ### Follow-ups
-- Part A (alignment) is not started; it needs Frank's answers to the open decisions above.
+- Part A (alignment) is done. Open follow-up: the Stop reminder from `.claude/settings.json` has no OpenCode equivalent.
 - Check whether the Zen free tier works headless in `ironhold-lib` (finding above).
 - Optional harder image round (above).
 

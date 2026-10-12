@@ -193,7 +193,7 @@ CameraShake(duration_secs: 0.4, intensity: 0.15)
 
 ## Agents
 
-Specialized agents live in `.claude/agents/`. In some Claude Code environments these are directly selectable via the Agent tool's `subagent_type`; in others (confirmed in at least one session on this repo) the Agent tool only lists built-ins (`claude`, `general-purpose`, `Explore`, `Plan`, etc.) and a custom `subagent_type` like `prefab-architect` errors with "Agent type not found." If that happens, don't fall back to an undirected `general-purpose` call — open the relevant `.claude/agents/<name>.md` file yourself (or tell the delegated agent to read it first) and follow its conventions explicitly in the prompt.
+Specialized agents live in `.claude/agents/` and are shared with OpenCode: after adding or editing one, run `python scripts/sync_opencode_agents.py` (see `.opencode/README.md`). In some Claude Code environments these are directly selectable via the Agent tool's `subagent_type`; in others (confirmed in at least one session on this repo) the Agent tool only lists built-ins (`claude`, `general-purpose`, `Explore`, `Plan`, etc.) and a custom `subagent_type` like `prefab-architect` errors with "Agent type not found." If that happens, don't fall back to an undirected `general-purpose` call — open the relevant `.claude/agents/<name>.md` file yourself (or tell the delegated agent to read it first) and follow its conventions explicitly in the prompt.
 
 | Agent | `subagent_type` | Use for |
 |---|---|---|

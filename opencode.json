@@ -1,3 +1,107 @@
 {
-  "$schema": "https://opencode.ai/config.json"
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": [
+    "CLAUDE.md"
+  ],
+  "model": "openrouter/z-ai/glm-5.3-flash",
+  "small_model": "openrouter/z-ai/glm-5.3-flash",
+  "permission": {
+    "edit": "allow",
+    "external_directory": {
+      "*": "ask"
+    },
+    "bash": {
+      "*": "ask",
+      "python scripts/*": "allow",
+      "python tools/*": "allow",
+      "tools/ironhold_cli/ironhold.exe *": "allow",
+      "tools\\ironhold_cli\\ironhold.exe *": "allow",
+      "git status*": "allow",
+      "git diff*": "allow",
+      "git log*": "allow",
+      "git show*": "allow",
+      "git branch*": "allow",
+      "ls*": "allow",
+      "grep *": "allow",
+      "cat *": "allow",
+      "git push*": "ask",
+      "git reset --hard*": "ask"
+    }
+  },
+  "agent": {
+    "asset-pipeline": {
+      "mode": "subagent",
+      "description": "Use for maintaining the asset catalog, running Python pipeline scripts (scan, fix, generate), updating the Ironhold library, and managing GLTF files and texture paths. Handles bulk changes via scripts, not direct RON edits.",
+      "prompt": "{file:.claude/agents/asset-pipeline.md}",
+      "permission": {
+        "task": "deny",
+        "webfetch": "deny",
+        "websearch": "deny"
+      }
+    },
+    "cinematics-director": {
+      "mode": "subagent",
+      "description": "Use for composing dramatic or emotional camera framing, lighting, and pacing for story beats and cutscene-like moments — within the engine's current camera capabilities (no scripted camera paths or sequencer exist yet). Consult when placing a `flycam` or `player.camera` for a scripted moment, or timing shake/lighting/floating text around a story beat.",
+      "prompt": "{file:.claude/agents/cinematics-director.md}",
+      "permission": {
+        "task": "deny",
+        "bash": "deny",
+        "webfetch": "deny",
+        "websearch": "deny"
+      }
+    },
+    "fsm-author": {
+      "mode": "subagent",
+      "description": "Use for authoring logic/state_machine.ron, logic/rules.ron, and behaviors/*.behavior.ron files — the event→action pipeline that drives game flow, NPC behavior, scene transitions, and collectible interactions.",
+      "prompt": "{file:.claude/agents/fsm-author.md}",
+      "permission": {
+        "task": "deny",
+        "bash": "deny",
+        "webfetch": "deny",
+        "websearch": "deny"
+      }
+    },
+    "game-world-designer": {
+      "mode": "subagent",
+      "description": "Use this agent when you need expert guidance on game world design, world building, player experience, emotional tone, themed zone cohesion, NPC/player interaction flows, or narrative consistency. Also use it when designing or reviewing assets, scenes, prefabs, or RON data files for a project to ensure they fit together thematically and experientially. It should be invoked when starting a new project, when adding a new zone or scene, when designing NPC behavior or interaction flows, or when you want a holistic review of how a game world feels.",
+      "prompt": "{file:.claude/agents/game-world-designer.md}",
+      "permission": {
+        "task": "deny",
+        "edit": "deny",
+        "bash": "deny"
+      }
+    },
+    "ironhold-ron": {
+      "mode": "subagent",
+      "description": "Use for authoring, editing, or validating any Ironhold RON data file (scenes, prefabs, assets catalog, state machines, behaviors). Invoke this agent whenever you need a correctly-structured RON file — it knows every schema version, field name, and common parse-error pattern.",
+      "prompt": "{file:.claude/agents/ironhold-ron.md}",
+      "permission": {
+        "task": "deny",
+        "bash": "deny",
+        "webfetch": "deny",
+        "websearch": "deny"
+      }
+    },
+    "level-designer": {
+      "mode": "subagent",
+      "description": "Use for designing and authoring scene files (scenes/*.scene.ron) — entity placement, lighting, spawn points, UI layout, and scene flow. Thinks spatially about cover, flow, and player experience. Also handles terrain configuration.",
+      "prompt": "{file:.claude/agents/level-designer.md}",
+      "permission": {
+        "task": "deny",
+        "webfetch": "deny",
+        "websearch": "deny"
+      }
+    },
+    "prefab-architect": {
+      "mode": "subagent",
+      "description": "Use for designing and authoring PrefabDef entries in prefabs/prefabs.ron — entity templates including components, stat templates, behavior references, display names, and physics shapes. Also handles animation policy files.",
+      "prompt": "{file:.claude/agents/prefab-architect.md}",
+      "permission": {
+        "task": "deny",
+        "bash": "deny",
+        "webfetch": "deny",
+        "websearch": "deny"
+      }
+    }
+  }
 }
