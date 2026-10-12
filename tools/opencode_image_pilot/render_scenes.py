@@ -64,9 +64,14 @@ VARIANTS = {
 }
 
 
+def pkey(name, o):
+    """Prefab id: the object name plus its look, so a recoloured variant gets its own prefab."""
+    return name + "_" + "".join(f"{c:.2f}".replace(".", "") for c in o["color"])
+
+
 def prefab_ron(name, o):
     r, g, b = o["color"]
-    return (f'    "{name}": (\n      kind: Primitive, model: "", shape: {o["shape"]}, components: (),\n'
+    return (f'    "{pkey(name, o)}": (\n      kind: Primitive, model: "", shape: {o["shape"]}, components: (),\n'
             f'      primitive: ( {o["prim"]}, color: ({r}, {g}, {b}), roughness: 0.55 ),\n    ),\n')
 
 
@@ -76,7 +81,7 @@ def scene_ron(variant, objs):
         x, y, z = o["pos"]
         rx, ry, rz = o["rot"]
         s = o["scale"]
-        ents += (f'    ( id: "{name}", prefab: "{name}",\n      transform: ( translation: ({x}, {y}, {z}), '
+        ents += (f'    ( id: "{name}", prefab: "{pkey(name, o)}",\n      transform: ( translation: ({x}, {y}, {z}), '
                  f'rotation_euler_deg: ({rx}, {ry}, {rz}), scale: ({s}, {s}, {s}) ) ),\n')
     return f'''(
   schema_version: 2,
@@ -119,8 +124,9 @@ def write_project(root: Path):
     (root / "logic" / "state_machine.ron").write_text("(\n    schema_version: 1,\n    global_on: [],\n)\n", encoding="utf-8")
     all_objs = {}
     for fn in VARIANTS.values():
-        all_objs.update(fn(BASE))
-    prefabs = "".join(prefab_ron(n, o) for n, o in all_objs.items())
+        for n, o in fn(BASE).items():
+            all_objs[pkey(n, o)] = (n, o)
+    prefabs = "".join(prefab_ron(n, o) for n, o in all_objs.values())
     (root / "prefabs" / "prefabs.ron").write_text(f'''(
     schema_version: 2,
     prefabs: {{
@@ -143,7 +149,7 @@ def write_project(root: Path):
         (root / "scenes" / f"{v}.scene.ron").write_text(scene_ron(v, fn(BASE)), encoding="utf-8")
 
 
-async def render(lib: Path, port: int):
+async def render(lib: Path, port: int, only):
     sys.path.insert(0, str(lib))
     import os
     os.chdir(lib)
@@ -154,7 +160,7 @@ async def render(lib: Path, port: int):
     async with async_playwright() as pw:
         browser = await pw.chromium.launch(headless=False, args=tw.CHROMIUM_ARGS_REAL_GPU)
         context = await browser.new_context(viewport={"width": 1280, "height": 720})
-        for v in VARIANTS:
+        for v in (only or VARIANTS):
             page, errors = await tw.open_project(context, PROJECT, f"scenes/{v}.scene.ron")
             try:
                 await tw.wait_for_scene_ready(page, settle_frames=60)
@@ -170,6 +176,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--lib", default=str(HERE.parent.parent.parent / "ironhold-lib"))
     ap.add_argument("--port", type=int, default=8002)
+    ap.add_argument("--only", help="comma-separated variant names to re-render (default: all)")
     ap.add_argument("--keep", action="store_true", help="keep the throwaway project in the lib afterwards")
     a = ap.parse_args()
     lib = Path(a.lib).resolve()
@@ -179,7 +186,7 @@ def main():
     server = subprocess.Popen([sys.executable, "serve.py", str(a.port)], cwd=lib, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     time.sleep(1.5)
     try:
-        asyncio.run(render(lib, a.port))
+        asyncio.run(render(lib, a.port, a.only.split(",") if a.only else None))
     finally:
         server.terminate()
         server.wait()

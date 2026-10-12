@@ -220,3 +220,11 @@ Conclusions: Qwen3 VL 30B A3B fails the registered rule (cone pointing left, 5-o
 is no longer the provisional image model. GLM 5.3 flash reads the 3D renders itself with no misses, so the driver needs no image
 subagent; delegation also costs extra steps (see delegation test). Follow-up: fix the `cylinder_purple` fixture (per-variant prefab)
 and re-run `diff_recolored` before treating colour-change detection as measured.
+
+#### Recolour re-run (2026-10-12)
+
+Fixture fixed (prefab id now includes the colour, `render_scenes.py --only cylinder_purple`; the base render is byte-identical).
+Only `diff_recolored` was re-run, 3 runs per model, $0.01: qwen_vl 3/3, qwen_omni 3/3, gemini38_or 3/3, inkling 3/3,
+glm53 2/3 (one run said "green cone"). Colour-change detection is now measured; the diff column becomes glm53 23/24 (the full
+24 with this task), qwen_vl 17/24, qwen_omni 23/24, gemini38_or 24/24, inkling 22/24. No eligibility verdict changes; glm53 still
+passes every category above 75% and overall above 85%.
