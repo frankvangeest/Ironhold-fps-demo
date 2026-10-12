@@ -10,6 +10,9 @@ Claude Code and OpenCode are the two supported tools. `CLAUDE.md` and `.claude/a
   `python scripts/sync_opencode_agents.py` (`--check` exits 1 when `opencode.json` is stale). Don't hand-edit the `agent` block.
   Subagents are reached through the driver's `task` tool; `opencode run --agent <subagent>` is not possible.
 - **Bash allow-list:** global, in `opencode.json`; anything else asks.
+- **Validation:** `scripts/validate_changed_ron.py` runs `ironhold.exe validate` on every `assets/projects/<name>` with uncommitted
+  RON changes (silent if none). It runs at the end of each session in both tools: Claude's Stop hook (exit 2 feeds the errors back
+  so Claude fixes them; it does not loop) and the OpenCode plugin (warning only, the driver is not forced to continue).
 - **Hook:** `.opencode/plugins/hooks.ts` runs `scripts/check_asset_size.py` when a session goes idle (Claude runs it on prompt submit).
   It prints nothing under 700 MB of assets. Verified (2026-10-12) in a long-lived `opencode serve`/attach session; a one-shot
   `opencode run` exits before the async check finishes, so it never warns there. The bash tool runs Git Bash: use forward slashes
