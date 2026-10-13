@@ -10,10 +10,39 @@ Tasks promoted from `claude_suggestions.md` or added directly. Work top-to-botto
 
 ## Up Next
 
+- [ ] **Audio baseline** — `assets.ron` has zero audio entries, so no `PlayMusicLoop`/`PlaySound` action can resolve. Source/register placeholder keys (ambient station hum, UI click, mission-briefing sting) and wire `PlayMusicLoop` on `scene.ready:...` for `start_menu` and `integration_wing`. Promoted from claude_suggestions. (`asset-pipeline` pass)
+- [ ] **Fix Decal_Line_90.gltf 404** — references `Decal_Line_90_001.bin` which doesn't exist on disk; silent-ish console error in `showcase.scene.ron`. Audit all other decal GLTFs for the same mismatched `.bin` reference in the same pass. Promoted from claude_suggestions. (`asset-pipeline`)
+- [ ] **Strict ASCII text pass** — the engine's embedded UI font is ASCII-only; run `ironhold.exe validate --strict` over the project and fix any `non_ascii_char_in_text` hits in Label/Button/label/dialogue text. Also decide a durable convention (lint step vs. authoring rule) so future text stays tofu-free. Promoted from claude_suggestions.
+
 ## Backlog
 
+### Gameplay (must exist before any mission is playable)
+
+- [ ] **Weapons + shooting** — there is no weapon/attack system at all (no attack actions, no ammo stats, no weapon prefabs; `prop_weapon_rack` is decor). An FPS with no gun blocks everything downstream. Scope: at minimum a hitscan/prefab-spawn attack bound to input, an ammo stat, and visible muzzle/hit feedback via `SpawnEffect`.
+- [ ] **Combat-ready alien enemies** — `alien_cyclop` / `alien_oculichrysalis` / `alien_scolitex` are showcase props only. Give them stat templates (health), hostile `behaviors/*.behavior.ron` FSMs, and a death flow. Story targets for enemy biology/danger live in `storyline/00_world.md` (territorial fauna, swarm events). Needs `stats/stats.ron` (doesn't exist yet).
+- [ ] **Corpse/loot flow** — adopt the `222e446` engine capabilities (`Spawn(..., at_entity:)`, `{new_id}`, `SetDespawnTimer`) for a lootable-corpse pattern, e.g. aliens dropping salvage/ammo in Mission 1. Promoted from claude_suggestions. Can piggyback on the enemy task.
+
+### Story content (in story order)
+
+- [ ] **Mission 1 "Survey" scene (Maren's Moon)** — Act 1 opens here (`storyline/03_act1.md`): escort a survey crew assessing resource viability; beats are predator migration, an early swarm event, and the oblivious survey lead; tone is "competent chaos, nothing goes as planned, everything goes fine". Big task — needs a design pass first (`game-world-designer` → `level-designer`): terrain/outdoor lighting approach, survey camp layout, escort objective framing, encounter scripting in rules. Depends on weapons + enemies.
+- [ ] **Mission launch path out of the hub** — after the briefing trigger, the player has nowhere to go: the hub has no exit that `LoadScene`s into a mission scene. Add a mission-launch step (Suit Bay "gear up" interactable that unlocks/loads Mission 1 — the briefing explicitly says "Core suits", so suiting up is the natural story-shaped gate) and wire the round-trip back to the hub on mission end.
+- [ ] **Hub rooms earn their keep** — Suit Bay, Armory, and Observation Deck are labeled but inert. Give each a minimal interaction consistent with the story: Suit Bay = suit pickup/gear-up gate (see above), Armory = weapon/ammo pickup, Observation Deck = flavor view of Maren's Moon + mission status text. Placeholder furnishings are fine; interactions are the point.
+- [ ] **Briefing beyond one pop-up** — the Mission 1 briefing is a single `ShowFloatingText`. It should become real dialogue flow (speaker lines, choices if any) naming Petra/command and referencing the storyline beats, so Act 1's character dynamic (Kael/Yun/Rook/Mira via comms) has a home. ASCII-only text per the font constraint.
+- [ ] **HUD** — player health (needs `stats/stats.ron` + a player stat template), objective/mission text, ammo once weapons exist. Currently the only in-game feedback is floating text.
+
+### Polish / later
+
+- [ ] **Merchant in the hub** — `Action::BuyItem` is now fully implemented engine-side; a small armory merchant (buy ammo/supplies) would exercise it. Promoted from claude_suggestions. Low priority — only after combat exists.
+- [ ] **Retire or repurpose stale test scenes** — `main.scene.ron` and `corridor_blockout.scene.ron` predate the corridor kit and hub; decide whether they're still useful test fixtures or should be deleted (showcase and start_menu are clearly load-bearing).
+
+### Maintenance
+
+- [ ] **Fix `.claude/agents/prefab-architect.md` field listing** — nests `trigger_zone`/`interactable` under `components:` in its field list and the `ammo_pack` example, while the authoritative docs (and its own `portal_to_arena` example) say top-level sibling of `kind`/`model`. Stale doc risks silent parse errors for the next trigger-zone prefab. Promoted from claude_suggestions.
+- [ ] **Root-cause startup console panic** — every page load logs `panicked at bevy_winit-0.18.0/src/lib.rs:128: Failed to build event loop: RecreationAttempt` plus a duplicate-logger-init error, right after `Project Config Path`. Cosmetic so far (game reaches `InGame`). Reproduce on a normal (non-Playwright) load first; if it reproduces, file upstream against `ironhold-lib`. Promoted from claude_suggestions.
 - [ ] Forgejo support in lib scripts: add `forge_type` to `ironhold-lib.json` and branch API calls in `check_lib_version.py` / `update_lib.py` to support Forgejo's different endpoint format and raw URL structure. Do when migration is actually happening so it can be tested against a real instance.
 
 ## Done
 
+- [x] Checked storyline vs. project state and seeded this backlog — 2026-10-13. Story: `storyline/00_world.md`–`05_act3.md` (Integration Program, Petra's team of 4, Act 1 = 5 missions starting with "Survey" on Maren's Moon). State: start menu → `integration_wing` hub (4 placeholder rooms + Mission 1 briefing trigger) is the only interactive content; player has FirstPerson camera already; zero audio/effects/stats/behaviors; aliens are non-combat props. New tasks above derived from that gap, actionable claude_suggestions promoted (noted per task), stale ones resolved in `claude_suggestions.md`.
+- [x] Start menu + in-game entry into the hub — `start_menu.scene.ron` with Play Game → `LoadScene("scenes/integration_wing.scene.ron")` wired via `ui.button_pressed` rules. Resolves the earlier "hub is unreachable without hand-editing `initial_scene`" suggestion.
 - [x] Test `ironhold_cli` RON validation — 2026-08-26. Built from `ironhold-lib` (`cargo build --release -p ironhold_cli`, commit `593278467c6a42ad505af35090318cb576e9d37e`). Confirmed standalone (only needs a project directory) against `scifi_fps` (9 files, all valid) and three intentionally broken copies: caught a parse error with file/line, a missing prefab key referenced by a scene, and a missing effect key referenced by a rule. Found one gap: a `LoadScene(...)` in `rules.ron` pointing at a nonexistent scene file was NOT caught, despite being a documented cross-file check — likely only wired for `state_machine.ron` transitions, not `rules.ron` actions (this project uses `rules_path`). Binary committed to `tools/ironhold_cli/ironhold.exe`, usage documented in `CLAUDE.md` and `tools/ironhold_cli/README.md`.

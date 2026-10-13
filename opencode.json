@@ -33,6 +33,13 @@
       "head *": "allow",
       "tail *": "allow",
       "wc *": "allow",
+      "rg *": "allow",
+      "camera_mode *": "allow",
+      "FirstPerson *": "allow",
+      "orbit *": "allow",
+      "Get-ChildItem *": "allow",
+      "ForEach-Object *": "allow",
+      "Group-Object *": "allow",
       "find *": "allow",
       "find * -delete*": "deny",
       "find * -exec*": "ask"
