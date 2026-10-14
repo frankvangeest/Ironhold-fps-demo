@@ -51,6 +51,8 @@
       "Add-Content *": "allow",
       "Test-Path *": "allow",
       "Get-Content *": "allow",
+      "Get-NetTCPConnection *": "allow",
+      "Get-Process *": "allow",
       "print *": "allow",
       "tools\\ironhold_cli\\ironhold.exe *": "allow",
       "python scripts\\ *": "allow",
