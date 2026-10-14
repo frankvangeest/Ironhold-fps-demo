@@ -1,6 +1,9 @@
 (
     schema_version: 1,
     models: {
+        // Characters (shared assets/models/Characters; see planning/features/player_character_model.md)
+        "character_male_01": ( path: "models/Characters/character-male-01.glb#Scene0" ),
+        "anim_locomotion": ( path: "models/Characters/character-animations/locomotion.glb#Scene0" ),
         // Aliens
         "alien_cyclop": ( path: "models/Aliens/Alien_Cyclop.gltf#Scene0" ),
         "alien_oculichrysalis": ( path: "models/Aliens/Alien_Oculichrysalis.gltf#Scene0" ),

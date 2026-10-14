@@ -123,10 +123,10 @@
             transform: ( translation: (0.0, 0.0, 32.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
         ),
 
-        // Player capsule -- orbit camera, spawns in the spine entrance segment.
+        // Primary player -- skinned character model, first-person camera.
         (
             id: "player_01",
-            prefab: "player",
+            prefab: "player_character",
             transform: ( translation: (0.0, 0.5, 1.0), rotation_euler_deg: (0.0, 0.0, 0.0), scale: (1.0, 1.0, 1.0) ),
         ),
 

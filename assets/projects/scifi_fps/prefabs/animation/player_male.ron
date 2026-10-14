@@ -1,0 +1,35 @@
+// Player (human male) animation policy.
+// Clips come from the model GLB (Idle_Loop) plus the anim_locomotion pack;
+// clip names verified with: ironhold.exe inspect glb assets\models\Characters\character-animations\locomotion.glb
+(
+    default_transition_ms: 150,
+    animation_sources: [
+        "anim_locomotion",
+    ],
+    base: (
+        idle:      "Idle_Loop",
+        walk:      "Walk_Loop",
+        run:       "Sprint_Loop",
+        jump_loop: "Jump_Loop",
+    ),
+    // jump_enter / jump_exit are reserved override IDs fired by the engine's
+    // movement system on takeoff/landing; without them it logs a WARN per jump.
+    overrides: [
+        (
+            id: "jump_enter",
+            clip: "Jump_Start",
+            priority: 100,
+            looping: false,
+            duration: 0.5,
+            cancel_on_move: false,
+        ),
+        (
+            id: "jump_exit",
+            clip: "Jump_Land",
+            priority: 100,
+            looping: false,
+            duration: 0.5,
+            cancel_on_move: false,
+        ),
+    ],
+)
