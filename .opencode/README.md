@@ -11,7 +11,8 @@ Claude Code and OpenCode are the two supported tools. `CLAUDE.md` and `.claude/a
   Subagents are reached through the driver's `task` tool; `opencode run --agent <subagent>` is not possible.
 - **Bash allow-list:** global, in `opencode.json`; anything else asks.
 - **Validation:** `scripts/validate_changed_ron.py` runs `ironhold.exe validate` on every `assets/projects/<name>` with uncommitted
-  RON changes (silent if none). It runs at the end of each session in both tools: Claude's Stop hook (exit 2 feeds the errors back
+  RON changes (silent if none), and enforces the strict-ASCII convention on changed `.ron` files (the engine's UI font has no glyphs
+  beyond `U+0020..U+007E`; non-ASCII text renders as a tofu box). It runs at the end of each session in both tools: Claude's Stop hook (exit 2 feeds the errors back
   so Claude fixes them; it does not loop) and the OpenCode plugin (warning only, the driver is not forced to continue).
 - **End reminder:** the same plugin logs Claude's Stop-hook reminder ("did any good ideas belong in planning/claude_suggestions.md?") at
   every session end, at info level.

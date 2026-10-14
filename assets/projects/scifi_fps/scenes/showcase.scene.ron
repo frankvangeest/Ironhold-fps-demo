@@ -33,7 +33,7 @@
             ),
         ),
 
-        // Ground — scaled to cover the full showcase layout
+        // Ground -- scaled to cover the full showcase layout
         (
             id: "showcase_ground",
             prefab: "ground",

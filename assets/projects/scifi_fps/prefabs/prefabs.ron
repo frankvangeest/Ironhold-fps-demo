@@ -64,7 +64,7 @@
             ),
         ),
 
-        // Free-fly showcase camera — hold LMB/RMB and move mouse to look
+        // Free-fly showcase camera -- hold LMB/RMB and move mouse to look
         "flycam": (
             kind: Prop,
             model: "",
@@ -305,7 +305,7 @@
             kind: Prop,
             model: "door_frame_square",
             components: (),
-            // Side posts + lintel, not a solid block — leaves a ~2.4m walkable gap
+            // Side posts + lintel, not a solid block -- leaves a ~2.4m walkable gap
             // (door_metal leaf is 2.1m wide) so the doorway is actually passable.
             colliders: [
                 (shape: Cuboid, size: (1.2267, 5.013, 0.507), offset: (-1.8134, 2.493, 0.0)),
