@@ -49,6 +49,8 @@
       "Copy-Item *": "allow",
       "Move-Item *": "allow",
       "Add-Content *": "allow",
+      "Test-Path *": "allow",
+      "Get-Content *": "allow",
       "print *": "allow",
       "tools\\ironhold_cli\\ironhold.exe *": "allow",
       "python scripts\\ *": "allow",
