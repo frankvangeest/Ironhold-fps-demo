@@ -23,6 +23,8 @@
       "ls*": "allow",
       "grep *": "allow",
       "cat *": "allow",
+      "git add *": "allow",
+      "git commit *": "allow",
       "git push*": "ask",
       "git reset --hard*": "ask",
       "*ironhold.exe validate*": "allow",
